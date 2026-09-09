@@ -1,3168 +1,3876 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
 
-<meta name="theme-color" content="#f7f0e4">
-<meta name="description" content="The Lazy Student — a study companion for the almost-ready.">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+  >
 
-<title>The Lazy Student</title>
+  <meta
+    name="theme-color"
+    content="#f8f1e5"
+  >
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>The Lazy Student</title>
 
-<!-- PDF.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<!-- Mammoth DOCX reader -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 
-<style>
-:root {
-    --paper: #f8f1e5;
-    --paper-2: #fffaf1;
-    --paper-3: #f2e8d8;
+  <style>
 
-    --ink: #28243f;
-    --ink-soft: #777487;
-    --ink-faint: #a19ba8;
+    /* =========================================================
+       THE LAZY STUDENT
+       Main theme
+    ========================================================= */
 
-    --navy: #2b2945;
-    --navy-2: #36334f;
+    :root {
+      --paper: #f8f1e5;
+      --paper-2: #fffaf1;
+      --paper-3: #f2e8d8;
 
-    --yellow: #f6c54d;
-    --yellow-soft: #f9dda0;
+      --ink: #28243f;
+      --ink-soft: #777487;
+      --ink-faint: #a19ba8;
 
-    --coral: #ed755f;
-    --coral-soft: #f5b0a1;
+      --navy: #2b2945;
+      --navy-2: #36334f;
 
-    --purple: #716c89;
+      --yellow: #f6c54d;
+      --yellow-soft: #f9dda0;
 
-    --line: #e4dacb;
-    --line-dark: #4a4662;
+      --coral: #ed755f;
+      --coral-soft: #f5b0a1;
 
-    --shadow:
-        0 20px 50px rgba(53, 43, 30, 0.08);
+      --purple: #716c89;
 
-    --radius-xl: 32px;
-    --radius-lg: 24px;
-    --radius-md: 18px;
-    --radius-sm: 12px;
-}
+      --line: #e4dacb;
+      --line-dark: #4a4662;
 
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+      --success: #5e9174;
+      --danger: #d35f58;
 
-html {
-    scroll-behavior: smooth;
-}
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-        radial-gradient(
-            circle at 15% 0%,
-            rgba(255,255,255,.8),
-            transparent 35%
-        ),
-        var(--paper);
-    color: var(--ink);
-    font-family: "Manrope", sans-serif;
-}
+      --shadow:
+        0 12px 35px rgba(43, 41, 69, 0.07);
 
-button,
-textarea,
-input {
-    font: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
-button:disabled {
-    cursor: not-allowed;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-
-    height: 74px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding:
-        0
-        max(18px, calc((100vw - 1080px) / 2));
-
-    background: rgba(248,241,229,.92);
-    backdrop-filter: blur(16px);
-
-    border-bottom: 1px solid rgba(228,218,203,.75);
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-}
-
-.logo {
-    width: 42px;
-    height: 42px;
-
-    border-radius: 50%;
-
-    display: grid;
-    place-items: center;
-
-    background: var(--yellow);
-
-    box-shadow:
-        inset 0 -2px 0 rgba(0,0,0,.08);
-}
-
-.logo svg {
-    width: 23px;
-    height: 23px;
-}
-
-.brand-copy {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-}
-
-.brand-name {
-    font-weight: 800;
-    font-size: 15px;
-    letter-spacing: -0.03em;
-}
-
-.brand-tag {
-    color: var(--ink-soft);
-    font-family: "DM Mono", monospace;
-    font-size: 8px;
-    letter-spacing: .09em;
-}
-
-.menu-btn {
-    width: 42px;
-    height: 42px;
-
-    border: 1px solid var(--line);
-    border-radius: 50%;
-
-    background: rgba(255,250,241,.7);
-
-    display: grid;
-    place-items: center;
-
-    color: var(--ink);
-
-    transition:
-        transform .2s ease,
-        background .2s ease;
-}
-
-.menu-btn:hover {
-    background: var(--paper-2);
-}
-
-.menu-btn:active {
-    transform: scale(.94);
-}
-
-.menu-btn svg {
-    width: 19px;
-}
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-main {
-    width: min(100%, 1080px);
-    margin: 0 auto;
-    padding: 70px 22px 100px;
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero {
-    padding: 25px 0 80px;
-}
-
-.eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-
-    margin-bottom: 20px;
-
-    color: var(--coral);
-
-    font-family: "DM Mono", monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-}
-
-.eyebrow-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--coral);
-}
-
-.hero h1 {
-    max-width: 920px;
-
-    margin: 0;
-
-    font-size: clamp(3.25rem, 9vw, 7rem);
-    line-height: .91;
-
-    letter-spacing: -.065em;
-    font-weight: 800;
-}
-
-.hero h1 .soft {
-    color: var(--purple);
-}
-
-.hero h1 .period {
-    color: var(--coral);
-}
-
-.hero-copy {
-    max-width: 650px;
-
-    margin: 30px 0 0;
-
-    color: var(--ink-soft);
-
-    font-size: clamp(15px, 2vw, 18px);
-    line-height: 1.7;
-}
-
-/* =========================================================
-   SOURCE SECTION
-========================================================= */
-
-.source-card {
-    position: relative;
-
-    padding: clamp(25px, 5vw, 46px);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,250,241,.92),
-            rgba(246,235,217,.94)
-        );
-
-    border: 1px solid var(--line);
-    border-radius: var(--radius-xl);
-
-    box-shadow: var(--shadow);
-}
-
-.source-card::after {
-    content: "";
-
-    position: absolute;
-    width: 160px;
-    height: 160px;
-
-    right: -60px;
-    top: -60px;
-
-    border-radius: 50%;
-
-    background: rgba(246,197,77,.12);
-
-    pointer-events: none;
-}
-
-.source-title {
-    position: relative;
-    z-index: 1;
-
-    max-width: 760px;
-}
-
-.source-title h2 {
-    margin: 0;
-
-    font-size: clamp(2rem, 5vw, 4rem);
-    line-height: .98;
-
-    letter-spacing: -.055em;
-    font-weight: 800;
-}
-
-.source-title p {
-    max-width: 620px;
-
-    margin: 17px 0 0;
-
-    color: var(--ink-soft);
-
-    font-size: 15px;
-    line-height: 1.65;
-}
-
-/* =========================================================
-   TEXTAREA
-========================================================= */
-
-.editor-wrap {
-    position: relative;
-
-    margin-top: 32px;
-}
-
-textarea {
-    width: 100%;
-    min-height: 260px;
-
-    resize: vertical;
-
-    padding: 24px;
-
-    color: var(--ink);
-
-    background: rgba(255,250,241,.9);
-
-    border: 1px solid var(--line);
-    border-radius: 22px;
-
-    outline: none;
-
-    font-size: 16px;
-    line-height: 1.7;
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
-}
-
-textarea::placeholder {
-    color: #aaa3a0;
-}
-
-textarea:focus {
-    border-color: var(--coral);
-
-    box-shadow:
-        0 0 0 4px rgba(237,117,95,.09);
-}
-
-.char-count {
-    position: absolute;
-
-    right: 17px;
-    bottom: 13px;
-
-    color: var(--ink-faint);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-}
-
-/* =========================================================
-   INPUT ACTIONS
-========================================================= */
-
-.input-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 14px;
-
-    margin-top: 18px;
-}
-
-.upload-btn {
-    min-height: 48px;
-
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-
-    padding: 0 17px;
-
-    border: 1px solid var(--line);
-    border-radius: 14px;
-
-    background: var(--paper-2);
-
-    color: var(--ink);
-
-    font-weight: 700;
-    font-size: 13px;
-
-    transition: .2s ease;
-}
-
-.upload-btn:hover {
-    border-color: var(--coral);
-    transform: translateY(-1px);
-}
-
-.upload-btn svg {
-    width: 18px;
-}
-
-#fileInput {
-    display: none;
-}
-
-.file-name {
-    color: var(--ink-soft);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-}
-
-/* =========================================================
-   SAMPLE
-========================================================= */
-
-.sample-card {
-    margin-top: 20px;
-
-    padding: 21px;
-
-    background: rgba(255,250,241,.7);
-
-    border: 1px dashed #d8cdbc;
-    border-radius: 20px;
-}
-
-.sample-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 15px;
-
-    margin-bottom: 13px;
-}
-
-.sample-label {
-    color: var(--ink-faint);
-
-    font-family: "DM Mono", monospace;
-    font-size: 9px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-}
-
-.sample-load {
-    border: 0;
-    background: transparent;
-
-    color: var(--coral);
-
-    font-family: "DM Mono", monospace;
-    font-size: 11px;
-
-    padding: 4px 0;
-}
-
-.sample-load:hover {
-    text-decoration: underline;
-}
-
-.sample-card h3 {
-    margin: 0 0 8px;
-
-    font-size: 16px;
-    letter-spacing: -.02em;
-}
-
-.sample-card p {
-    margin: 0;
-
-    color: var(--ink-soft);
-
-    font-size: 12px;
-    line-height: 1.65;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* =========================================================
-   GENERATE BUTTON
-========================================================= */
-
-.generate-btn {
-    width: 100%;
-
-    min-height: 65px;
-
-    margin-top: 20px;
-
-    border: 0;
-    border-radius: 18px;
-
-    background: var(--yellow);
-
-    color: var(--ink);
-
-    font-size: 17px;
-    font-weight: 800;
-
-    letter-spacing: -.025em;
-
-    box-shadow:
-        0 8px 0 #d5a63b,
-        0 15px 30px rgba(213,166,59,.15);
-
-    transition:
-        transform .15s ease,
-        box-shadow .15s ease,
-        opacity .2s ease;
-}
-
-.generate-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow:
-        0 10px 0 #d5a63b,
-        0 18px 35px rgba(213,166,59,.2);
-}
-
-.generate-btn:active:not(:disabled) {
-    transform: translateY(5px);
-
-    box-shadow:
-        0 3px 0 #d5a63b,
-        0 8px 15px rgba(213,166,59,.1);
-}
-
-.generate-btn:disabled {
-    opacity: .5;
-    box-shadow: none;
-}
-
-.button-content {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.loading {
-    display: none;
-
-    margin-top: 40px;
-
-    padding: 30px;
-
-    text-align: center;
-
-    background: var(--paper-2);
-
-    border: 1px solid var(--line);
-    border-radius: 22px;
-}
-
-.loading.show {
-    display: block;
-}
-
-.loader {
-    width: 30px;
-    height: 30px;
-
-    margin: 0 auto 15px;
-
-    border: 3px solid #ded4c6;
-    border-top-color: var(--coral);
-
-    border-radius: 50%;
-
-    animation: spin .8s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.loading strong {
-    display: block;
-    margin-bottom: 6px;
-}
-
-.loading span {
-    color: var(--ink-soft);
-    font-size: 12px;
-}
-
-/* =========================================================
-   ERROR
-========================================================= */
-
-.error {
-    display: none;
-
-    margin-top: 20px;
-
-    padding: 18px 20px;
-
-    color: #8e3f32;
-
-    background: #fbe1da;
-
-    border: 1px solid #efb9ad;
-    border-radius: 16px;
-
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.error.show {
-    display: block;
-}
-
-/* =========================================================
-   RESULTS
-========================================================= */
-
-.results {
-    display: none;
-
-    margin-top: 75px;
-}
-
-.results.show {
-    display: block;
-}
-
-.results-heading {
-    margin-bottom: 25px;
-}
-
-.results-heading .eyebrow {
-    margin-bottom: 10px;
-}
-
-.results-heading h2 {
-    margin: 0;
-
-    font-size: clamp(2.4rem, 6vw, 4.7rem);
-
-    letter-spacing: -.06em;
-    line-height: .95;
-}
-
-.results-heading p {
-    margin: 13px 0 0;
-
-    color: var(--ink-soft);
-
-    font-size: 14px;
-}
-
-/* =========================================================
-   TABS
-========================================================= */
-
-.tabs {
-    display: flex;
-
-    gap: 8px;
-
-    overflow-x: auto;
-
-    padding-bottom: 6px;
-    margin-bottom: 25px;
-
-    scrollbar-width: none;
-}
-
-.tabs::-webkit-scrollbar {
-    display: none;
-}
-
-.tab {
-    flex: 0 0 auto;
-
-    border: 1px solid var(--line);
-    border-radius: 100px;
-
-    padding: 10px 15px;
-
-    background: transparent;
-
-    color: var(--ink-soft);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-
-    transition: .2s ease;
-}
-
-.tab.active {
-    color: var(--ink);
-    background: var(--yellow);
-    border-color: var(--yellow);
-}
-
-/* =========================================================
-   TAB CONTENT
-========================================================= */
-
-.tab-panel {
-    display: none;
-}
-
-.tab-panel.active {
-    display: block;
-}
-
-.content-card {
-    padding: clamp(23px, 4vw, 38px);
-
-    background: var(--paper-2);
-
-    border: 1px solid var(--line);
-    border-radius: 25px;
-
-    box-shadow: var(--shadow);
-}
-
-.content-card h3 {
-    margin: 0 0 17px;
-
-    font-size: 23px;
-
-    letter-spacing: -.04em;
-}
-
-.summary-text {
-    color: #514d5f;
-
-    font-size: 16px;
-    line-height: 1.85;
-}
-
-/* =========================================================
-   KEY POINTS
-========================================================= */
-
-.point-list {
-    display: grid;
-    gap: 13px;
-
-    padding: 0;
-    margin: 0;
-
-    list-style: none;
-}
-
-.point-list li {
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    gap: 13px;
-
-    padding: 16px;
-
-    background: var(--paper-3);
-
-    border-radius: 16px;
-
-    color: #504b5c;
-
-    font-size: 14px;
-    line-height: 1.65;
-}
-
-.point-number {
-    width: 30px;
-    height: 30px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 50%;
-
-    background: var(--yellow);
-
-    color: var(--ink);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-}
-
-/* =========================================================
-   FLASHCARDS
-========================================================= */
-
-.flashcard-area {
-    perspective: 1200px;
-}
-
-.flashcard {
-    position: relative;
-
-    min-height: 340px;
-
-    cursor: pointer;
-
-    transform-style: preserve-3d;
-
-    transition: transform .55s ease;
-}
-
-.flashcard.flipped {
-    transform: rotateY(180deg);
-}
-
-.card-face {
-    position: absolute;
-    inset: 0;
-
-    padding: 32px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    backface-visibility: hidden;
-
-    border-radius: 28px;
-
-    border: 1px solid var(--line);
-
-    background:
-        linear-gradient(
-            145deg,
-            #fffaf1,
-            #f2e7d5
-        );
-
-    box-shadow: var(--shadow);
-}
-
-.card-face.back {
-    transform: rotateY(180deg);
-
-    background:
-        linear-gradient(
-            145deg,
-            #e8e2ef,
-            #dcd5e8
-        );
-}
-
-.card-label {
-    color: var(--coral);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-}
-
-.card-question,
-.card-answer {
-    margin: 25px 0;
-
-    font-size: clamp(1.7rem, 5vw, 3rem);
-    line-height: 1.05;
-    letter-spacing: -.05em;
-    font-weight: 800;
-}
-
-.card-hint {
-    color: var(--ink-soft);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-}
-
-.flash-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 15px;
-
-    margin-top: 18px;
-}
-
-.round-btn {
-    width: 44px;
-    height: 44px;
-
-    border: 1px solid var(--line);
-    border-radius: 50%;
-
-    background: var(--paper-2);
-
-    color: var(--ink);
-
-    font-size: 18px;
-}
-
-.round-btn:hover {
-    border-color: var(--coral);
-}
-
-.card-count {
-    min-width: 70px;
-
-    text-align: center;
-
-    color: var(--ink-soft);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-}
-
-/* =========================================================
-   EXAMPLES
-========================================================= */
-
-.example-grid {
-    display: grid;
-    gap: 15px;
-}
-
-.example-card {
-    padding: 21px;
-
-    background: var(--paper-3);
-
-    border-radius: 19px;
-}
-
-.example-concept {
-    color: var(--coral);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-}
-
-.example-card h4 {
-    margin: 7px 0;
-
-    font-size: 17px;
-}
-
-.example-card p {
-    margin: 0;
-
-    color: var(--ink-soft);
-
-    font-size: 13px;
-    line-height: 1.65;
-}
-
-.example-why {
-    margin-top: 11px !important;
-
-    color: var(--ink) !important;
-
-    font-weight: 600;
-}
-
-/* =========================================================
-   QUIZ
-========================================================= */
-
-.quiz-question {
-    margin-bottom: 24px;
-}
-
-.quiz-number {
-    color: var(--coral);
-
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-}
-
-.quiz-question h3 {
-    margin: 8px 0 0;
-
-    font-size: clamp(1.5rem, 4vw, 2.1rem);
-    line-height: 1.1;
-}
-
-.options {
-    display: grid;
-    gap: 10px;
-}
-
-.option {
-    width: 100%;
-
-    padding: 16px;
-
-    text-align: left;
-
-    border: 1px solid var(--line);
-    border-radius: 15px;
-
-    background: var(--paper-2);
-
-    color: var(--ink);
-
-    font-size: 14px;
-
-    transition: .2s ease;
-}
-
-.option:hover {
-    border-color: var(--coral);
-}
-
-.option.correct {
-    background: #dcebd6;
-    border-color: #94bb86;
-}
-
-.option.wrong {
-    background: #f7d8d1;
-    border-color: #e7a89b;
-}
-
-.quiz-explanation {
-    display: none;
-
-    margin-top: 17px;
-    padding: 16px;
-
-    background: var(--paper-3);
-
-    border-radius: 14px;
-
-    color: var(--ink-soft);
-
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-.quiz-explanation.show {
-    display: block;
-}
-
-.quiz-next {
-    width: 100%;
-
-    margin-top: 18px;
-
-    padding: 15px;
-
-    border: 0;
-    border-radius: 15px;
-
-    background: var(--navy);
-
-    color: white;
-
-    font-weight: 800;
-}
-
-.quiz-score {
-    text-align: center;
-
-    padding: 30px 15px;
-}
-
-.quiz-score-number {
-    font-size: 4rem;
-    font-weight: 800;
-    letter-spacing: -.08em;
-}
-
-.quiz-score p {
-    color: var(--ink-soft);
-}
-
-/* =========================================================
-   DRAWER
-========================================================= */
-
-.drawer-overlay {
-    position: fixed;
-    inset: 0;
-
-    z-index: 100;
-
-    background: rgba(25,23,38,.42);
-
-    opacity: 0;
-    pointer-events: none;
-
-    transition: opacity .3s ease;
-}
-
-.drawer-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.drawer {
-    position: fixed;
-
-    top: 0;
-    left: 0;
-    bottom: 0;
-
-    z-index: 101;
-
-    width: min(390px, 84vw);
-
-    padding: 25px;
-
-    display: flex;
-    flex-direction: column;
-
-    background: var(--navy);
-
-    color: #f7f2ea;
-
-    transform: translateX(-105%);
-
-    transition: transform .35s cubic-bezier(.2,.8,.2,1);
-
-    box-shadow: 20px 0 60px rgba(0,0,0,.2);
-}
-
-.drawer.open {
-    transform: translateX(0);
-}
-
-.drawer-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 65px;
-}
-
-.drawer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.drawer-brand .logo {
-    width: 38px;
-    height: 38px;
-}
-
-.drawer-brand-name {
-    font-weight: 800;
-    font-size: 14px;
-}
-
-.close-btn {
-    width: 38px;
-    height: 38px;
-
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 50%;
-
-    background: transparent;
-
-    color: white;
-
-    display: grid;
-    place-items: center;
-}
-
-.drawer-label {
-    margin-bottom: 13px;
-
-    color: #aaa6bc;
-
-    font-family: "DM Mono", monospace;
-    font-size: 9px;
-
-    letter-spacing: .1em;
-    text-transform: uppercase;
-}
-
-.drawer-nav {
-    display: grid;
-    gap: 6px;
-}
-
-.drawer-link {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    gap: 14px;
-
-    padding: 13px 15px;
-
-    border: 0;
-    border-radius: 14px;
-
-    background: transparent;
-
-    color: #e9e6ef;
-
-    text-align: left;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    transition: .2s ease;
-}
-
-.drawer-link:hover {
-    background: rgba(255,255,255,.07);
-}
-
-.drawer-link.active {
-    background: var(--yellow);
-    color: var(--ink);
-}
-
-.drawer-number {
-    font-family: "DM Mono", monospace;
-    font-size: 10px;
-
-    opacity: .65;
-}
-
-.promise {
-    margin-top: auto;
-
-    padding: 20px;
-
-    background: #37334f;
-
-    border-radius: 20px;
-
-    border: 1px solid rgba(255,255,255,.05);
-}
-
-.promise-label {
-    color: var(--yellow);
-
-    font-family: "DM Mono", monospace;
-    font-size: 9px;
-
-    letter-spacing: .08em;
-}
-
-.promise p {
-    margin: 10px 0 15px;
-
-    font-size: 14px;
-    line-height: 1.55;
-}
-
-.promise small {
-    color: #aaa6bc;
-
-    font-family: "DM Mono", monospace;
-    font-size: 8px;
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-    margin-top: 80px;
-
-    text-align: center;
-
-    color: var(--ink-faint);
-
-    font-family: "DM Mono", monospace;
-    font-size: 9px;
-
-    line-height: 1.7;
-}
-
-footer strong {
-    color: var(--ink-soft);
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 650px) {
-
-    .topbar {
-        height: 68px;
+      --transition:
+        180ms ease;
     }
 
-    main {
-        padding:
-            45px 17px 80px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .hero {
-        padding:
-            12px 0 55px;
+    html {
+      scroll-behavior: smooth;
     }
 
-    .hero h1 {
-        font-size: clamp(3rem, 15vw, 4.7rem);
+    body {
+      min-height: 100vh;
+
+      background: var(--paper);
+      color: var(--ink);
+
+      font-family: "Manrope", sans-serif;
+
+      -webkit-font-smoothing: antialiased;
+
+      overflow-x: hidden;
     }
 
-    .hero-copy {
-        font-size: 14px;
-        line-height: 1.65;
+    button,
+    textarea,
+    input {
+      font: inherit;
     }
 
-    .source-card {
-        padding: 23px 18px;
-        border-radius: 25px;
+    button {
+      border: 0;
+      cursor: pointer;
     }
 
-    .source-title h2 {
-        font-size: 2.45rem;
+    button:disabled {
+      cursor: not-allowed;
     }
 
-    textarea {
-        min-height: 235px;
-        padding: 19px;
+    .mono {
+      font-family: "DM Mono", monospace;
     }
 
-    .input-actions {
-        align-items: flex-start;
-        flex-direction: column;
+    /* =========================================================
+       APP
+    ========================================================= */
+
+    .app {
+      width: 100%;
+      min-height: 100vh;
     }
 
-    .upload-btn {
-        width: 100%;
-        justify-content: center;
+    .container {
+      width: min(100% - 32px, 760px);
+      margin: 0 auto;
     }
 
-    .file-name {
-        padding-left: 2px;
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    header {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .sample-card {
-        padding: 17px;
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .sample-top {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 7px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
     }
 
-    .generate-btn {
-        min-height: 60px;
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      background: var(--yellow);
+
+      border-radius: 50%;
+
+      color: var(--ink);
+
+      font-size: 19px;
+      font-weight: 800;
+
+      box-shadow:
+        3px 3px 0 rgba(40, 36, 63, 0.12);
     }
 
-    .flashcard {
-        min-height: 300px;
+    .brand-text {
+      min-width: 0;
     }
 
-    .card-face {
-        padding: 24px;
+    .brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-tagline {
+      margin-top: 4px;
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+      letter-spacing: 0.06em;
+
+      color: var(--ink-soft);
+    }
+
+    .menu-button {
+      width: 43px;
+      height: 43px;
+
+      display: grid;
+      place-items: center;
+
+      background: transparent;
+
+      color: var(--ink);
+
+      border: 1px solid var(--line);
+      border-radius: 50%;
+
+      transition:
+        background var(--transition),
+        transform var(--transition);
+    }
+
+    .menu-button:hover {
+      background: var(--paper-3);
+    }
+
+    .menu-button:active {
+      transform: scale(0.94);
+    }
+
+    .hamburger {
+      width: 17px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 100%;
+      height: 1.5px;
+
+      background: currentColor;
+      border-radius: 10px;
+    }
+
+    /* =========================================================
+       DRAWER
+    ========================================================= */
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+
+      background: rgba(25, 22, 40, 0.45);
+
+      opacity: 0;
+      visibility: hidden;
+
+      transition:
+        opacity 220ms ease,
+        visibility 220ms ease;
+
+      z-index: 90;
+    }
+
+    .drawer-backdrop.open {
+      opacity: 1;
+      visibility: visible;
     }
 
     .drawer {
-        width: 88vw;
-    }
-}
+      position: fixed;
 
-@media (min-width: 900px) {
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      width: min(78vw, 360px);
+
+      background: var(--navy);
+
+      color: white;
+
+      transform: translateX(100%);
+
+      transition:
+        transform 260ms cubic-bezier(.2,.8,.2,1);
+
+      z-index: 100;
+
+      padding: 25px 22px;
+
+      display: flex;
+      flex-direction: column;
+
+      overflow-y: auto;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 38px;
+    }
+
+    .drawer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .drawer-brand .brand-logo {
+      width: 37px;
+      height: 37px;
+
+      font-size: 16px;
+    }
+
+    .drawer-brand-name {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .drawer-close {
+      width: 37px;
+      height: 37px;
+
+      border-radius: 50%;
+
+      background: transparent;
+
+      border: 1px solid var(--line-dark);
+
+      color: white;
+
+      font-size: 20px;
+      line-height: 1;
+
+      transition:
+        background var(--transition);
+    }
+
+    .drawer-close:hover {
+      background: var(--navy-2);
+    }
+
+    .drawer-label {
+      margin-bottom: 15px;
+
+      font-family: "DM Mono", monospace;
+
+      color: var(--yellow);
+
+      font-size: 9px;
+      letter-spacing: 0.12em;
+    }
+
+    .drawer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .drawer-nav button {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      gap: 13px;
+
+      padding: 13px 12px;
+
+      background: transparent;
+
+      color: #ddd9e5;
+
+      text-align: left;
+
+      border-radius: 10px;
+
+      transition:
+        background var(--transition),
+        color var(--transition);
+    }
+
+    .drawer-nav button:hover,
+    .drawer-nav button.active {
+      background: var(--navy-2);
+      color: white;
+    }
+
+    .drawer-number {
+      width: 25px;
+
+      font-family: "DM Mono", monospace;
+
+      color: #9691aa;
+
+      font-size: 10px;
+    }
+
+    .drawer-nav button.active .drawer-number {
+      color: var(--yellow);
+    }
+
+    .drawer-bottom {
+      margin-top: auto;
+      padding-top: 35px;
+    }
+
+    .promise-card {
+      padding: 17px;
+
+      background: rgba(255,255,255,0.055);
+
+      border: 1px solid rgba(255,255,255,0.09);
+
+      border-radius: 14px;
+    }
+
+    .promise-label {
+      margin-bottom: 8px;
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+      letter-spacing: 0.12em;
+
+      color: var(--yellow);
+    }
+
+    .promise-text {
+      color: #ddd9e5;
+
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      padding: 62px 0 45px;
+    }
+
+    .eyebrow {
+      margin-bottom: 17px;
+
+      font-family: "DM Mono", monospace;
+
+      color: var(--purple);
+
+      font-size: 9px;
+      letter-spacing: 0.11em;
+      line-height: 1.5;
+    }
+
+    .hero h1 {
+      max-width: 680px;
+
+      font-size: clamp(40px, 9vw, 68px);
+
+      line-height: 0.98;
+
+      letter-spacing: -0.055em;
+
+      font-weight: 800;
+    }
+
+    .hero h1 .coral {
+      color: var(--coral);
+    }
+
+    .hero-subtitle {
+      max-width: 510px;
+
+      margin-top: 22px;
+
+      color: var(--purple);
+
+      font-size: 16px;
+      line-height: 1.65;
+
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       SOURCE MATERIAL CARD
+    ========================================================= */
+
+    .source-section {
+      padding-bottom: 65px;
+    }
 
     .source-card {
-        padding: 55px;
+      padding: 23px;
+
+      background: var(--paper-2);
+
+      border: 1px solid var(--line);
+
+      border-radius: var(--radius-lg);
+
+      box-shadow: var(--shadow);
     }
 
-    .example-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+    .section-kicker {
+      margin-bottom: 7px;
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+      font-family: "DM Mono", monospace;
 
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
+      color: var(--coral);
+
+      font-size: 9px;
+      letter-spacing: 0.11em;
     }
-}
-</style>
+
+    .source-title {
+      font-size: 22px;
+      font-weight: 800;
+
+      letter-spacing: -0.035em;
+    }
+
+    .source-description {
+      margin-top: 8px;
+
+      color: var(--ink-soft);
+
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       TEXTAREA
+    ========================================================= */
+
+    .textarea-wrap {
+      position: relative;
+
+      margin-top: 21px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+
+      resize: vertical;
+
+      padding: 18px;
+
+      background: var(--paper);
+
+      border: 1px solid var(--line);
+
+      border-radius: 14px;
+
+      outline: none;
+
+      color: var(--ink);
+
+      font-size: 14px;
+      line-height: 1.65;
+
+      transition:
+        border var(--transition),
+        box-shadow var(--transition);
+    }
+
+    textarea::placeholder {
+      color: var(--ink-faint);
+    }
+
+    textarea:focus {
+      border-color: var(--purple);
+
+      box-shadow:
+        0 0 0 3px rgba(113,108,137,0.10);
+    }
+
+    .character-count {
+      position: absolute;
+
+      right: 12px;
+      bottom: 11px;
+
+      padding: 4px 7px;
+
+      background: rgba(248,241,229,0.9);
+
+      border-radius: 5px;
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+
+      color: var(--ink-faint);
+
+      pointer-events: none;
+    }
+
+    /* =========================================================
+       UPLOAD
+    ========================================================= */
+
+    .upload-row {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+
+      margin-top: 11px;
+    }
+
+    .upload-button,
+    .sample-button {
+      min-height: 56px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 9px;
+
+      padding: 12px;
+
+      background: var(--paper);
+
+      border: 1px dashed var(--line);
+
+      border-radius: 12px;
+
+      color: var(--ink-soft);
+
+      font-size: 11px;
+      font-weight: 700;
+
+      transition:
+        border var(--transition),
+        background var(--transition),
+        color var(--transition);
+    }
+
+    .upload-button:hover,
+    .sample-button:hover {
+      background: var(--paper-3);
+
+      border-color: var(--purple);
+
+      color: var(--ink);
+    }
+
+    .upload-icon {
+      font-size: 17px;
+    }
+
+    .upload-info {
+      margin-top: 8px;
+
+      color: var(--ink-faint);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+
+      text-align: center;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    /* =========================================================
+       STUDY MODE
+    ========================================================= */
+
+    .study-mode {
+      margin-top: 23px;
+
+      padding: 17px;
+
+      background: var(--paper);
+
+      border: 1px solid var(--line);
+
+      border-radius: 14px;
+    }
+
+    .study-mode-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 12px;
+    }
+
+    .study-mode-title {
+      font-family: "DM Mono", monospace;
+
+      color: var(--purple);
+
+      font-size: 9px;
+      letter-spacing: 0.1em;
+    }
+
+    .study-mode-current {
+      font-family: "DM Mono", monospace;
+
+      color: var(--ink-faint);
+
+      font-size: 8px;
+    }
+
+    .mode-options {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 8px;
+    }
+
+    .mode-option {
+      padding: 12px 9px;
+
+      background: var(--paper-2);
+
+      border: 1px solid var(--line);
+
+      border-radius: 10px;
+
+      text-align: left;
+
+      transition:
+        border var(--transition),
+        background var(--transition),
+        transform var(--transition);
+    }
+
+    .mode-option:hover {
+      transform: translateY(-1px);
+
+      border-color: var(--purple);
+    }
+
+    .mode-option.selected {
+      background: var(--yellow-soft);
+
+      border-color: var(--yellow);
+    }
+
+    .mode-icon {
+      display: block;
+
+      margin-bottom: 5px;
+
+      font-size: 15px;
+    }
+
+    .mode-name {
+      display: block;
+
+      color: var(--ink);
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .mode-description {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--ink-soft);
+
+      font-size: 8px;
+      line-height: 1.45;
+    }
+
+    /* =========================================================
+       GENERATE BUTTON
+    ========================================================= */
+
+    .generate-button {
+      width: 100%;
+
+      margin-top: 15px;
+
+      min-height: 61px;
+
+      padding: 14px 18px;
+
+      background: var(--navy);
+
+      color: white;
+
+      border-radius: 14px;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      letter-spacing: -0.01em;
+
+      transition:
+        transform var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+    }
+
+    .generate-button:hover:not(:disabled) {
+      background: var(--navy-2);
+
+      transform: translateY(-1px);
+
+      box-shadow:
+        0 8px 20px rgba(43,41,69,0.14);
+    }
+
+    .generate-button:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+
+    .generate-button:disabled {
+      opacity: 0.6;
+    }
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
+
+    .loading {
+      display: none;
+
+      padding: 20px;
+
+      text-align: center;
+    }
+
+    .loading.visible {
+      display: block;
+    }
+
+    .loading-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+
+      margin-bottom: 11px;
+    }
+
+    .loading-dots span {
+      width: 7px;
+      height: 7px;
+
+      background: var(--coral);
+
+      border-radius: 50%;
+
+      animation:
+        bounce 900ms infinite ease-in-out;
+    }
+
+    .loading-dots span:nth-child(2) {
+      animation-delay: 120ms;
+    }
+
+    .loading-dots span:nth-child(3) {
+      animation-delay: 240ms;
+    }
+
+    @keyframes bounce {
+      0%, 80%, 100% {
+        transform: scale(0.65);
+        opacity: 0.5;
+      }
+
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .loading-text {
+      color: var(--ink-soft);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       ERROR
+    ========================================================= */
+
+    .error-box {
+      display: none;
+
+      margin-top: 12px;
+
+      padding: 14px;
+
+      background: #fff0ed;
+
+      border: 1px solid #efc4bb;
+
+      border-radius: 12px;
+
+      color: #9b463b;
+
+      font-size: 11px;
+
+      line-height: 1.55;
+    }
+
+    .error-box.visible {
+      display: block;
+    }
+
+    /* =========================================================
+       RESULTS
+    ========================================================= */
+
+    .results {
+      display: none;
+
+      padding-bottom: 80px;
+    }
+
+    .results.visible {
+      display: block;
+    }
+
+    .results-header {
+      margin-bottom: 21px;
+    }
+
+    .results-kicker {
+      margin-bottom: 6px;
+
+      font-family: "DM Mono", monospace;
+
+      color: var(--coral);
+
+      font-size: 9px;
+      letter-spacing: 0.11em;
+    }
+
+    .results-title {
+      font-size: 28px;
+
+      line-height: 1.05;
+
+      letter-spacing: -0.04em;
+    }
+
+    .results-mode {
+      display: inline-flex;
+
+      margin-top: 9px;
+
+      padding: 5px 8px;
+
+      background: var(--yellow-soft);
+
+      border-radius: 6px;
+
+      font-family: "DM Mono", monospace;
+
+      color: var(--ink);
+
+      font-size: 8px;
+    }
+
+    /* =========================================================
+       RESULT TABS
+    ========================================================= */
+
+    .result-tabs {
+      position: sticky;
+
+      top: 0;
+
+      z-index: 20;
+
+      display: flex;
+
+      gap: 4px;
+
+      margin-bottom: 18px;
+
+      padding: 5px;
+
+      background: rgba(248,241,229,0.93);
+
+      backdrop-filter: blur(12px);
+
+      border: 1px solid var(--line);
+
+      border-radius: 12px;
+
+      overflow-x: auto;
+    }
+
+    .result-tab {
+      flex: 1;
+
+      min-width: max-content;
+
+      padding: 9px 11px;
+
+      background: transparent;
+
+      border-radius: 8px;
+
+      color: var(--ink-soft);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+
+      transition:
+        background var(--transition),
+        color var(--transition);
+    }
+
+    .result-tab.active {
+      background: var(--navy);
+
+      color: white;
+    }
+
+    /* =========================================================
+       RESULT PANELS
+    ========================================================= */
+
+    .result-panel {
+      display: none;
+    }
+
+    .result-panel.active {
+      display: block;
+    }
+
+    .panel-card {
+      margin-bottom: 13px;
+
+      padding: 20px;
+
+      background: var(--paper-2);
+
+      border: 1px solid var(--line);
+
+      border-radius: 16px;
+
+      box-shadow: 0 7px 25px rgba(43,41,69,0.045);
+    }
+
+    .panel-label {
+      margin-bottom: 11px;
+
+      font-family: "DM Mono", monospace;
+
+      color: var(--purple);
+
+      font-size: 8px;
+
+      letter-spacing: 0.1em;
+    }
+
+    .summary-text {
+      color: var(--ink);
+
+      font-size: 15px;
+
+      line-height: 1.75;
+
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       KEY POINTS
+    ========================================================= */
+
+    .points-list {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 11px;
+
+      list-style: none;
+    }
+
+    .point-item {
+      display: flex;
+
+      gap: 12px;
+
+      align-items: flex-start;
+
+      padding: 13px;
+
+      background: var(--paper);
+
+      border-radius: 11px;
+    }
+
+    .point-number {
+      width: 24px;
+      height: 24px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      background: var(--yellow);
+
+      border-radius: 50%;
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+      font-weight: 500;
+    }
+
+    .point-text {
+      padding-top: 2px;
+
+      font-size: 12px;
+
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       FLASHCARDS
+    ========================================================= */
+
+    .flashcards {
+      display: grid;
+
+      gap: 12px;
+    }
+
+    .flashcard {
+      padding: 20px;
+
+      background: var(--paper);
+
+      border: 1px solid var(--line);
+
+      border-radius: 14px;
+
+      cursor: pointer;
+
+      perspective: 800px;
+
+      min-height: 150px;
+    }
+
+    .flashcard-inner {
+      min-height: 110px;
+
+      display: flex;
+      flex-direction: column;
+
+      justify-content: center;
+    }
+
+    .flashcard-question {
+      font-size: 15px;
+
+      font-weight: 800;
+
+      line-height: 1.45;
+    }
+
+    .flashcard-answer {
+      margin-top: 14px;
+
+      padding-top: 13px;
+
+      border-top: 1px dashed var(--line);
+
+      color: var(--purple);
+
+      font-size: 12px;
+
+      line-height: 1.6;
+
+      display: none;
+    }
+
+    .flashcard.revealed .flashcard-answer {
+      display: block;
+    }
+
+    .flashcard-hint {
+      margin-top: 12px;
+
+      color: var(--ink-faint);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 7px;
+    }
+
+    /* =========================================================
+       EXAMPLES
+    ========================================================= */
+
+    .examples {
+      display: grid;
+
+      gap: 12px;
+    }
+
+    .example-card {
+      padding: 19px;
+
+      background: var(--paper);
+
+      border-radius: 14px;
+
+      border: 1px solid var(--line);
+    }
+
+    .example-concept {
+      margin-bottom: 10px;
+
+      color: var(--coral);
+
+      font-weight: 800;
+
+      font-size: 14px;
+    }
+
+    .example-text {
+      font-size: 12px;
+
+      line-height: 1.65;
+    }
+
+    .why-it-matters {
+      margin-top: 13px;
+
+      padding-top: 12px;
+
+      border-top: 1px dashed var(--line);
+
+      color: var(--purple);
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+    .why-it-matters strong {
+      color: var(--ink);
+    }
+
+    /* =========================================================
+       QUIZ
+    ========================================================= */
+
+    .quiz-card {
+      padding: 20px;
+
+      background: var(--paper-2);
+
+      border: 1px solid var(--line);
+
+      border-radius: 16px;
+    }
+
+    .quiz-top {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 13px;
+    }
+
+    .quiz-counter {
+      font-family: "DM Mono", monospace;
+
+      color: var(--ink-soft);
+
+      font-size: 8px;
+    }
+
+    .quiz-score {
+      font-family: "DM Mono", monospace;
+
+      color: var(--purple);
+
+      font-size: 8px;
+    }
+
+    .quiz-progress {
+      width: 100%;
+      height: 5px;
+
+      margin-bottom: 20px;
+
+      background: var(--paper-3);
+
+      border-radius: 20px;
+
+      overflow: hidden;
+    }
+
+    .quiz-progress-bar {
+      width: 0%;
+      height: 100%;
+
+      background: var(--coral);
+
+      transition: width 250ms ease;
+    }
+
+    .quiz-question {
+      margin-bottom: 19px;
+
+      font-size: 18px;
+
+      line-height: 1.4;
+
+      font-weight: 800;
+
+      letter-spacing: -0.025em;
+    }
+
+    .quiz-options {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 8px;
+    }
+
+    .option {
+      width: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+
+      padding: 13px;
+
+      background: var(--paper);
+
+      border: 1px solid var(--line);
+
+      border-radius: 11px;
+
+      color: var(--ink);
+
+      text-align: left;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+
+      transition:
+        border var(--transition),
+        background var(--transition);
+    }
+
+    .option:hover:not(:disabled) {
+      border-color: var(--purple);
+    }
+
+    .option-letter {
+      width: 25px;
+      height: 25px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background: var(--paper-3);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+    }
+
+    .option.correct {
+      background: #edf6ef;
+
+      border-color: #9fc2a9;
+    }
+
+    .option.correct .option-letter {
+      background: var(--success);
+
+      color: white;
+    }
+
+    .option.wrong {
+      background: #fff0ed;
+
+      border-color: #e4aaa1;
+    }
+
+    .option.wrong .option-letter {
+      background: var(--danger);
+
+      color: white;
+    }
+
+    .quiz-explanation {
+      display: none;
+
+      margin-top: 17px;
+
+      padding: 14px;
+
+      background: var(--paper-3);
+
+      border-radius: 10px;
+
+      color: var(--ink-soft);
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+    .quiz-explanation.visible {
+      display: block;
+    }
+
+    .quiz-next {
+      display: none;
+
+      width: 100%;
+
+      margin-top: 12px;
+
+      padding: 13px;
+
+      background: var(--navy);
+
+      color: white;
+
+      border-radius: 10px;
+
+      font-size: 11px;
+
+      font-weight: 800;
+    }
+
+    .quiz-next.visible {
+      display: block;
+    }
+
+    .quiz-final {
+      display: none;
+
+      text-align: center;
+
+      padding: 18px 5px 5px;
+    }
+
+    .quiz-final.visible {
+      display: block;
+    }
+
+    .quiz-final-score {
+      font-size: 37px;
+
+      font-weight: 800;
+
+      letter-spacing: -0.05em;
+    }
+
+    .quiz-final-message {
+      margin-top: 7px;
+
+      color: var(--ink-soft);
+
+      font-size: 12px;
+
+      line-height: 1.5;
+    }
+
+    .restart-quiz {
+      margin-top: 15px;
+
+      padding: 11px 16px;
+
+      background: var(--yellow);
+
+      color: var(--ink);
+
+      border-radius: 9px;
+
+      font-size: 10px;
+
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       EMPTY STATE
+    ========================================================= */
+
+    .empty-state {
+      padding: 25px 15px;
+
+      color: var(--ink-faint);
+
+      text-align: center;
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      padding: 30px 0 45px;
+
+      border-top: 1px solid var(--line);
+
+      color: var(--ink-faint);
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+
+      text-align: center;
+
+      letter-spacing: 0.03em;
+    }
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 560px) {
+
+      .container {
+        width: min(100% - 24px, 760px);
+      }
+
+      header {
+        padding: 14px 0;
+      }
+
+      .hero {
+        padding: 48px 0 37px;
+      }
+
+      .hero h1 {
+        font-size: 43px;
+      }
+
+      .hero-subtitle {
+        font-size: 14px;
+      }
+
+      .source-card {
+        padding: 18px;
+      }
+
+      .source-title {
+        font-size: 20px;
+      }
+
+      textarea {
+        min-height: 190px;
+      }
+
+      .upload-row {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-options {
+        grid-template-columns: 1fr;
+      }
+
+      .mode-option {
+        display: grid;
+
+        grid-template-columns: 27px 1fr;
+
+        column-gap: 8px;
+      }
+
+      .mode-icon {
+        grid-row: span 2;
+
+        margin: 0;
+      }
+
+      .mode-description {
+        grid-column: 2;
+      }
+
+      .result-tabs {
+        margin-left: -3px;
+        margin-right: -3px;
+      }
+
+      .panel-card {
+        padding: 17px;
+      }
+
+      .quiz-question {
+        font-size: 17px;
+      }
+    }
+
+  </style>
 </head>
 
 <body>
 
-<!-- =======================================================
-     HEADER
-======================================================= -->
+<div class="app">
 
-<header class="topbar">
+  <!-- =======================================================
+       HEADER
+  ======================================================== -->
 
-    <button
-        class="menu-btn"
-        id="menuBtn"
-        aria-label="Open menu">
+  <header>
 
-        <svg viewBox="0 0 24 24" fill="none">
-            <path
-                d="M4 7h16M4 12h16M4 17h16"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"/>
-        </svg>
+    <div class="container header-inner">
 
-    </button>
+      <div class="brand">
 
-    <a href="#" class="brand" aria-label="The Lazy Student home">
+        <div class="brand-logo">
+          ◫
+        </div>
 
-        <div class="logo">
+        <div class="brand-text">
 
-            <svg
-                viewBox="0 0 24 24"
-                fill="none">
+          <div class="brand-name">
+            The Lazy Student
+          </div>
 
-                <path
-                    d="M4 5.5C4 4.67 4.67 4 5.5 4H10c1.1 0 2 .9 2 2v13c0-.83-.67-1.5-1.5-1.5h-5C4.67 17.5 4 16.83 4 16V5.5Z"
-                    stroke="#28243f"
-                    stroke-width="1.6"/>
-
-                <path
-                    d="M20 5.5C20 4.67 19.33 4 18.5 4H14c-1.1 0-2 .9-2 2v13c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5-.67 1.5-1.5V5.5Z"
-                    stroke="#28243f"
-                    stroke-width="1.6"/>
-
-            </svg>
+          <div class="brand-tagline">
+            STUDY, MINUS THE DRAG.
+          </div>
 
         </div>
 
-        <div class="brand-copy">
+      </div>
 
-            <div class="brand-name">
-                The Lazy Student
-            </div>
+      <button
+        class="menu-button"
+        id="menuButton"
+        aria-label="Open menu"
+      >
 
-            <div class="brand-tag">
-                STUDY, MINUS THE DRAG
-            </div>
+        <span class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
 
-        </div>
+      </button>
 
-    </a>
+    </div>
 
-    <div style="width:42px;"></div>
-
-</header>
+  </header>
 
 
-<!-- =======================================================
-     DRAWER
-======================================================= -->
+  <!-- =======================================================
+       DRAWER
+  ======================================================== -->
 
-<div class="drawer-overlay" id="drawerOverlay"></div>
+  <div
+    class="drawer-backdrop"
+    id="drawerBackdrop"
+  ></div>
 
-<aside class="drawer" id="drawer">
+  <aside
+    class="drawer"
+    id="drawer"
+  >
 
     <div class="drawer-top">
 
-        <div class="drawer-brand">
+      <div class="drawer-brand">
 
-            <div class="logo">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none">
-
-                    <path
-                        d="M4 5.5C4 4.67 4.67 4 5.5 4H10c1.1 0 2 .9 2 2v13c0-.83-.67-1.5-1.5-1.5h-5C4.67 17.5 4 16.83 4 16V5.5Z"
-                        stroke="#28243f"
-                        stroke-width="1.6"/>
-
-                    <path
-                        d="M20 5.5C20 4.67 19.33 4 18.5 4H14c-1.1 0-2 .9-2 2v13c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5-.67 1.5-1.5V5.5Z"
-                        stroke="#28243f"
-                        stroke-width="1.6"/>
-
-                </svg>
-
-            </div>
-
-            <div class="drawer-brand-name">
-                The Lazy Student
-            </div>
-
+        <div class="brand-logo">
+          ◫
         </div>
 
-        <button
-            class="close-btn"
-            id="closeDrawer"
-            aria-label="Close menu">
+        <div class="drawer-brand-name">
+          The Lazy Student
+        </div>
 
-            <svg
-                width="17"
-                viewBox="0 0 24 24"
-                fill="none">
+      </div>
 
-                <path
-                    d="M6 6l12 12M18 6L6 18"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"/>
-
-            </svg>
-
-        </button>
+      <button
+        class="drawer-close"
+        id="drawerClose"
+        aria-label="Close menu"
+      >
+        ×
+      </button>
 
     </div>
 
 
     <div class="drawer-label">
-        YOUR GUIDE
+      YOUR GUIDE
     </div>
 
 
     <nav class="drawer-nav">
 
-        <button
-            class="drawer-link active"
-            data-tab="gist">
+      <button
+        class="drawer-nav-button active"
+        data-tab="gist"
+      >
+        <span class="drawer-number">01</span>
+        <span>The gist</span>
+      </button>
 
-            <span class="drawer-number">01</span>
-            <span>The gist</span>
+      <button
+        class="drawer-nav-button"
+        data-tab="points"
+      >
+        <span class="drawer-number">02</span>
+        <span>Key points</span>
+      </button>
 
-        </button>
+      <button
+        class="drawer-nav-button"
+        data-tab="flashcards"
+      >
+        <span class="drawer-number">03</span>
+        <span>Flashcards</span>
+      </button>
 
-        <button
-            class="drawer-link"
-            data-tab="keypoints">
+      <button
+        class="drawer-nav-button"
+        data-tab="examples"
+      >
+        <span class="drawer-number">04</span>
+        <span>In the wild</span>
+      </button>
 
-            <span class="drawer-number">02</span>
-            <span>Key points</span>
-
-        </button>
-
-        <button
-            class="drawer-link"
-            data-tab="flashcards">
-
-            <span class="drawer-number">03</span>
-            <span>Flashcards</span>
-
-        </button>
-
-        <button
-            class="drawer-link"
-            data-tab="wild">
-
-            <span class="drawer-number">04</span>
-            <span>In the wild</span>
-
-        </button>
-
-        <button
-            class="drawer-link"
-            data-tab="quiz">
-
-            <span class="drawer-number">05</span>
-            <span>Quick quiz</span>
-
-        </button>
+      <button
+        class="drawer-nav-button"
+        data-tab="quiz"
+      >
+        <span class="drawer-number">05</span>
+        <span>Quick quiz</span>
+      </button>
 
     </nav>
 
 
-    <div class="promise">
+    <div class="drawer-bottom">
+
+      <div class="promise-card">
 
         <div class="promise-label">
-            TINY PROMISE
+          TINY PROMISE
         </div>
 
-        <p>
-            You don't need a six-hour study plan.
-            You need the next useful ten minutes.
-        </p>
+        <div class="promise-text">
+          You don't need to understand everything today.
+          You just need to understand the next thing.
+        </div>
 
-        <small>
-            BUILT FOR SHORT ATTENTION SPANS
-        </small>
+      </div>
 
     </div>
 
-</aside>
+  </aside>
 
 
-<!-- =======================================================
-     MAIN
-======================================================= -->
+  <!-- =======================================================
+       MAIN
+  ======================================================== -->
 
-<main>
+  <main>
 
     <!-- HERO -->
 
     <section class="hero">
 
+      <div class="container">
+
         <div class="eyebrow">
-
-            <span class="eyebrow-dot"></span>
-
-            A STUDY COMPANION FOR THE ALMOST-READY
-
+          A STUDY COMPANION FOR THE ALMOST-READY.
         </div>
 
-
         <h1>
-
-            Study less like a machine.
-            <span class="soft">
-                Remember more like a human
-            </span><span class="period">.</span>
-
+          Study less like a machine.
+          Remember more like a human<span class="coral">.</span>
         </h1>
 
-
-        <p class="hero-copy">
-
-            Bring the notes. We'll find the signal,
-            make it memorable, and give you a quiz
-            that doesn't feel like a punishment.
-
+        <p class="hero-subtitle">
+          Drop in the material you've been avoiding.
+          We'll turn it into something your brain actually
+          wants to deal with.
         </p>
+
+      </div>
 
     </section>
 
 
     <!-- SOURCE -->
 
-    <section class="source-card">
+    <section class="source-section">
 
-        <div class="source-title">
+      <div class="container">
 
-            <div class="eyebrow">
+        <div class="source-card">
 
-                <span class="eyebrow-dot"></span>
+          <div class="section-kicker">
+            SOURCE MATERIAL
+          </div>
 
-                SOURCE MATERIAL
+          <h2 class="source-title">
+            Paste the thing you're avoiding.
+          </h2>
 
-            </div>
-
-
-            <h2>
-                Paste the thing you're avoiding.
-            </h2>
-
-
-            <p>
-                Messy notes are welcome. We'll turn them
-                into something your brain can actually use.
-            </p>
-
-        </div>
+          <p class="source-description">
+            Notes, lecture slides, textbook chapters, messy
+            thoughts — anything with enough words to work with.
+          </p>
 
 
-        <!-- TEXT EDITOR -->
+          <!-- TEXTAREA -->
 
-        <div class="editor-wrap">
+          <div class="textarea-wrap">
 
             <textarea
-                id="sourceText"
-                maxlength="18000"
-                placeholder="Paste your notes, lecture transcript, textbook section, study guide..."></textarea>
+              id="sourceText"
+              placeholder="Paste your notes here..."
+              maxlength="18000"
+            ></textarea>
 
-            <div class="char-count">
-                <span id="charCount">0</span> / 18,000
+            <div
+              class="character-count"
+              id="characterCount"
+            >
+              0 / 18,000
             </div>
 
-        </div>
+          </div>
 
 
-        <!-- UPLOAD -->
+          <!-- UPLOAD -->
 
-        <div class="input-actions">
+          <div class="upload-row">
 
-            <label class="upload-btn">
+            <label
+              class="upload-button"
+              for="fileInput"
+            >
 
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none">
+              <span class="upload-icon">
+                ↑
+              </span>
 
-                    <path
-                        d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"/>
-
-                    <path
-                        d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"/>
-
-                </svg>
-
+              <span>
                 Upload notes
-
-                <input
-                    type="file"
-                    id="fileInput"
-                    accept=".txt,.md,.pdf,.docx">
+              </span>
 
             </label>
 
+            <button
+              class="sample-button"
+              id="sampleButton"
+              type="button"
+            >
 
-            <div class="file-name" id="fileName">
-                minimum 40 characters
+              <span class="upload-icon">
+                ✦
+              </span>
+
+              <span>
+                Try a sample
+              </span>
+
+            </button>
+
+          </div>
+
+          <div class="upload-info">
+            TXT · DOCX · PDF · minimum 40 characters
+          </div>
+
+          <input
+            type="file"
+            id="fileInput"
+            accept=".txt,.docx,.pdf,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          />
+
+
+          <!-- STUDY MODE -->
+
+          <div class="study-mode">
+
+            <div class="study-mode-heading">
+
+              <div class="study-mode-title">
+                STUDY MODE
+              </div>
+
+              <div
+                class="study-mode-current"
+                id="studyModeCurrent"
+              >
+                STANDARD
+              </div>
+
             </div>
+
+
+            <div class="mode-options">
+
+              <button
+                class="mode-option"
+                data-mode="quick"
+                type="button"
+              >
+
+                <span class="mode-icon">
+                  ⚡
+                </span>
+
+                <span class="mode-name">
+                  Quick
+                </span>
+
+                <span class="mode-description">
+                  Fast overview for when you're short on time.
+                </span>
+
+              </button>
+
+
+              <button
+                class="mode-option selected"
+                data-mode="standard"
+                type="button"
+              >
+
+                <span class="mode-icon">
+                  ◎
+                </span>
+
+                <span class="mode-name">
+                  Standard
+                </span>
+
+                <span class="mode-description">
+                  A balanced guide for normal studying.
+                </span>
+
+              </button>
+
+
+              <button
+                class="mode-option"
+                data-mode="deep"
+                type="button"
+              >
+
+                <span class="mode-icon">
+                  ◉
+                </span>
+
+                <span class="mode-name">
+                  Deep
+                </span>
+
+                <span class="mode-description">
+                  More detail, connections and practice.
+                </span>
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- GENERATE -->
+
+          <button
+            class="generate-button"
+            id="generateButton"
+            type="button"
+          >
+            ◎ Make it make sense · Standard
+          </button>
+
+
+          <!-- LOADING -->
+
+          <div
+            class="loading"
+            id="loading"
+          >
+
+            <div class="loading-dots">
+
+              <span></span>
+              <span></span>
+              <span></span>
+
+            </div>
+
+            <div class="loading-text">
+              Turning your material into something human...
+            </div>
+
+          </div>
+
+
+          <!-- ERROR -->
+
+          <div
+            class="error-box"
+            id="errorBox"
+          ></div>
 
         </div>
 
-
-        <!-- SAMPLE -->
-
-        <div class="sample-card">
-
-            <div class="sample-top">
-
-                <div class="sample-label">
-                    NEED A STARTING POINT?
-                </div>
-
-                <button
-                    class="sample-load"
-                    id="sampleBtn">
-
-                    Start with our sample ↗
-
-                </button>
-
-            </div>
-
-
-            <h3>
-                Why sleep helps memory · Cognitive science
-            </h3>
-
-
-            <p>
-                Sleep is not simply a period when the brain switches off.
-                During sleep, the brain processes and reorganizes information
-                gathered during waking hours. This process helps strengthen
-                certain memories and makes them easier to retrieve later.
-            </p>
-
-        </div>
-
-
-        <!-- GENERATE -->
-
-        <button
-            class="generate-btn"
-            id="generateBtn"
-            disabled>
-
-            <span class="button-content">
-
-                Make it make sense
-
-                <span>↗</span>
-
-            </span>
-
-        </button>
+      </div>
 
     </section>
 
 
-    <!-- LOADING -->
+    <!-- =====================================================
+         RESULTS
+    ====================================================== -->
 
-    <div
-        class="loading"
-        id="loading">
+    <section
+      class="results"
+      id="results"
+    >
 
-        <div class="loader"></div>
+      <div class="container">
 
-        <strong>
-            Turning notes into something useful...
-        </strong>
 
-        <span>
-            Gemini is finding the signal.
-        </span>
+        <div class="results-header">
+
+          <div class="results-kicker">
+            YOUR STUDY GUIDE
+          </div>
+
+          <h2 class="results-title">
+            Okay. Now it makes sense.
+          </h2>
+
+          <div
+            class="results-mode"
+            id="resultsMode"
+          >
+            STANDARD MODE
+          </div>
+
+        </div>
+
+
+        <!-- RESULT TABS -->
+
+        <div class="result-tabs">
+
+          <button
+            class="result-tab active"
+            data-result-tab="gist"
+          >
+            01 THE GIST
+          </button>
+
+          <button
+            class="result-tab"
+            data-result-tab="points"
+          >
+            02 KEY POINTS
+          </button>
+
+          <button
+            class="result-tab"
+            data-result-tab="flashcards"
+          >
+            03 FLASHCARDS
+          </button>
+
+          <button
+            class="result-tab"
+            data-result-tab="examples"
+          >
+            04 IN THE WILD
+          </button>
+
+          <button
+            class="result-tab"
+            data-result-tab="quiz"
+          >
+            05 QUIZ
+          </button>
+
+        </div>
+
+
+        <!-- =================================================
+             GIST
+        ================================================== -->
+
+        <div
+          class="result-panel active"
+          data-panel="gist"
+        >
+
+          <div class="panel-card">
+
+            <div class="panel-label">
+              THE GIST
+            </div>
+
+            <div
+              class="summary-text"
+              id="summary"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             KEY POINTS
+        ================================================== -->
+
+        <div
+          class="result-panel"
+          data-panel="points"
+        >
+
+          <div class="panel-card">
+
+            <div class="panel-label">
+              KEY POINTS
+            </div>
+
+            <ol
+              class="points-list"
+              id="pointsList"
+            ></ol>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FLASHCARDS
+        ================================================== -->
+
+        <div
+          class="result-panel"
+          data-panel="flashcards"
+        >
+
+          <div class="panel-card">
+
+            <div class="panel-label">
+              FLASHCARDS · TAP TO REVEAL
+            </div>
+
+            <div
+              class="flashcards"
+              id="flashcards"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             EXAMPLES
+        ================================================== -->
+
+        <div
+          class="result-panel"
+          data-panel="examples"
+        >
+
+          <div class="panel-card">
+
+            <div class="panel-label">
+              IN THE WILD
+            </div>
+
+            <div
+              class="examples"
+              id="examples"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             QUIZ
+        ================================================== -->
+
+        <div
+          class="result-panel"
+          data-panel="quiz"
+        >
+
+          <div
+            class="quiz-card"
+            id="quizCard"
+          >
+
+            <div class="quiz-top">
+
+              <div
+                class="quiz-counter"
+                id="quizCounter"
+              >
+                QUESTION 1 / 6
+              </div>
+
+              <div
+                class="quiz-score"
+                id="quizScore"
+              >
+                SCORE: 0
+              </div>
+
+            </div>
+
+
+            <div class="quiz-progress">
+
+              <div
+                class="quiz-progress-bar"
+                id="quizProgressBar"
+              ></div>
+
+            </div>
+
+
+            <div
+              class="quiz-question"
+              id="quizQuestion"
+            ></div>
+
+
+            <div
+              class="quiz-options"
+              id="quizOptions"
+            ></div>
+
+
+            <div
+              class="quiz-explanation"
+              id="quizExplanation"
+            ></div>
+
+
+            <button
+              class="quiz-next"
+              id="quizNext"
+              type="button"
+            >
+              Next question →
+            </button>
+
+
+            <div
+              class="quiz-final"
+              id="quizFinal"
+            >
+
+              <div
+                class="quiz-final-score"
+                id="quizFinalScore"
+              >
+                0 / 0
+              </div>
+
+              <div
+                class="quiz-final-message"
+                id="quizFinalMessage"
+              ></div>
+
+              <button
+                class="restart-quiz"
+                id="restartQuiz"
+                type="button"
+              >
+                Try again
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
+  <footer>
+
+    <div class="container">
+
+      THE LAZY STUDENT · STUDY, MINUS THE DRAG.
 
     </div>
 
+  </footer>
 
-    <!-- ERROR -->
+</div>
 
-    <div
-        class="error"
-        id="error"></div>
 
+<!-- =========================================================
+     LIBRARIES
+========================================================= -->
 
-    <!-- ===================================================
-         RESULTS
-    =================================================== -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
+  type="module"
+></script>
 
-    <section
-        class="results"
-        id="results">
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"
+></script>
 
-        <div class="results-heading">
 
-            <div class="eyebrow">
+<!-- =========================================================
+     APPLICATION JAVASCRIPT
+========================================================= -->
 
-                <span class="eyebrow-dot"></span>
+<script type="module">
 
-                YOUR GUIDE
+  /* =========================================================
+     PDF.JS
+  ========================================================= */
 
-            </div>
+  const pdfjsLib = await import(
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
+  );
 
-            <h2>
-                Less studying.
-                Better remembering.
-            </h2>
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 
-            <p>
-                Everything you need from the material,
-                without the six-hour study session.
-            </p>
 
-        </div>
+  /* =========================================================
+     DOM
+  ========================================================= */
 
+  const sourceText =
+    document.getElementById("sourceText");
 
-        <!-- TABS -->
+  const characterCount =
+    document.getElementById("characterCount");
 
-        <div class="tabs">
+  const fileInput =
+    document.getElementById("fileInput");
 
-            <button
-                class="tab active"
-                data-tab="gist">
-                The gist
-            </button>
+  const sampleButton =
+    document.getElementById("sampleButton");
 
-            <button
-                class="tab"
-                data-tab="keypoints">
-                Key points
-            </button>
+  const generateButton =
+    document.getElementById("generateButton");
 
-            <button
-                class="tab"
-                data-tab="flashcards">
-                Flashcards
-            </button>
+  const loading =
+    document.getElementById("loading");
 
-            <button
-                class="tab"
-                data-tab="wild">
-                In the wild
-            </button>
+  const errorBox =
+    document.getElementById("errorBox");
 
-            <button
-                class="tab"
-                data-tab="quiz">
-                Quick quiz
-            </button>
+  const results =
+    document.getElementById("results");
 
-        </div>
+  const summary =
+    document.getElementById("summary");
 
+  const pointsList =
+    document.getElementById("pointsList");
 
-        <!-- GIST -->
+  const flashcards =
+    document.getElementById("flashcards");
 
-        <div
-            class="tab-panel active"
-            id="panel-gist">
+  const examples =
+    document.getElementById("examples");
 
-            <div class="content-card">
+  const quizQuestion =
+    document.getElementById("quizQuestion");
 
-                <h3>
-                    If you remember one thing...
-                </h3>
+  const quizOptions =
+    document.getElementById("quizOptions");
 
-                <div
-                    class="summary-text"
-                    id="summaryOutput"></div>
+  const quizCounter =
+    document.getElementById("quizCounter");
 
-            </div>
+  const quizScoreElement =
+    document.getElementById("quizScore");
 
-        </div>
+  const quizProgressBar =
+    document.getElementById("quizProgressBar");
 
+  const quizExplanation =
+    document.getElementById("quizExplanation");
 
-        <!-- KEY POINTS -->
+  const quizNext =
+    document.getElementById("quizNext");
 
-        <div
-            class="tab-panel"
-            id="panel-keypoints">
+  const quizFinal =
+    document.getElementById("quizFinal");
 
-            <div class="content-card">
+  const quizFinalScore =
+    document.getElementById("quizFinalScore");
 
-                <h3>
-                    The bits worth keeping.
-                </h3>
+  const quizFinalMessage =
+    document.getElementById("quizFinalMessage");
 
-                <ul
-                    class="point-list"
-                    id="keyPointsOutput"></ul>
+  const restartQuiz =
+    document.getElementById("restartQuiz");
 
-            </div>
+  const studyModeCurrent =
+    document.getElementById("studyModeCurrent");
 
-        </div>
+  const resultsMode =
+    document.getElementById("resultsMode");
 
 
-        <!-- FLASHCARDS -->
+  /* =========================================================
+     DRAWER
+  ========================================================= */
 
-        <div
-            class="tab-panel"
-            id="panel-flashcards">
+  const menuButton =
+    document.getElementById("menuButton");
 
-            <div class="flashcard-area">
+  const drawer =
+    document.getElementById("drawer");
 
-                <div
-                    class="flashcard"
-                    id="flashcard">
+  const drawerClose =
+    document.getElementById("drawerClose");
 
-                    <div class="card-face front">
+  const drawerBackdrop =
+    document.getElementById("drawerBackdrop");
 
-                        <div class="card-label">
-                            QUESTION
-                        </div>
 
-                        <div
-                            class="card-question"
-                            id="flashQuestion">
-                            —
-                        </div>
+  function openDrawer() {
 
-                        <div class="card-hint">
-                            TAP TO FLIP
-                        </div>
+    drawer.classList.add("open");
 
-                    </div>
+    drawerBackdrop.classList.add("open");
 
+    document.body.style.overflow = "hidden";
 
-                    <div class="card-face back">
+  }
 
-                        <div class="card-label">
-                            ANSWER
-                        </div>
 
-                        <div
-                            class="card-answer"
-                            id="flashAnswer">
-                            —
-                        </div>
+  function closeDrawer() {
 
-                        <div class="card-hint">
-                            TAP TO FLIP BACK
-                        </div>
+    drawer.classList.remove("open");
 
-                    </div>
+    drawerBackdrop.classList.remove("open");
 
-                </div>
+    document.body.style.overflow = "";
 
-            </div>
+  }
 
 
-            <div class="flash-controls">
+  menuButton.addEventListener(
+    "click",
+    openDrawer
+  );
 
-                <button
-                    class="round-btn"
-                    id="prevCard">
-                    ←
-                </button>
+  drawerClose.addEventListener(
+    "click",
+    closeDrawer
+  );
 
-                <div
-                    class="card-count"
-                    id="cardCount">
-                    1 / 1
-                </div>
+  drawerBackdrop.addEventListener(
+    "click",
+    closeDrawer
+  );
 
-                <button
-                    class="round-btn"
-                    id="nextCard">
-                    →
-                </button>
 
-            </div>
+  /* =========================================================
+     STUDY MODE
+  ========================================================= */
 
-        </div>
+  let selectedStudyMode = "standard";
 
 
-        <!-- EXAMPLES -->
+  const modeButtons =
+    document.querySelectorAll(".mode-option");
 
-        <div
-            class="tab-panel"
-            id="panel-wild">
 
-            <div class="content-card">
+  modeButtons.forEach(button => {
 
-                <h3>
-                    Where this shows up in real life.
-                </h3>
+    button.addEventListener("click", () => {
 
-                <div
-                    class="example-grid"
-                    id="examplesOutput"></div>
+      selectedStudyMode =
+        button.dataset.mode;
 
-            </div>
+      modeButtons.forEach(item => {
 
-        </div>
+        item.classList.toggle(
+          "selected",
+          item === button
+        );
 
+      });
 
-        <!-- QUIZ -->
 
-        <div
-            class="tab-panel"
-            id="panel-quiz">
+      const names = {
+        quick: "QUICK",
+        standard: "STANDARD",
+        deep: "DEEP"
+      };
 
-            <div class="content-card">
 
-                <div id="quizOutput"></div>
+      const labels = {
+        quick:
+          "⚡ Make it make sense · Quick",
 
-            </div>
+        standard:
+          "◎ Make it make sense · Standard",
 
-        </div>
+        deep:
+          "◉ Make it make sense · Deep"
+      };
 
-    </section>
 
+      studyModeCurrent.textContent =
+        names[selectedStudyMode];
 
-    <footer>
 
-        <strong>The Lazy Student</strong>
-        · Your notes are sent to the AI only when you press
-        "Make it make sense."
+      generateButton.textContent =
+        labels[selectedStudyMode];
 
-    </footer>
+    });
 
-</main>
+  });
 
 
-<script>
-/* =========================================================
-   CONFIG
-========================================================= */
+  /* =========================================================
+     CHARACTER COUNT
+  ========================================================= */
 
-const MAX_CHARS = 18000;
-const MIN_CHARS = 40;
+  sourceText.addEventListener(
+    "input",
+    updateCharacterCount
+  );
 
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+  function updateCharacterCount() {
 
-const sourceText = document.getElementById("sourceText");
-const charCount = document.getElementById("charCount");
-const generateBtn = document.getElementById("generateBtn");
+    const length =
+      sourceText.value.length;
 
-const fileInput = document.getElementById("fileInput");
-const fileName = document.getElementById("fileName");
+    characterCount.textContent =
+      `${length.toLocaleString()} / 18,000`;
 
-const sampleBtn = document.getElementById("sampleBtn");
+  }
 
-const loading = document.getElementById("loading");
-const errorBox = document.getElementById("error");
 
-const results = document.getElementById("results");
+  /* =========================================================
+     SAMPLE
+  ========================================================= */
 
-const drawer = document.getElementById("drawer");
-const drawerOverlay = document.getElementById("drawerOverlay");
-const menuBtn = document.getElementById("menuBtn");
-const closeDrawer = document.getElementById("closeDrawer");
+  sampleButton.addEventListener(
+    "click",
+    () => {
 
+      sourceText.value = `
+Photosynthesis is the process by which plants convert light energy into chemical energy.
 
-/* =========================================================
-   SAMPLE
-========================================================= */
+It mainly takes place in the chloroplasts of plant cells. Chlorophyll absorbs light energy, which is then used to drive a series of chemical reactions.
 
-const sampleText = `
-Why sleep helps memory
+During photosynthesis, plants use carbon dioxide and water to produce glucose and oxygen.
 
-Sleep is not simply a period when the brain switches off.
-During sleep, the brain processes and reorganizes information
-gathered during waking hours.
+The process can be divided into two major stages: the light-dependent reactions and the Calvin cycle.
 
-This process helps strengthen certain memories and makes them
-easier to retrieve later.
+The light-dependent reactions capture energy from sunlight and produce ATP and NADPH.
 
-Researchers often describe memory as having several stages.
-Information is first encoded while we are awake. During sleep,
-some of these memories are consolidated, meaning their neural
-representations become more stable.
+The Calvin cycle uses ATP and NADPH to help convert carbon dioxide into sugars.
 
-Deep sleep appears to be especially important for certain forms
-of declarative memory, while REM sleep may contribute to emotional
-and procedural learning.
+Photosynthesis is important because it provides the chemical energy that supports most food chains and releases oxygen into the atmosphere.
+      `.trim();
 
-This is one reason studying for a short period and then getting
-proper sleep can sometimes be more effective than staying awake
-all night trying to cram.
+      updateCharacterCount();
 
-The basic idea is simple: sleep gives the brain time to work on
-what you learned.
-`.trim();
-
-
-sampleBtn.addEventListener("click", () => {
-
-    sourceText.value = sampleText;
-
-    updateInputState();
-
-    sourceText.focus();
-
-});
-
-
-/* =========================================================
-   INPUT STATE
-========================================================= */
-
-function updateInputState() {
-
-    const text = sourceText.value.trim();
-
-    charCount.textContent = sourceText.value.length.toLocaleString();
-
-    generateBtn.disabled = text.length < MIN_CHARS;
-
-    if (text.length > MAX_CHARS) {
-
-        sourceText.value =
-            sourceText.value.substring(0, MAX_CHARS);
+      sourceText.focus();
 
     }
-
-}
-
-
-sourceText.addEventListener(
-    "input",
-    updateInputState
-);
+  );
 
 
-/* =========================================================
-   FILE UPLOAD
-========================================================= */
+  /* =========================================================
+     FILE UPLOAD
+  ========================================================= */
 
-fileInput.addEventListener("change", async event => {
+  fileInput.addEventListener(
+    "change",
+    handleFile
+  );
 
-    const file = event.target.files[0];
+
+  async function handleFile(event) {
+
+    const file =
+      event.target.files[0];
 
     if (!file) return;
 
-    fileName.textContent = file.name;
+
+    errorBox.classList.remove(
+      "visible"
+    );
+
 
     try {
 
-        let text = "";
+      let text = "";
 
-        const name = file.name.toLowerCase();
+
+      if (
+        file.type === "text/plain" ||
+        file.name.toLowerCase().endsWith(".txt")
+      ) {
+
+        text =
+          await file.text();
+
+      }
+
+
+      else if (
+        file.name.toLowerCase().endsWith(".docx")
+      ) {
 
         if (
-            file.type === "text/plain" ||
-            file.type === "text/markdown" ||
-            name.endsWith(".txt") ||
-            name.endsWith(".md")
+          typeof mammoth === "undefined"
         ) {
 
-            text = await file.text();
-
-        }
-
-        else if (
-            file.type === "application/pdf" ||
-            name.endsWith(".pdf")
-        ) {
-
-            text = await extractPDF(file);
-
-        }
-
-        else if (
-            name.endsWith(".docx") ||
-            file.type ===
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        ) {
-
-            text = await extractDOCX(file);
-
-        }
-
-        else {
-
-            throw new Error(
-                "Please upload a TXT, MD, PDF, or DOCX file."
-            );
+          throw new Error(
+            "The DOCX reader has not loaded yet. Please try again."
+          );
 
         }
 
 
-        if (!text.trim()) {
-
-            throw new Error(
-                "I couldn't find readable text in that file."
-            );
-
-        }
+        const arrayBuffer =
+          await file.arrayBuffer();
 
 
-        sourceText.value =
-            text.substring(0, MAX_CHARS);
-
-        updateInputState();
-
-    }
-
-    catch (err) {
-
-        showError(
-            err.message || "Could not read that file."
-        );
-
-    }
-
-});
+        const result =
+          await mammoth.extractRawText({
+            arrayBuffer
+          });
 
 
-/* =========================================================
-   PDF EXTRACTION
-========================================================= */
+        text =
+          result.value;
 
-async function extractPDF(file) {
+      }
 
-    const arrayBuffer =
-        await file.arrayBuffer();
 
-    const pdf =
-        await pdfjsLib.getDocument({
+      else if (
+        file.name.toLowerCase().endsWith(".pdf")
+      ) {
+
+        const arrayBuffer =
+          await file.arrayBuffer();
+
+
+        const pdf =
+          await pdfjsLib.getDocument({
             data: arrayBuffer
-        }).promise;
+          }).promise;
 
-    let output = "";
 
-    for (
-        let pageNumber = 1;
-        pageNumber <= pdf.numPages;
-        pageNumber++
-    ) {
+        const pages = [];
 
-        const page =
+
+        for (
+          let pageNumber = 1;
+          pageNumber <= pdf.numPages;
+          pageNumber++
+        ) {
+
+          const page =
             await pdf.getPage(pageNumber);
 
-        const content =
+
+          const content =
             await page.getTextContent();
 
-        const pageText =
+
+          const pageText =
             content.items
-                .map(item => item.str)
-                .join(" ");
-
-        output +=
-            `\n\n--- Page ${pageNumber} ---\n\n`
-            + pageText;
-
-        if (output.length >= MAX_CHARS) break;
-
-    }
-
-    return output.trim();
-
-}
+              .map(item => item.str)
+              .join(" ");
 
 
-/* =========================================================
-   DOCX EXTRACTION
-========================================================= */
-
-async function extractDOCX(file) {
-
-    const arrayBuffer =
-        await file.arrayBuffer();
-
-    const result =
-        await mammoth.extractRawText({
-            arrayBuffer
-        });
-
-    return result.value.trim();
-
-}
-
-
-/* =========================================================
-   ERROR
-========================================================= */
-
-function showError(message) {
-
-    errorBox.textContent = message;
-
-    errorBox.classList.add("show");
-
-    window.scrollTo({
-        top: errorBox.offsetTop - 100,
-        behavior: "smooth"
-    });
-
-}
-
-
-function clearError() {
-
-    errorBox.textContent = "";
-
-    errorBox.classList.remove("show");
-
-}
-
-
-/* =========================================================
-   GENERATE
-========================================================= */
-
-generateBtn.addEventListener("click", generateStudyGuide);
-
-
-async function generateStudyGuide() {
-
-    clearError();
-
-    const text =
-        sourceText.value.trim();
-
-    if (text.length < MIN_CHARS) {
-
-        showError(
-            `Please give me at least ${MIN_CHARS} characters of material.`
-        );
-
-        return;
-
-    }
-
-
-    if (text.length > MAX_CHARS) {
-
-        showError(
-            `Your material is too long. Please keep it below ${MAX_CHARS.toLocaleString()} characters.`
-        );
-
-        return;
-
-    }
-
-
-    generateBtn.disabled = true;
-
-    loading.classList.add("show");
-
-    results.classList.remove("show");
-
-
-    try {
-
-        const response =
-            await fetch("/api/generate", {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    text
-                })
-
-            });
-
-
-        let data;
-
-        try {
-
-            data = await response.json();
-
-        }
-
-        catch {
-
-            throw new Error(
-                "The server returned an invalid response."
-            );
+          pages.push(pageText);
 
         }
 
 
-        if (!response.ok) {
+        text =
+          pages.join("\n\n");
 
-            throw new Error(
-                data.error ||
-                "Something went wrong while generating your study guide."
-            );
-
-        }
+      }
 
 
-        validateResult(data);
-
-        renderResults(data);
-
-        results.classList.add("show");
-
-        setActiveTab("gist");
-
-        setTimeout(() => {
-
-            results.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        }, 100);
-
-
-    }
-
-    catch (err) {
-
-        console.error(err);
-
-        showError(
-            err.message ||
-            "Something went wrong. Please try again."
-        );
-
-    }
-
-    finally {
-
-        loading.classList.remove("show");
-
-        generateBtn.disabled =
-            sourceText.value.trim().length < MIN_CHARS;
-
-    }
-
-}
-
-
-/* =========================================================
-   VALIDATE AI RESULT
-========================================================= */
-
-function validateResult(data) {
-
-    if (
-        !data ||
-        typeof data.summary !== "string" ||
-        !Array.isArray(data.keyPoints) ||
-        !Array.isArray(data.flashcards) ||
-        !Array.isArray(data.examples) ||
-        !Array.isArray(data.quiz)
-    ) {
+      else {
 
         throw new Error(
-            "The AI returned an unexpected format. Please try again."
+          "Please upload a TXT, DOCX, or PDF file."
         );
 
-    }
+      }
 
-}
 
+      text =
+        text
+          .replace(/\r/g, "")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
 
-/* =========================================================
-   RENDER RESULTS
-========================================================= */
 
-let studyData = null;
+      if (!text) {
 
-function renderResults(data) {
+        throw new Error(
+          "I couldn't extract readable text from that file."
+        );
 
-    studyData = data;
+      }
 
-    document.getElementById(
-        "summaryOutput"
-    ).textContent = data.summary;
 
+      if (text.length > 18000) {
 
-    /* KEY POINTS */
+        text =
+          text.slice(0, 18000);
 
-    const keyPointsOutput =
-        document.getElementById("keyPointsOutput");
+      }
 
-    keyPointsOutput.innerHTML = "";
 
-    data.keyPoints.forEach((point, index) => {
+      sourceText.value =
+        text;
 
-        const li =
-            document.createElement("li");
+      updateCharacterCount();
 
-        li.innerHTML = `
-            <span class="point-number">
-                ${String(index + 1).padStart(2, "0")}
-            </span>
 
-            <span>
-                ${escapeHTML(point)}
-            </span>
-        `;
+    } catch (error) {
 
-        keyPointsOutput.appendChild(li);
-
-    });
-
-
-    /* FLASHCARDS */
-
-    flashIndex = 0;
-
-    renderFlashcard();
-
-
-    /* EXAMPLES */
-
-    const examplesOutput =
-        document.getElementById("examplesOutput");
-
-    examplesOutput.innerHTML = "";
-
-    data.examples.forEach(example => {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "example-card";
-
-        card.innerHTML = `
-            <div class="example-concept">
-                ${escapeHTML(example.concept || "CONCEPT")}
-            </div>
-
-            <h4>
-                ${escapeHTML(example.example || "")}
-            </h4>
-
-            <p class="example-why">
-                ${escapeHTML(example.whyItMatters || "")}
-            </p>
-        `;
-
-        examplesOutput.appendChild(card);
-
-    });
-
-
-    /* QUIZ */
-
-    quizIndex = 0;
-    quizScore = 0;
-
-    renderQuiz();
-
-}
-
-
-/* =========================================================
-   FLASHCARDS
-========================================================= */
-
-let flashIndex = 0;
-
-const flashcard =
-    document.getElementById("flashcard");
-
-flashcard.addEventListener("click", () => {
-
-    flashcard.classList.toggle("flipped");
-
-});
-
-
-document.getElementById("prevCard")
-    .addEventListener("click", event => {
-
-        event.stopPropagation();
-
-        if (!studyData) return;
-
-        flashIndex--;
-
-        if (flashIndex < 0) {
-
-            flashIndex =
-                studyData.flashcards.length - 1;
-
-        }
-
-        renderFlashcard();
-
-    });
-
-
-document.getElementById("nextCard")
-    .addEventListener("click", event => {
-
-        event.stopPropagation();
-
-        if (!studyData) return;
-
-        flashIndex++;
-
-        if (
-            flashIndex >=
-            studyData.flashcards.length
-        ) {
-
-            flashIndex = 0;
-
-        }
-
-        renderFlashcard();
-
-    });
-
-
-function renderFlashcard() {
-
-    if (
-        !studyData ||
-        !studyData.flashcards.length
-    ) return;
-
-
-    const card =
-        studyData.flashcards[flashIndex];
-
-
-    flashcard.classList.remove("flipped");
-
-
-    document.getElementById(
-        "flashQuestion"
-    ).textContent =
-        card.question || "";
-
-
-    document.getElementById(
-        "flashAnswer"
-    ).textContent =
-        card.answer || "";
-
-
-    document.getElementById(
-        "cardCount"
-    ).textContent =
-        `${flashIndex + 1} / ${studyData.flashcards.length}`;
-
-}
-
-
-/* =========================================================
-   QUIZ
-========================================================= */
-
-let quizIndex = 0;
-let quizScore = 0;
-
-
-function renderQuiz() {
-
-    const output =
-        document.getElementById("quizOutput");
-
-    if (
-        !studyData ||
-        !studyData.quiz.length
-    ) {
-
-        output.innerHTML = `
-            <div class="quiz-score">
-                <strong>No quiz questions were generated.</strong>
-            </div>
-        `;
-
-        return;
+      showError(
+        error.message ||
+        "Could not read that file."
+      );
 
     }
 
 
-    if (
-        quizIndex >=
-        studyData.quiz.length
-    ) {
+    fileInput.value = "";
 
-        renderQuizScore();
-
-        return;
-
-    }
+  }
 
 
-    const question =
-        studyData.quiz[quizIndex];
+  /* =========================================================
+     RESULT TABS
+  ========================================================= */
+
+  const resultTabs =
+    document.querySelectorAll(".result-tab");
+
+  const resultPanels =
+    document.querySelectorAll(".result-panel");
 
 
-    output.innerHTML = `
+  function showResultTab(tabName) {
 
-        <div class="quiz-question">
+    resultTabs.forEach(tab => {
 
-            <div class="quiz-number">
-                QUESTION ${quizIndex + 1}
-                / ${studyData.quiz.length}
-            </div>
+      tab.classList.toggle(
+        "active",
+        tab.dataset.resultTab === tabName
+      );
 
-            <h3>
-                ${escapeHTML(question.question)}
-            </h3>
-
-        </div>
+    });
 
 
-        <div class="options">
+    resultPanels.forEach(panel => {
 
-            ${question.options
-                .map((option, index) => `
+      panel.classList.toggle(
+        "active",
+        panel.dataset.panel === tabName
+      );
 
-                    <button
-                        class="option"
-                        data-option="${index}">
-
-                        ${escapeHTML(option)}
-
-                    </button>
-
-                `)
-                .join("")}
-
-        </div>
-
-
-        <div
-            class="quiz-explanation"
-            id="quizExplanation">
-        </div>
-
-
-        <button
-            class="quiz-next"
-            id="quizNext"
-            style="display:none;">
-
-            ${quizIndex === studyData.quiz.length - 1
-                ? "See my score"
-                : "Next question"}
-
-        </button>
-    `;
-
-
-    output
-        .querySelectorAll(".option")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => answerQuiz(
-                    Number(button.dataset.option)
-                )
-            );
-
-        });
+    });
 
 
     document
-        .getElementById("quizNext")
-        .addEventListener(
-            "click",
-            () => {
+      .querySelectorAll(".drawer-nav-button")
+      .forEach(button => {
 
-                quizIndex++;
-
-                renderQuiz();
-
-            }
+        button.classList.toggle(
+          "active",
+          button.dataset.tab === tabName
         );
 
-}
+      });
+
+  }
 
 
-function answerQuiz(selected) {
+  resultTabs.forEach(tab => {
+
+    tab.addEventListener(
+      "click",
+      () => {
+
+        showResultTab(
+          tab.dataset.resultTab
+        );
+
+      }
+    );
+
+  });
+
+
+  document
+    .querySelectorAll(".drawer-nav-button")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const tab =
+            button.dataset.tab;
+
+          if (!results.classList.contains("visible")) {
+
+            closeDrawer();
+
+            return;
+
+          }
+
+
+          showResultTab(tab);
+
+          closeDrawer();
+
+
+          results.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+        }
+      );
+
+    });
+
+
+  /* =========================================================
+     VALIDATION
+  ========================================================= */
+
+  function validateStudyData(data) {
+
+    if (!data || typeof data !== "object") {
+      return false;
+    }
+
+
+    if (
+      typeof data.summary !== "string" ||
+      !data.summary.trim()
+    ) {
+      return false;
+    }
+
+
+    if (
+      !Array.isArray(data.keyPoints)
+    ) {
+      return false;
+    }
+
+
+    if (
+      !Array.isArray(data.flashcards)
+    ) {
+      return false;
+    }
+
+
+    if (
+      !Array.isArray(data.examples)
+    ) {
+      return false;
+    }
+
+
+    if (
+      !Array.isArray(data.quiz)
+    ) {
+      return false;
+    }
+
+
+    for (const question of data.quiz) {
+
+      if (
+        !question ||
+        typeof question.question !== "string" ||
+        !Array.isArray(question.options) ||
+        question.options.length !== 4
+      ) {
+
+        return false;
+
+      }
+
+
+      const answer =
+        Number(question.answer);
+
+
+      if (
+        !Number.isInteger(answer) ||
+        answer < 0 ||
+        answer > 3
+      ) {
+
+        return false;
+
+      }
+
+    }
+
+
+    return true;
+
+  }
+
+
+  /* =========================================================
+     GENERATE
+  ========================================================= */
+
+  let studyData = null;
+
+
+  generateButton.addEventListener(
+    "click",
+    generateStudyGuide
+  );
+
+
+  async function generateStudyGuide() {
+
+    const text =
+      sourceText.value.trim();
+
+
+    errorBox.classList.remove(
+      "visible"
+    );
+
+
+    if (text.length < 40) {
+
+      showError(
+        "Give me at least 40 characters of material first."
+      );
+
+      sourceText.focus();
+
+      return;
+
+    }
+
+
+    if (text.length > 18000) {
+
+      showError(
+        "That material is too long. Please keep it under 18,000 characters."
+      );
+
+      return;
+
+    }
+
+
+    setLoading(true);
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/generate",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              text,
+              mode: selectedStudyMode
+            })
+          }
+        );
+
+
+      let data;
+
+
+      try {
+
+        data =
+          await response.json();
+
+      } catch {
+
+        throw new Error(
+          "The server returned an invalid response."
+        );
+
+      }
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "Something went wrong while generating your guide."
+        );
+
+      }
+
+
+      if (
+        !validateStudyData(data)
+      ) {
+
+        throw new Error(
+          "The AI returned an incomplete study guide. Please try again."
+        );
+
+      }
+
+
+      studyData =
+        data;
+
+
+      renderStudyGuide(
+        studyData
+      );
+
+
+      results.classList.add(
+        "visible"
+      );
+
+
+      results.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+
+    } catch (error) {
+
+      showError(
+        error.message ||
+        "Something went wrong. Please try again."
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  }
+
+
+  /* =========================================================
+     LOADING
+  ========================================================= */
+
+  function setLoading(isLoading) {
+
+    generateButton.disabled =
+      isLoading;
+
+
+    loading.classList.toggle(
+      "visible",
+      isLoading
+    );
+
+
+    if (isLoading) {
+
+      generateButton.textContent =
+        "Making it make sense...";
+
+    } else {
+
+      const labels = {
+
+        quick:
+          "⚡ Make it make sense · Quick",
+
+        standard:
+          "◎ Make it make sense · Standard",
+
+        deep:
+          "◉ Make it make sense · Deep"
+
+      };
+
+
+      generateButton.textContent =
+        labels[selectedStudyMode];
+
+    }
+
+  }
+
+
+  /* =========================================================
+     ERROR
+  ========================================================= */
+
+  function showError(message) {
+
+    errorBox.textContent =
+      message;
+
+    errorBox.classList.add(
+      "visible"
+    );
+
+  }
+
+
+  /* =========================================================
+     RENDER STUDY GUIDE
+  ========================================================= */
+
+  function renderStudyGuide(data) {
+
+    summary.textContent =
+      data.summary;
+
+
+    /* -------------------------------------------------------
+       MODE
+    ------------------------------------------------------- */
+
+    const modeNames = {
+
+      quick: "QUICK MODE",
+      standard: "STANDARD MODE",
+      deep: "DEEP MODE"
+
+    };
+
+
+    resultsMode.textContent =
+      modeNames[selectedStudyMode] ||
+      "STANDARD MODE";
+
+
+    /* -------------------------------------------------------
+       KEY POINTS
+    ------------------------------------------------------- */
+
+    pointsList.innerHTML = "";
+
+
+    data.keyPoints.forEach(
+      (point, index) => {
+
+        const li =
+          document.createElement("li");
+
+
+        li.className =
+          "point-item";
+
+
+        const number =
+          document.createElement("span");
+
+
+        number.className =
+          "point-number";
+
+
+        number.textContent =
+          String(index + 1).padStart(2, "0");
+
+
+        const text =
+          document.createElement("div");
+
+
+        text.className =
+          "point-text";
+
+
+        text.textContent =
+          point;
+
+
+        li.appendChild(number);
+
+        li.appendChild(text);
+
+        pointsList.appendChild(li);
+
+      }
+    );
+
+
+    /* -------------------------------------------------------
+       FLASHCARDS
+    ------------------------------------------------------- */
+
+    flashcards.innerHTML = "";
+
+
+    data.flashcards.forEach(
+      card => {
+
+        const element =
+          document.createElement("div");
+
+
+        element.className =
+          "flashcard";
+
+
+        element.innerHTML = `
+
+          <div class="flashcard-inner">
+
+            <div class="flashcard-question"></div>
+
+            <div class="flashcard-answer"></div>
+
+            <div class="flashcard-hint">
+              TAP TO REVEAL ANSWER
+            </div>
+
+          </div>
+
+        `;
+
+
+        element
+          .querySelector(
+            ".flashcard-question"
+          )
+          .textContent =
+          card.question;
+
+
+        element
+          .querySelector(
+            ".flashcard-answer"
+          )
+          .textContent =
+          card.answer;
+
+
+        element.addEventListener(
+          "click",
+          () => {
+
+            element.classList.toggle(
+              "revealed"
+            );
+
+          }
+        );
+
+
+        flashcards.appendChild(
+          element
+        );
+
+      }
+    );
+
+
+    /* -------------------------------------------------------
+       EXAMPLES
+    ------------------------------------------------------- */
+
+    examples.innerHTML = "";
+
+
+    data.examples.forEach(
+      item => {
+
+        const card =
+          document.createElement("div");
+
+
+        card.className =
+          "example-card";
+
+
+        const concept =
+          document.createElement("div");
+
+
+        concept.className =
+          "example-concept";
+
+
+        concept.textContent =
+          item.concept;
+
+
+        const example =
+          document.createElement("div");
+
+
+        example.className =
+          "example-text";
+
+
+        example.textContent =
+          item.example;
+
+
+        const why =
+          document.createElement("div");
+
+
+        why.className =
+          "why-it-matters";
+
+
+        const strong =
+          document.createElement("strong");
+
+
+        strong.textContent =
+          "Why it matters: ";
+
+
+        why.appendChild(strong);
+
+
+        why.appendChild(
+          document.createTextNode(
+            item.whyItMatters
+          )
+        );
+
+
+        card.appendChild(concept);
+
+        card.appendChild(example);
+
+        card.appendChild(why);
+
+
+        examples.appendChild(card);
+
+      }
+    );
+
+
+    /* -------------------------------------------------------
+       QUIZ
+    ------------------------------------------------------- */
+
+    quizIndex = 0;
+
+    quizScore = 0;
+
+    quizAnswered = false;
+
+
+    quizFinal.classList.remove(
+      "visible"
+    );
+
+
+    quizQuestion.style.display =
+      "";
+
+    quizOptions.style.display =
+      "";
+
+    quizExplanation.classList.remove(
+      "visible"
+    );
+
+    quizNext.classList.remove(
+      "visible"
+    );
+
+
+    renderQuizQuestion();
+
+  }
+
+
+  /* =========================================================
+     QUIZ STATE
+  ========================================================= */
+
+  let quizIndex = 0;
+
+  let quizScore = 0;
+
+  let quizAnswered = false;
+
+
+  /* =========================================================
+     RENDER QUIZ QUESTION
+  ========================================================= */
+
+  function renderQuizQuestion() {
+
+    if (
+      !studyData ||
+      !Array.isArray(studyData.quiz) ||
+      !studyData.quiz.length
+    ) {
+
+      return;
+
+    }
+
 
     const question =
-        studyData.quiz[quizIndex];
+      studyData.quiz[quizIndex];
+
+
+    quizAnswered = false;
+
+
+    quizCounter.textContent =
+      `QUESTION ${quizIndex + 1} / ${studyData.quiz.length}`;
+
+
+    quizScoreElement.textContent =
+      `SCORE: ${quizScore}`;
+
+
+    const progress =
+      (quizIndex /
+        studyData.quiz.length) *
+      100;
+
+
+    quizProgressBar.style.width =
+      `${progress}%`;
+
+
+    quizQuestion.textContent =
+      question.question;
+
+
+    quizOptions.innerHTML = "";
+
+
+    quizExplanation.textContent =
+      question.explanation ||
+      "That's the key idea to remember.";
+
+
+    quizExplanation.classList.remove(
+      "visible"
+    );
+
+
+    quizNext.classList.remove(
+      "visible"
+    );
+
+
+    question.options.forEach(
+      (optionText, index) => {
+
+        const button =
+          document.createElement("button");
+
+
+        button.type =
+          "button";
+
+
+        button.className =
+          "option";
+
+
+        button.dataset.index =
+          String(index);
+
+
+        const letter =
+          document.createElement("span");
+
+
+        letter.className =
+          "option-letter";
+
+
+        letter.textContent =
+          String.fromCharCode(
+            65 + index
+          );
+
+
+        const text =
+          document.createElement("span");
+
+
+        text.textContent =
+          optionText;
+
+
+        button.appendChild(letter);
+
+        button.appendChild(text);
+
+
+        button.addEventListener(
+          "click",
+          () => answerQuiz(index)
+        );
+
+
+        quizOptions.appendChild(
+          button
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     ANSWER QUIZ
+  ========================================================= */
+
+  function answerQuiz(selected) {
+
+    if (quizAnswered) {
+      return;
+    }
+
+
+    quizAnswered = true;
+
+
+    const question =
+      studyData.quiz[quizIndex];
+
+
+    /*
+      Gemini returns answer as a zero-based
+      integer:
+
+      0 = first option
+      1 = second option
+      2 = third option
+      3 = fourth option
+    */
+
+    const correctAnswer =
+      Number(question.answer);
+
 
     const buttons =
-        document.querySelectorAll(".option");
+      document.querySelectorAll(
+        ".option"
+      );
+
 
     buttons.forEach(button => {
 
-        button.disabled = true;
-
-    });
+      button.disabled = true;
 
 
-    buttons.forEach((button, index) => {
+      const index =
+        Number(button.dataset.index);
 
-        if (
-            index ===
-            Number(question.answer)
-        ) {
 
-            button.classList.add("correct");
+      if (
+        index === correctAnswer
+      ) {
 
-        }
+        button.classList.add(
+          "correct"
+        );
 
-        if (
-            index === selected &&
-            selected !== Number(question.answer)
-        ) {
+      }
 
-            button.classList.add("wrong");
 
-        }
+      if (
+        index === selected &&
+        selected !== correctAnswer
+      ) {
+
+        button.classList.add(
+          "wrong"
+        );
+
+      }
 
     });
 
 
     if (
-        selected ===
-        Number(question.answer)
+      selected === correctAnswer
     ) {
 
-        quizScore++;
+      quizScore++;
 
     }
 
 
-    const explanation =
-        document.getElementById(
-            "quizExplanation"
-        );
-
-    explanation.textContent =
-        question.explanation ||
-        "That's the key idea to remember.";
-
-    explanation.classList.add("show");
+    quizScoreElement.textContent =
+      `SCORE: ${quizScore}`;
 
 
-    document
-        .getElementById("quizNext")
-        .style.display = "block";
-
-}
+    quizExplanation.classList.add(
+      "visible"
+    );
 
 
-function renderQuizScore() {
+    if (
+      quizIndex <
+      studyData.quiz.length - 1
+    ) {
 
-    const output =
-        document.getElementById("quizOutput");
+      quizNext.textContent =
+        "Next question →";
 
-    const total =
-        studyData.quiz.length;
+      quizNext.classList.add(
+        "visible"
+      );
+
+    } else {
+
+      quizNext.textContent =
+        "See my score →";
+
+      quizNext.classList.add(
+        "visible"
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     NEXT QUESTION
+  ========================================================= */
+
+  quizNext.addEventListener(
+    "click",
+    () => {
+
+      if (
+        quizIndex <
+        studyData.quiz.length - 1
+      ) {
+
+        quizIndex++;
+
+        renderQuizQuestion();
+
+      } else {
+
+        finishQuiz();
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     FINISH QUIZ
+  ========================================================= */
+
+  function finishQuiz() {
+
+    quizQuestion.style.display =
+      "none";
+
+    quizOptions.style.display =
+      "none";
+
+    quizExplanation.classList.remove(
+      "visible"
+    );
+
+    quizNext.classList.remove(
+      "visible"
+    );
+
+
+    quizCounter.textContent =
+      "QUIZ COMPLETE";
+
+
+    quizProgressBar.style.width =
+      "100%";
+
+
+    quizFinalScore.textContent =
+      `${quizScore} / ${studyData.quiz.length}`;
+
 
     const percentage =
-        Math.round(
-            (quizScore / total) * 100
-        );
+      Math.round(
+        (quizScore /
+          studyData.quiz.length) *
+        100
+      );
 
 
     let message;
 
-    if (percentage >= 80) {
 
-        message = "Okay, you actually know this.";
+    if (percentage === 100) {
+
+      message =
+        "Perfect. You actually know this.";
 
     }
 
-    else if (percentage >= 50) {
+    else if (percentage >= 80) {
 
-        message = "Not bad. One more pass should do it.";
+      message =
+        "Very solid. Your brain got the memo.";
+
+    }
+
+    else if (percentage >= 60) {
+
+      message =
+        "Not bad. A quick review should tighten it up.";
 
     }
 
     else {
 
-        message = "Your brain wants another ten minutes.";
+      message =
+        "That's okay. Now you know exactly what to revisit.";
 
     }
 
 
-    output.innerHTML = `
-
-        <div class="quiz-score">
-
-            <div class="quiz-score-number">
-                ${quizScore}/${total}
-            </div>
-
-            <strong>
-                ${percentage}%
-            </strong>
-
-            <p>
-                ${message}
-            </p>
-
-            <button
-                class="quiz-next"
-                id="retakeQuiz">
-
-                Try again
-
-            </button>
-
-        </div>
-    `;
+    quizFinalMessage.textContent =
+      message;
 
 
-    document
-        .getElementById("retakeQuiz")
-        .addEventListener(
-            "click",
-            () => {
+    quizFinal.classList.add(
+      "visible"
+    );
 
-                quizIndex = 0;
-                quizScore = 0;
-
-                renderQuiz();
-
-            }
-        );
-
-}
+  }
 
 
-/* =========================================================
-   TABS
-========================================================= */
+  /* =========================================================
+     RESTART QUIZ
+  ========================================================= */
 
-document
-    .querySelectorAll(".tab")
-    .forEach(button => {
+  restartQuiz.addEventListener(
+    "click",
+    () => {
 
-        button.addEventListener(
-            "click",
-            () => {
+      quizIndex = 0;
 
-                setActiveTab(
-                    button.dataset.tab
-                );
+      quizScore = 0;
 
-            }
-        );
-
-    });
+      quizAnswered = false;
 
 
-document
-    .querySelectorAll(".drawer-link")
-    .forEach(button => {
+      quizQuestion.style.display =
+        "";
 
-        button.addEventListener(
-            "click",
-            () => {
-
-                setActiveTab(
-                    button.dataset.tab
-                );
-
-                closeMenu();
-
-                if (studyData) {
-
-                    results.scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-                }
-
-            }
-        );
-
-    });
+      quizOptions.style.display =
+        "";
 
 
-function setActiveTab(tabName) {
-
-    document
-        .querySelectorAll(".tab")
-        .forEach(button => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.tab === tabName
-            );
-
-        });
+      quizFinal.classList.remove(
+        "visible"
+      );
 
 
-    document
-        .querySelectorAll(".drawer-link")
-        .forEach(button => {
-
-            button.classList.toggle(
-                "active",
-                button.dataset.tab === tabName
-            );
-
-        });
-
-
-    document
-        .querySelectorAll(".tab-panel")
-        .forEach(panel => {
-
-            panel.classList.remove("active");
-
-        });
-
-
-    const panel =
-        document.getElementById(
-            `panel-${tabName}`
-        );
-
-    if (panel) {
-
-        panel.classList.add("active");
+      renderQuizQuestion();
 
     }
-
-}
-
-
-/* =========================================================
-   DRAWER
-========================================================= */
-
-menuBtn.addEventListener(
-    "click",
-    openMenu
-);
+  );
 
 
-closeDrawer.addEventListener(
-    "click",
-    closeMenu
-);
+  /* =========================================================
+     KEYBOARD / ESCAPE
+  ========================================================= */
 
-
-drawerOverlay.addEventListener(
-    "click",
-    closeMenu
-);
-
-
-function openMenu() {
-
-    drawer.classList.add("open");
-
-    drawerOverlay.classList.add("open");
-
-    document.body.style.overflow = "hidden";
-
-}
-
-
-function closeMenu() {
-
-    drawer.classList.remove("open");
-
-    drawerOverlay.classList.remove("open");
-
-    document.body.style.overflow = "";
-
-}
-
-
-/* =========================================================
-   ESCAPE KEY
-========================================================= */
-
-document.addEventListener(
+  document.addEventListener(
     "keydown",
     event => {
 
-        if (event.key === "Escape") {
+      if (
+        event.key === "Escape"
+      ) {
 
-            closeMenu();
+        closeDrawer();
 
-        }
+      }
 
     }
-);
+  );
 
 
-/* =========================================================
-   HTML ESCAPE
-========================================================= */
+  /* =========================================================
+     INITIAL STATE
+  ========================================================= */
 
-function escapeHTML(value) {
+  updateCharacterCount();
 
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* =========================================================
-   INITIAL STATE
-========================================================= */
-
-updateInputState();
 
 </script>
 
