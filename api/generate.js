@@ -8,16 +8,81 @@ const MIN_INPUT = 40;
 
 
 /* ============================================================
+   MODE SETTINGS
+============================================================ */
+
+const MODES = {
+
+  quick: {
+    name: "Quick",
+    keyPoints: 5,
+    flashcards: 5,
+    examples: 3,
+    quiz: 5,
+    maxOutputTokens: 4500,
+
+    instruction: `
+Keep everything concise.
+
+Prioritize the most important information only.
+The user wants a fast revision session.
+
+Use short explanations and avoid unnecessary detail.
+`
+  },
+
+  standard: {
+    name: "Standard",
+    keyPoints: 7,
+    flashcards: 7,
+    examples: 4,
+    quiz: 6,
+    maxOutputTokens: 6000,
+
+    instruction: `
+Create a balanced study guide.
+
+Explain important ideas clearly without becoming unnecessarily long.
+Focus on what a student is most likely to need to understand and remember.
+`
+  },
+
+  deep: {
+    name: "Deep",
+    keyPoints: 10,
+    flashcards: 10,
+    examples: 5,
+    quiz: 8,
+    maxOutputTokens: 8000,
+
+    instruction: `
+Create a comprehensive study guide.
+
+Cover the important concepts thoroughly.
+Explain relationships between ideas and include useful context.
+
+Do not add facts that aren't supported by the source material.
+`
+  }
+
+};
+
+
+/* ============================================================
    SLEEP
 ============================================================ */
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+
 }
 
 
 /* ============================================================
-   GEMINI REQUEST WITH RETRIES
+   GEMINI REQUEST
 ============================================================ */
 
 async function callGemini(apiKey, body) {
@@ -26,28 +91,36 @@ async function callGemini(apiKey, body) {
 
   let lastError = null;
 
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+  for (
+    let attempt = 0;
+    attempt < maxAttempts;
+    attempt++
+  ) {
 
     try {
 
-      const response = await fetch(API_URL, {
+      const response = await fetch(
+        API_URL,
+        {
+          method: "POST",
 
-        method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": apiKey
+          },
 
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": apiKey
-        },
+          body: JSON.stringify(body)
+        }
+      );
 
-        body: JSON.stringify(body)
+      const data =
+        await response.json();
 
-      });
-
-      const data = await response.json();
 
       if (response.ok) {
         return data;
       }
+
 
       const retryable =
         response.status === 408 ||
@@ -57,40 +130,37 @@ async function callGemini(apiKey, body) {
         response.status === 503 ||
         response.status === 504;
 
+
       if (!retryable) {
 
         throw new Error(
           data?.error?.message ||
-          `Gemini request failed with status ${response.status}.`
+          `Gemini returned ${response.status}.`
         );
+
       }
+
 
       lastError =
         data?.error?.message ||
         `Gemini temporarily returned ${response.status}.`;
 
-      /*
-        Exponential backoff + jitter.
-
-        Attempt 1: roughly 1s
-        Attempt 2: roughly 2s
-        Attempt 3: roughly 4s
-        Attempt 4: roughly 8s
-      */
 
       if (attempt < maxAttempts - 1) {
 
-        const baseDelay =
+        const delay =
           Math.min(
             8000,
             1000 * Math.pow(2, attempt)
+          )
+          +
+          Math.floor(
+            Math.random() * 700
           );
 
-        const jitter =
-          Math.floor(Math.random() * 700);
-
-        await sleep(baseDelay + jitter);
+        await sleep(delay);
       }
+
 
     } catch (error) {
 
@@ -100,17 +170,19 @@ async function callGemini(apiKey, body) {
         throw error;
       }
 
-      const baseDelay =
+      const delay =
         Math.min(
           8000,
           1000 * Math.pow(2, attempt)
+        )
+        +
+        Math.floor(
+          Math.random() * 700
         );
 
-      const jitter =
-        Math.floor(Math.random() * 700);
-
-      await sleep(baseDelay + jitter);
+      await sleep(delay);
     }
+
   }
 
   throw new Error(
@@ -121,7 +193,7 @@ async function callGemini(apiKey, body) {
 
 
 /* ============================================================
-   JSON SCHEMA
+   SCHEMA
 ============================================================ */
 
 const responseSchema = {
@@ -228,32 +300,14 @@ const responseSchema = {
             items: {
               type: "STRING"
             }
-
           },
 
-          /*
-            THIS IS THE IMPORTANT FIX.
-
-            The answer is an integer index.
-
-            Example:
-
-            options:
-            [
-              "A",
-              "B",
-              "C",
-              "D"
-            ]
-
-            answer: 2
-
-            means "C" is correct.
-          */
-
           answer: {
+
             type: "INTEGER",
+
             minimum: 0,
+
             maximum: 3
           },
 
@@ -288,7 +342,7 @@ const responseSchema = {
 
 
 /* ============================================================
-   API HANDLER
+   HANDLER
 ============================================================ */
 
 export default async function handler(req, res) {
@@ -298,10 +352,13 @@ export default async function handler(req, res) {
     return res.status(405).json({
       error: "Method not allowed."
     });
+
   }
+
 
   const apiKey =
     process.env.GEMINI_API_KEY;
+
 
   if (!apiKey) {
 
@@ -309,7 +366,9 @@ export default async function handler(req, res) {
       error:
         "GEMINI_API_KEY is not configured in Vercel."
     });
+
   }
+
 
   try {
 
@@ -318,20 +377,48 @@ export default async function handler(req, res) {
         ? req.body.text.trim()
         : "";
 
+
+    let mode =
+      typeof req.body?.mode === "string"
+        ? req.body.mode
+        : "standard";
+
+
+    /*
+      Prevent the browser from sending an
+      arbitrary mode value.
+    */
+
+    if (!MODES[mode]) {
+      mode = "standard";
+    }
+
+
+    const settings =
+      MODES[mode];
+
+
+    /* ========================================================
+       VALIDATE INPUT
+    ======================================================== */
+
     if (text.length < MIN_INPUT) {
 
       return res.status(400).json({
         error:
           `Please provide at least ${MIN_INPUT} characters of study material.`
       });
+
     }
+
 
     if (text.length > MAX_INPUT) {
 
       return res.status(400).json({
         error:
-          `Your study material is too long. Please keep it under ${MAX_INPUT} characters.`
+          `Please keep your study material under ${MAX_INPUT} characters.`
       });
+
     }
 
 
@@ -341,27 +428,27 @@ export default async function handler(req, res) {
 
     const prompt = `You are "The Lazy Student", an expert study-guide generator.
 
-Your job is to transform the supplied study material into a concise,
-accurate, memorable study guide.
+The student selected STUDY MODE: ${settings.name}.
 
-Do not invent facts that are not supported by the source material.
+${settings.instruction}
 
-Return:
-1. A clear summary.
-2. Important key points.
-3. Useful flashcards.
-4. Real-world examples.
-5. A short multiple-choice quiz.
+Create:
 
-QUIZ RULES — VERY IMPORTANT:
+- exactly one concise but useful summary
+- approximately ${settings.keyPoints} key points
+- approximately ${settings.flashcards} flashcards
+- approximately ${settings.examples} real-world examples
+- exactly ${settings.quiz} quiz questions
 
-Every quiz question must have exactly 4 options.
+QUIZ REQUIREMENTS — EXTREMELY IMPORTANT:
 
-The "answer" field MUST be an INTEGER from 0 to 3.
+Every quiz question must contain EXACTLY 4 options.
 
-It represents the ZERO-BASED INDEX of the correct option.
+The "answer" field must be an INTEGER from 0 to 3.
 
-For example:
+It is the ZERO-BASED INDEX of the correct option.
+
+Example:
 
 options:
 [
@@ -371,11 +458,11 @@ options:
   "Madrid"
 ]
 
-If Paris is correct, return:
+If Paris is correct:
 
 "answer": 0
 
-If Rome is correct, return:
+If Rome is correct:
 
 "answer": 2
 
@@ -383,22 +470,20 @@ NEVER return the answer text.
 
 NEVER return "A", "B", "C", or "D".
 
-NEVER return an explanation as the answer.
+NEVER return a sentence as the answer.
 
-The answer field must ONLY be an integer between 0 and 3.
+The answer must ONLY be an integer between 0 and 3.
 
-Make the wrong options plausible but clearly distinguishable from the
-correct answer using the source material.
+The quiz must test understanding rather than obscure trivia.
 
-Create between 5 and 8 quiz questions.
+Wrong answers should be plausible.
 
-Create between 5 and 10 key points.
+The explanation should briefly explain why the correct answer is correct.
 
-Create between 5 and 10 flashcards.
+IMPORTANT ACCURACY RULE:
 
-Create between 3 and 5 real-world examples.
-
-Keep the language clear and useful rather than academic or bloated.
+Use only information supported by the supplied study material.
+Do not hallucinate additional facts.
 
 SOURCE MATERIAL:
 
@@ -406,7 +491,7 @@ ${text}`;
 
 
     /* ========================================================
-       REQUEST
+       GEMINI REQUEST
     ======================================================== */
 
     const body = {
@@ -427,13 +512,15 @@ ${text}`;
 
       generationConfig: {
 
-        responseMimeType: "application/json",
+        responseMimeType:
+          "application/json",
 
         responseSchema,
 
         temperature: 0.55,
 
-        maxOutputTokens: 7000
+        maxOutputTokens:
+          settings.maxOutputTokens
 
       }
 
@@ -441,15 +528,20 @@ ${text}`;
 
 
     const data =
-      await callGemini(apiKey, body);
+      await callGemini(
+        apiKey,
+        body
+      );
 
 
     /* ========================================================
-       EXTRACT GEMINI TEXT
+       GET GENERATED TEXT
     ======================================================== */
 
     const generatedText =
-      data?.candidates?.[0]?.content?.parts
+      data
+        ?.candidates?.[0]
+        ?.content?.parts
         ?.map(part => part.text || "")
         .join("")
         .trim();
@@ -460,6 +552,7 @@ ${text}`;
       throw new Error(
         "Gemini returned an empty response."
       );
+
     }
 
 
@@ -474,21 +567,22 @@ ${text}`;
       result =
         JSON.parse(generatedText);
 
-    } catch (error) {
+    } catch {
 
       console.error(
-        "Invalid Gemini JSON:",
+        "Invalid Gemini response:",
         generatedText
       );
 
       throw new Error(
         "Gemini returned invalid study-guide data."
       );
+
     }
 
 
     /* ========================================================
-       SERVER-SIDE QUIZ VALIDATION
+       VALIDATE QUIZ
     ======================================================== */
 
     if (!Array.isArray(result.quiz)) {
@@ -496,7 +590,9 @@ ${text}`;
       throw new Error(
         "Gemini returned an invalid quiz."
       );
+
     }
+
 
     for (const question of result.quiz) {
 
@@ -505,17 +601,22 @@ ${text}`;
         throw new Error(
           "A quiz question has invalid options."
         );
+
       }
+
 
       if (question.options.length !== 4) {
 
         throw new Error(
-          "A quiz question did not contain exactly four options."
+          "A quiz question must have exactly four options."
         );
+
       }
+
 
       const answer =
         Number(question.answer);
+
 
       if (
         !Number.isInteger(answer) ||
@@ -524,16 +625,19 @@ ${text}`;
       ) {
 
         throw new Error(
-          "Gemini returned an invalid quiz answer index."
+          "Gemini returned an invalid quiz answer."
         );
+
       }
 
+
       question.answer = answer;
+
     }
 
 
     /* ========================================================
-       RETURN CLEAN JSON
+       RETURN
     ======================================================== */
 
     return res.status(200).json(result);
@@ -545,6 +649,7 @@ ${text}`;
       error
     );
 
+
     return res.status(500).json({
 
       error:
@@ -552,5 +657,7 @@ ${text}`;
         "Gemini is temporarily unavailable. Please try again."
 
     });
+
   }
+
 }
