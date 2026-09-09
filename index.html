@@ -1,0 +1,3170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#f7f0e4">
+<meta name="description" content="The Lazy Student — a study companion for the almost-ready.">
+
+<title>The Lazy Student</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<!-- Mammoth DOCX reader -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+
+<style>
+:root {
+    --paper: #f8f1e5;
+    --paper-2: #fffaf1;
+    --paper-3: #f2e8d8;
+
+    --ink: #28243f;
+    --ink-soft: #777487;
+    --ink-faint: #a19ba8;
+
+    --navy: #2b2945;
+    --navy-2: #36334f;
+
+    --yellow: #f6c54d;
+    --yellow-soft: #f9dda0;
+
+    --coral: #ed755f;
+    --coral-soft: #f5b0a1;
+
+    --purple: #716c89;
+
+    --line: #e4dacb;
+    --line-dark: #4a4662;
+
+    --shadow:
+        0 20px 50px rgba(53, 43, 30, 0.08);
+
+    --radius-xl: 32px;
+    --radius-lg: 24px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 15% 0%,
+            rgba(255,255,255,.8),
+            transparent 35%
+        ),
+        var(--paper);
+    color: var(--ink);
+    font-family: "Manrope", sans-serif;
+}
+
+button,
+textarea,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    height: 74px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding:
+        0
+        max(18px, calc((100vw - 1080px) / 2));
+
+    background: rgba(248,241,229,.92);
+    backdrop-filter: blur(16px);
+
+    border-bottom: 1px solid rgba(228,218,203,.75);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--yellow);
+
+    box-shadow:
+        inset 0 -2px 0 rgba(0,0,0,.08);
+}
+
+.logo svg {
+    width: 23px;
+    height: 23px;
+}
+
+.brand-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.brand-name {
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.03em;
+}
+
+.brand-tag {
+    color: var(--ink-soft);
+    font-family: "DM Mono", monospace;
+    font-size: 8px;
+    letter-spacing: .09em;
+}
+
+.menu-btn {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    background: rgba(255,250,241,.7);
+
+    display: grid;
+    place-items: center;
+
+    color: var(--ink);
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.menu-btn:hover {
+    background: var(--paper-2);
+}
+
+.menu-btn:active {
+    transform: scale(.94);
+}
+
+.menu-btn svg {
+    width: 19px;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width: min(100%, 1080px);
+    margin: 0 auto;
+    padding: 70px 22px 100px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    padding: 25px 0 80px;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 20px;
+
+    color: var(--coral);
+
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--coral);
+}
+
+.hero h1 {
+    max-width: 920px;
+
+    margin: 0;
+
+    font-size: clamp(3.25rem, 9vw, 7rem);
+    line-height: .91;
+
+    letter-spacing: -.065em;
+    font-weight: 800;
+}
+
+.hero h1 .soft {
+    color: var(--purple);
+}
+
+.hero h1 .period {
+    color: var(--coral);
+}
+
+.hero-copy {
+    max-width: 650px;
+
+    margin: 30px 0 0;
+
+    color: var(--ink-soft);
+
+    font-size: clamp(15px, 2vw, 18px);
+    line-height: 1.7;
+}
+
+/* =========================================================
+   SOURCE SECTION
+========================================================= */
+
+.source-card {
+    position: relative;
+
+    padding: clamp(25px, 5vw, 46px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,250,241,.92),
+            rgba(246,235,217,.94)
+        );
+
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+
+    box-shadow: var(--shadow);
+}
+
+.source-card::after {
+    content: "";
+
+    position: absolute;
+    width: 160px;
+    height: 160px;
+
+    right: -60px;
+    top: -60px;
+
+    border-radius: 50%;
+
+    background: rgba(246,197,77,.12);
+
+    pointer-events: none;
+}
+
+.source-title {
+    position: relative;
+    z-index: 1;
+
+    max-width: 760px;
+}
+
+.source-title h2 {
+    margin: 0;
+
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: .98;
+
+    letter-spacing: -.055em;
+    font-weight: 800;
+}
+
+.source-title p {
+    max-width: 620px;
+
+    margin: 17px 0 0;
+
+    color: var(--ink-soft);
+
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.editor-wrap {
+    position: relative;
+
+    margin-top: 32px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 260px;
+
+    resize: vertical;
+
+    padding: 24px;
+
+    color: var(--ink);
+
+    background: rgba(255,250,241,.9);
+
+    border: 1px solid var(--line);
+    border-radius: 22px;
+
+    outline: none;
+
+    font-size: 16px;
+    line-height: 1.7;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+textarea::placeholder {
+    color: #aaa3a0;
+}
+
+textarea:focus {
+    border-color: var(--coral);
+
+    box-shadow:
+        0 0 0 4px rgba(237,117,95,.09);
+}
+
+.char-count {
+    position: absolute;
+
+    right: 17px;
+    bottom: 13px;
+
+    color: var(--ink-faint);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+}
+
+/* =========================================================
+   INPUT ACTIONS
+========================================================= */
+
+.input-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 14px;
+
+    margin-top: 18px;
+}
+
+.upload-btn {
+    min-height: 48px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 17px;
+
+    border: 1px solid var(--line);
+    border-radius: 14px;
+
+    background: var(--paper-2);
+
+    color: var(--ink);
+
+    font-weight: 700;
+    font-size: 13px;
+
+    transition: .2s ease;
+}
+
+.upload-btn:hover {
+    border-color: var(--coral);
+    transform: translateY(-1px);
+}
+
+.upload-btn svg {
+    width: 18px;
+}
+
+#fileInput {
+    display: none;
+}
+
+.file-name {
+    color: var(--ink-soft);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+}
+
+/* =========================================================
+   SAMPLE
+========================================================= */
+
+.sample-card {
+    margin-top: 20px;
+
+    padding: 21px;
+
+    background: rgba(255,250,241,.7);
+
+    border: 1px dashed #d8cdbc;
+    border-radius: 20px;
+}
+
+.sample-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 13px;
+}
+
+.sample-label {
+    color: var(--ink-faint);
+
+    font-family: "DM Mono", monospace;
+    font-size: 9px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.sample-load {
+    border: 0;
+    background: transparent;
+
+    color: var(--coral);
+
+    font-family: "DM Mono", monospace;
+    font-size: 11px;
+
+    padding: 4px 0;
+}
+
+.sample-load:hover {
+    text-decoration: underline;
+}
+
+.sample-card h3 {
+    margin: 0 0 8px;
+
+    font-size: 16px;
+    letter-spacing: -.02em;
+}
+
+.sample-card p {
+    margin: 0;
+
+    color: var(--ink-soft);
+
+    font-size: 12px;
+    line-height: 1.65;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* =========================================================
+   GENERATE BUTTON
+========================================================= */
+
+.generate-btn {
+    width: 100%;
+
+    min-height: 65px;
+
+    margin-top: 20px;
+
+    border: 0;
+    border-radius: 18px;
+
+    background: var(--yellow);
+
+    color: var(--ink);
+
+    font-size: 17px;
+    font-weight: 800;
+
+    letter-spacing: -.025em;
+
+    box-shadow:
+        0 8px 0 #d5a63b,
+        0 15px 30px rgba(213,166,59,.15);
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        opacity .2s ease;
+}
+
+.generate-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 0 #d5a63b,
+        0 18px 35px rgba(213,166,59,.2);
+}
+
+.generate-btn:active:not(:disabled) {
+    transform: translateY(5px);
+
+    box-shadow:
+        0 3px 0 #d5a63b,
+        0 8px 15px rgba(213,166,59,.1);
+}
+
+.generate-btn:disabled {
+    opacity: .5;
+    box-shadow: none;
+}
+
+.button-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+    display: none;
+
+    margin-top: 40px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    background: var(--paper-2);
+
+    border: 1px solid var(--line);
+    border-radius: 22px;
+}
+
+.loading.show {
+    display: block;
+}
+
+.loader {
+    width: 30px;
+    height: 30px;
+
+    margin: 0 auto 15px;
+
+    border: 3px solid #ded4c6;
+    border-top-color: var(--coral);
+
+    border-radius: 50%;
+
+    animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.loading span {
+    color: var(--ink-soft);
+    font-size: 12px;
+}
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.error {
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 18px 20px;
+
+    color: #8e3f32;
+
+    background: #fbe1da;
+
+    border: 1px solid #efb9ad;
+    border-radius: 16px;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.error.show {
+    display: block;
+}
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.results {
+    display: none;
+
+    margin-top: 75px;
+}
+
+.results.show {
+    display: block;
+}
+
+.results-heading {
+    margin-bottom: 25px;
+}
+
+.results-heading .eyebrow {
+    margin-bottom: 10px;
+}
+
+.results-heading h2 {
+    margin: 0;
+
+    font-size: clamp(2.4rem, 6vw, 4.7rem);
+
+    letter-spacing: -.06em;
+    line-height: .95;
+}
+
+.results-heading p {
+    margin: 13px 0 0;
+
+    color: var(--ink-soft);
+
+    font-size: 14px;
+}
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.tabs {
+    display: flex;
+
+    gap: 8px;
+
+    overflow-x: auto;
+
+    padding-bottom: 6px;
+    margin-bottom: 25px;
+
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab {
+    flex: 0 0 auto;
+
+    border: 1px solid var(--line);
+    border-radius: 100px;
+
+    padding: 10px 15px;
+
+    background: transparent;
+
+    color: var(--ink-soft);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+
+    transition: .2s ease;
+}
+
+.tab.active {
+    color: var(--ink);
+    background: var(--yellow);
+    border-color: var(--yellow);
+}
+
+/* =========================================================
+   TAB CONTENT
+========================================================= */
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.content-card {
+    padding: clamp(23px, 4vw, 38px);
+
+    background: var(--paper-2);
+
+    border: 1px solid var(--line);
+    border-radius: 25px;
+
+    box-shadow: var(--shadow);
+}
+
+.content-card h3 {
+    margin: 0 0 17px;
+
+    font-size: 23px;
+
+    letter-spacing: -.04em;
+}
+
+.summary-text {
+    color: #514d5f;
+
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+/* =========================================================
+   KEY POINTS
+========================================================= */
+
+.point-list {
+    display: grid;
+    gap: 13px;
+
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+.point-list li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 13px;
+
+    padding: 16px;
+
+    background: var(--paper-3);
+
+    border-radius: 16px;
+
+    color: #504b5c;
+
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.point-number {
+    width: 30px;
+    height: 30px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: var(--yellow);
+
+    color: var(--ink);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+}
+
+/* =========================================================
+   FLASHCARDS
+========================================================= */
+
+.flashcard-area {
+    perspective: 1200px;
+}
+
+.flashcard {
+    position: relative;
+
+    min-height: 340px;
+
+    cursor: pointer;
+
+    transform-style: preserve-3d;
+
+    transition: transform .55s ease;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    inset: 0;
+
+    padding: 32px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    backface-visibility: hidden;
+
+    border-radius: 28px;
+
+    border: 1px solid var(--line);
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffaf1,
+            #f2e7d5
+        );
+
+    box-shadow: var(--shadow);
+}
+
+.card-face.back {
+    transform: rotateY(180deg);
+
+    background:
+        linear-gradient(
+            145deg,
+            #e8e2ef,
+            #dcd5e8
+        );
+}
+
+.card-label {
+    color: var(--coral);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+.card-question,
+.card-answer {
+    margin: 25px 0;
+
+    font-size: clamp(1.7rem, 5vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -.05em;
+    font-weight: 800;
+}
+
+.card-hint {
+    color: var(--ink-soft);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+}
+
+.flash-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 18px;
+}
+
+.round-btn {
+    width: 44px;
+    height: 44px;
+
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    background: var(--paper-2);
+
+    color: var(--ink);
+
+    font-size: 18px;
+}
+
+.round-btn:hover {
+    border-color: var(--coral);
+}
+
+.card-count {
+    min-width: 70px;
+
+    text-align: center;
+
+    color: var(--ink-soft);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+}
+
+/* =========================================================
+   EXAMPLES
+========================================================= */
+
+.example-grid {
+    display: grid;
+    gap: 15px;
+}
+
+.example-card {
+    padding: 21px;
+
+    background: var(--paper-3);
+
+    border-radius: 19px;
+}
+
+.example-concept {
+    color: var(--coral);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.example-card h4 {
+    margin: 7px 0;
+
+    font-size: 17px;
+}
+
+.example-card p {
+    margin: 0;
+
+    color: var(--ink-soft);
+
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+.example-why {
+    margin-top: 11px !important;
+
+    color: var(--ink) !important;
+
+    font-weight: 600;
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.quiz-question {
+    margin-bottom: 24px;
+}
+
+.quiz-number {
+    color: var(--coral);
+
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.quiz-question h3 {
+    margin: 8px 0 0;
+
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.1;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    width: 100%;
+
+    padding: 16px;
+
+    text-align: left;
+
+    border: 1px solid var(--line);
+    border-radius: 15px;
+
+    background: var(--paper-2);
+
+    color: var(--ink);
+
+    font-size: 14px;
+
+    transition: .2s ease;
+}
+
+.option:hover {
+    border-color: var(--coral);
+}
+
+.option.correct {
+    background: #dcebd6;
+    border-color: #94bb86;
+}
+
+.option.wrong {
+    background: #f7d8d1;
+    border-color: #e7a89b;
+}
+
+.quiz-explanation {
+    display: none;
+
+    margin-top: 17px;
+    padding: 16px;
+
+    background: var(--paper-3);
+
+    border-radius: 14px;
+
+    color: var(--ink-soft);
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.quiz-explanation.show {
+    display: block;
+}
+
+.quiz-next {
+    width: 100%;
+
+    margin-top: 18px;
+
+    padding: 15px;
+
+    border: 0;
+    border-radius: 15px;
+
+    background: var(--navy);
+
+    color: white;
+
+    font-weight: 800;
+}
+
+.quiz-score {
+    text-align: center;
+
+    padding: 30px 15px;
+}
+
+.quiz-score-number {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -.08em;
+}
+
+.quiz-score p {
+    color: var(--ink-soft);
+}
+
+/* =========================================================
+   DRAWER
+========================================================= */
+
+.drawer-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100;
+
+    background: rgba(25,23,38,.42);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .3s ease;
+}
+
+.drawer-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.drawer {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    z-index: 101;
+
+    width: min(390px, 84vw);
+
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--navy);
+
+    color: #f7f2ea;
+
+    transform: translateX(-105%);
+
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+
+    box-shadow: 20px 0 60px rgba(0,0,0,.2);
+}
+
+.drawer.open {
+    transform: translateX(0);
+}
+
+.drawer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 65px;
+}
+
+.drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.drawer-brand .logo {
+    width: 38px;
+    height: 38px;
+}
+
+.drawer-brand-name {
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.close-btn {
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: white;
+
+    display: grid;
+    place-items: center;
+}
+
+.drawer-label {
+    margin-bottom: 13px;
+
+    color: #aaa6bc;
+
+    font-family: "DM Mono", monospace;
+    font-size: 9px;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.drawer-nav {
+    display: grid;
+    gap: 6px;
+}
+
+.drawer-link {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 13px 15px;
+
+    border: 0;
+    border-radius: 14px;
+
+    background: transparent;
+
+    color: #e9e6ef;
+
+    text-align: left;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: .2s ease;
+}
+
+.drawer-link:hover {
+    background: rgba(255,255,255,.07);
+}
+
+.drawer-link.active {
+    background: var(--yellow);
+    color: var(--ink);
+}
+
+.drawer-number {
+    font-family: "DM Mono", monospace;
+    font-size: 10px;
+
+    opacity: .65;
+}
+
+.promise {
+    margin-top: auto;
+
+    padding: 20px;
+
+    background: #37334f;
+
+    border-radius: 20px;
+
+    border: 1px solid rgba(255,255,255,.05);
+}
+
+.promise-label {
+    color: var(--yellow);
+
+    font-family: "DM Mono", monospace;
+    font-size: 9px;
+
+    letter-spacing: .08em;
+}
+
+.promise p {
+    margin: 10px 0 15px;
+
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.promise small {
+    color: #aaa6bc;
+
+    font-family: "DM Mono", monospace;
+    font-size: 8px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    margin-top: 80px;
+
+    text-align: center;
+
+    color: var(--ink-faint);
+
+    font-family: "DM Mono", monospace;
+    font-size: 9px;
+
+    line-height: 1.7;
+}
+
+footer strong {
+    color: var(--ink-soft);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .topbar {
+        height: 68px;
+    }
+
+    main {
+        padding:
+            45px 17px 80px;
+    }
+
+    .hero {
+        padding:
+            12px 0 55px;
+    }
+
+    .hero h1 {
+        font-size: clamp(3rem, 15vw, 4.7rem);
+    }
+
+    .hero-copy {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .source-card {
+        padding: 23px 18px;
+        border-radius: 25px;
+    }
+
+    .source-title h2 {
+        font-size: 2.45rem;
+    }
+
+    textarea {
+        min-height: 235px;
+        padding: 19px;
+    }
+
+    .input-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .upload-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .file-name {
+        padding-left: 2px;
+    }
+
+    .sample-card {
+        padding: 17px;
+    }
+
+    .sample-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .generate-btn {
+        min-height: 60px;
+    }
+
+    .flashcard {
+        min-height: 300px;
+    }
+
+    .card-face {
+        padding: 24px;
+    }
+
+    .drawer {
+        width: 88vw;
+    }
+}
+
+@media (min-width: 900px) {
+
+    .source-card {
+        padding: 55px;
+    }
+
+    .example-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
+<header class="topbar">
+
+    <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Open menu">
+
+        <svg viewBox="0 0 24 24" fill="none">
+            <path
+                d="M4 7h16M4 12h16M4 17h16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"/>
+        </svg>
+
+    </button>
+
+    <a href="#" class="brand" aria-label="The Lazy Student home">
+
+        <div class="logo">
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none">
+
+                <path
+                    d="M4 5.5C4 4.67 4.67 4 5.5 4H10c1.1 0 2 .9 2 2v13c0-.83-.67-1.5-1.5-1.5h-5C4.67 17.5 4 16.83 4 16V5.5Z"
+                    stroke="#28243f"
+                    stroke-width="1.6"/>
+
+                <path
+                    d="M20 5.5C20 4.67 19.33 4 18.5 4H14c-1.1 0-2 .9-2 2v13c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5-.67 1.5-1.5V5.5Z"
+                    stroke="#28243f"
+                    stroke-width="1.6"/>
+
+            </svg>
+
+        </div>
+
+        <div class="brand-copy">
+
+            <div class="brand-name">
+                The Lazy Student
+            </div>
+
+            <div class="brand-tag">
+                STUDY, MINUS THE DRAG
+            </div>
+
+        </div>
+
+    </a>
+
+    <div style="width:42px;"></div>
+
+</header>
+
+
+<!-- =======================================================
+     DRAWER
+======================================================= -->
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<aside class="drawer" id="drawer">
+
+    <div class="drawer-top">
+
+        <div class="drawer-brand">
+
+            <div class="logo">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none">
+
+                    <path
+                        d="M4 5.5C4 4.67 4.67 4 5.5 4H10c1.1 0 2 .9 2 2v13c0-.83-.67-1.5-1.5-1.5h-5C4.67 17.5 4 16.83 4 16V5.5Z"
+                        stroke="#28243f"
+                        stroke-width="1.6"/>
+
+                    <path
+                        d="M20 5.5C20 4.67 19.33 4 18.5 4H14c-1.1 0-2 .9-2 2v13c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5-.67 1.5-1.5V5.5Z"
+                        stroke="#28243f"
+                        stroke-width="1.6"/>
+
+                </svg>
+
+            </div>
+
+            <div class="drawer-brand-name">
+                The Lazy Student
+            </div>
+
+        </div>
+
+        <button
+            class="close-btn"
+            id="closeDrawer"
+            aria-label="Close menu">
+
+            <svg
+                width="17"
+                viewBox="0 0 24 24"
+                fill="none">
+
+                <path
+                    d="M6 6l12 12M18 6L6 18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"/>
+
+            </svg>
+
+        </button>
+
+    </div>
+
+
+    <div class="drawer-label">
+        YOUR GUIDE
+    </div>
+
+
+    <nav class="drawer-nav">
+
+        <button
+            class="drawer-link active"
+            data-tab="gist">
+
+            <span class="drawer-number">01</span>
+            <span>The gist</span>
+
+        </button>
+
+        <button
+            class="drawer-link"
+            data-tab="keypoints">
+
+            <span class="drawer-number">02</span>
+            <span>Key points</span>
+
+        </button>
+
+        <button
+            class="drawer-link"
+            data-tab="flashcards">
+
+            <span class="drawer-number">03</span>
+            <span>Flashcards</span>
+
+        </button>
+
+        <button
+            class="drawer-link"
+            data-tab="wild">
+
+            <span class="drawer-number">04</span>
+            <span>In the wild</span>
+
+        </button>
+
+        <button
+            class="drawer-link"
+            data-tab="quiz">
+
+            <span class="drawer-number">05</span>
+            <span>Quick quiz</span>
+
+        </button>
+
+    </nav>
+
+
+    <div class="promise">
+
+        <div class="promise-label">
+            TINY PROMISE
+        </div>
+
+        <p>
+            You don't need a six-hour study plan.
+            You need the next useful ten minutes.
+        </p>
+
+        <small>
+            BUILT FOR SHORT ATTENTION SPANS
+        </small>
+
+    </div>
+
+</aside>
+
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
+<main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="eyebrow">
+
+            <span class="eyebrow-dot"></span>
+
+            A STUDY COMPANION FOR THE ALMOST-READY
+
+        </div>
+
+
+        <h1>
+
+            Study less like a machine.
+            <span class="soft">
+                Remember more like a human
+            </span><span class="period">.</span>
+
+        </h1>
+
+
+        <p class="hero-copy">
+
+            Bring the notes. We'll find the signal,
+            make it memorable, and give you a quiz
+            that doesn't feel like a punishment.
+
+        </p>
+
+    </section>
+
+
+    <!-- SOURCE -->
+
+    <section class="source-card">
+
+        <div class="source-title">
+
+            <div class="eyebrow">
+
+                <span class="eyebrow-dot"></span>
+
+                SOURCE MATERIAL
+
+            </div>
+
+
+            <h2>
+                Paste the thing you're avoiding.
+            </h2>
+
+
+            <p>
+                Messy notes are welcome. We'll turn them
+                into something your brain can actually use.
+            </p>
+
+        </div>
+
+
+        <!-- TEXT EDITOR -->
+
+        <div class="editor-wrap">
+
+            <textarea
+                id="sourceText"
+                maxlength="18000"
+                placeholder="Paste your notes, lecture transcript, textbook section, study guide..."></textarea>
+
+            <div class="char-count">
+                <span id="charCount">0</span> / 18,000
+            </div>
+
+        </div>
+
+
+        <!-- UPLOAD -->
+
+        <div class="input-actions">
+
+            <label class="upload-btn">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none">
+
+                    <path
+                        d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"/>
+
+                    <path
+                        d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"/>
+
+                </svg>
+
+                Upload notes
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept=".txt,.md,.pdf,.docx">
+
+            </label>
+
+
+            <div class="file-name" id="fileName">
+                minimum 40 characters
+            </div>
+
+        </div>
+
+
+        <!-- SAMPLE -->
+
+        <div class="sample-card">
+
+            <div class="sample-top">
+
+                <div class="sample-label">
+                    NEED A STARTING POINT?
+                </div>
+
+                <button
+                    class="sample-load"
+                    id="sampleBtn">
+
+                    Start with our sample ↗
+
+                </button>
+
+            </div>
+
+
+            <h3>
+                Why sleep helps memory · Cognitive science
+            </h3>
+
+
+            <p>
+                Sleep is not simply a period when the brain switches off.
+                During sleep, the brain processes and reorganizes information
+                gathered during waking hours. This process helps strengthen
+                certain memories and makes them easier to retrieve later.
+            </p>
+
+        </div>
+
+
+        <!-- GENERATE -->
+
+        <button
+            class="generate-btn"
+            id="generateBtn"
+            disabled>
+
+            <span class="button-content">
+
+                Make it make sense
+
+                <span>↗</span>
+
+            </span>
+
+        </button>
+
+    </section>
+
+
+    <!-- LOADING -->
+
+    <div
+        class="loading"
+        id="loading">
+
+        <div class="loader"></div>
+
+        <strong>
+            Turning notes into something useful...
+        </strong>
+
+        <span>
+            Gemini is finding the signal.
+        </span>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+        class="error"
+        id="error"></div>
+
+
+    <!-- ===================================================
+         RESULTS
+    =================================================== -->
+
+    <section
+        class="results"
+        id="results">
+
+        <div class="results-heading">
+
+            <div class="eyebrow">
+
+                <span class="eyebrow-dot"></span>
+
+                YOUR GUIDE
+
+            </div>
+
+            <h2>
+                Less studying.
+                Better remembering.
+            </h2>
+
+            <p>
+                Everything you need from the material,
+                without the six-hour study session.
+            </p>
+
+        </div>
+
+
+        <!-- TABS -->
+
+        <div class="tabs">
+
+            <button
+                class="tab active"
+                data-tab="gist">
+                The gist
+            </button>
+
+            <button
+                class="tab"
+                data-tab="keypoints">
+                Key points
+            </button>
+
+            <button
+                class="tab"
+                data-tab="flashcards">
+                Flashcards
+            </button>
+
+            <button
+                class="tab"
+                data-tab="wild">
+                In the wild
+            </button>
+
+            <button
+                class="tab"
+                data-tab="quiz">
+                Quick quiz
+            </button>
+
+        </div>
+
+
+        <!-- GIST -->
+
+        <div
+            class="tab-panel active"
+            id="panel-gist">
+
+            <div class="content-card">
+
+                <h3>
+                    If you remember one thing...
+                </h3>
+
+                <div
+                    class="summary-text"
+                    id="summaryOutput"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- KEY POINTS -->
+
+        <div
+            class="tab-panel"
+            id="panel-keypoints">
+
+            <div class="content-card">
+
+                <h3>
+                    The bits worth keeping.
+                </h3>
+
+                <ul
+                    class="point-list"
+                    id="keyPointsOutput"></ul>
+
+            </div>
+
+        </div>
+
+
+        <!-- FLASHCARDS -->
+
+        <div
+            class="tab-panel"
+            id="panel-flashcards">
+
+            <div class="flashcard-area">
+
+                <div
+                    class="flashcard"
+                    id="flashcard">
+
+                    <div class="card-face front">
+
+                        <div class="card-label">
+                            QUESTION
+                        </div>
+
+                        <div
+                            class="card-question"
+                            id="flashQuestion">
+                            —
+                        </div>
+
+                        <div class="card-hint">
+                            TAP TO FLIP
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-face back">
+
+                        <div class="card-label">
+                            ANSWER
+                        </div>
+
+                        <div
+                            class="card-answer"
+                            id="flashAnswer">
+                            —
+                        </div>
+
+                        <div class="card-hint">
+                            TAP TO FLIP BACK
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="flash-controls">
+
+                <button
+                    class="round-btn"
+                    id="prevCard">
+                    ←
+                </button>
+
+                <div
+                    class="card-count"
+                    id="cardCount">
+                    1 / 1
+                </div>
+
+                <button
+                    class="round-btn"
+                    id="nextCard">
+                    →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- EXAMPLES -->
+
+        <div
+            class="tab-panel"
+            id="panel-wild">
+
+            <div class="content-card">
+
+                <h3>
+                    Where this shows up in real life.
+                </h3>
+
+                <div
+                    class="example-grid"
+                    id="examplesOutput"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUIZ -->
+
+        <div
+            class="tab-panel"
+            id="panel-quiz">
+
+            <div class="content-card">
+
+                <div id="quizOutput"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <strong>The Lazy Student</strong>
+        · Your notes are sent to the AI only when you press
+        "Make it make sense."
+
+    </footer>
+
+</main>
+
+
+<script>
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const MAX_CHARS = 18000;
+const MIN_CHARS = 40;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const sourceText = document.getElementById("sourceText");
+const charCount = document.getElementById("charCount");
+const generateBtn = document.getElementById("generateBtn");
+
+const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("fileName");
+
+const sampleBtn = document.getElementById("sampleBtn");
+
+const loading = document.getElementById("loading");
+const errorBox = document.getElementById("error");
+
+const results = document.getElementById("results");
+
+const drawer = document.getElementById("drawer");
+const drawerOverlay = document.getElementById("drawerOverlay");
+const menuBtn = document.getElementById("menuBtn");
+const closeDrawer = document.getElementById("closeDrawer");
+
+
+/* =========================================================
+   SAMPLE
+========================================================= */
+
+const sampleText = `
+Why sleep helps memory
+
+Sleep is not simply a period when the brain switches off.
+During sleep, the brain processes and reorganizes information
+gathered during waking hours.
+
+This process helps strengthen certain memories and makes them
+easier to retrieve later.
+
+Researchers often describe memory as having several stages.
+Information is first encoded while we are awake. During sleep,
+some of these memories are consolidated, meaning their neural
+representations become more stable.
+
+Deep sleep appears to be especially important for certain forms
+of declarative memory, while REM sleep may contribute to emotional
+and procedural learning.
+
+This is one reason studying for a short period and then getting
+proper sleep can sometimes be more effective than staying awake
+all night trying to cram.
+
+The basic idea is simple: sleep gives the brain time to work on
+what you learned.
+`.trim();
+
+
+sampleBtn.addEventListener("click", () => {
+
+    sourceText.value = sampleText;
+
+    updateInputState();
+
+    sourceText.focus();
+
+});
+
+
+/* =========================================================
+   INPUT STATE
+========================================================= */
+
+function updateInputState() {
+
+    const text = sourceText.value.trim();
+
+    charCount.textContent = sourceText.value.length.toLocaleString();
+
+    generateBtn.disabled = text.length < MIN_CHARS;
+
+    if (text.length > MAX_CHARS) {
+
+        sourceText.value =
+            sourceText.value.substring(0, MAX_CHARS);
+
+    }
+
+}
+
+
+sourceText.addEventListener(
+    "input",
+    updateInputState
+);
+
+
+/* =========================================================
+   FILE UPLOAD
+========================================================= */
+
+fileInput.addEventListener("change", async event => {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    fileName.textContent = file.name;
+
+    try {
+
+        let text = "";
+
+        const name = file.name.toLowerCase();
+
+        if (
+            file.type === "text/plain" ||
+            file.type === "text/markdown" ||
+            name.endsWith(".txt") ||
+            name.endsWith(".md")
+        ) {
+
+            text = await file.text();
+
+        }
+
+        else if (
+            file.type === "application/pdf" ||
+            name.endsWith(".pdf")
+        ) {
+
+            text = await extractPDF(file);
+
+        }
+
+        else if (
+            name.endsWith(".docx") ||
+            file.type ===
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ) {
+
+            text = await extractDOCX(file);
+
+        }
+
+        else {
+
+            throw new Error(
+                "Please upload a TXT, MD, PDF, or DOCX file."
+            );
+
+        }
+
+
+        if (!text.trim()) {
+
+            throw new Error(
+                "I couldn't find readable text in that file."
+            );
+
+        }
+
+
+        sourceText.value =
+            text.substring(0, MAX_CHARS);
+
+        updateInputState();
+
+    }
+
+    catch (err) {
+
+        showError(
+            err.message || "Could not read that file."
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   PDF EXTRACTION
+========================================================= */
+
+async function extractPDF(file) {
+
+    const arrayBuffer =
+        await file.arrayBuffer();
+
+    const pdf =
+        await pdfjsLib.getDocument({
+            data: arrayBuffer
+        }).promise;
+
+    let output = "";
+
+    for (
+        let pageNumber = 1;
+        pageNumber <= pdf.numPages;
+        pageNumber++
+    ) {
+
+        const page =
+            await pdf.getPage(pageNumber);
+
+        const content =
+            await page.getTextContent();
+
+        const pageText =
+            content.items
+                .map(item => item.str)
+                .join(" ");
+
+        output +=
+            `\n\n--- Page ${pageNumber} ---\n\n`
+            + pageText;
+
+        if (output.length >= MAX_CHARS) break;
+
+    }
+
+    return output.trim();
+
+}
+
+
+/* =========================================================
+   DOCX EXTRACTION
+========================================================= */
+
+async function extractDOCX(file) {
+
+    const arrayBuffer =
+        await file.arrayBuffer();
+
+    const result =
+        await mammoth.extractRawText({
+            arrayBuffer
+        });
+
+    return result.value.trim();
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(message) {
+
+    errorBox.textContent = message;
+
+    errorBox.classList.add("show");
+
+    window.scrollTo({
+        top: errorBox.offsetTop - 100,
+        behavior: "smooth"
+    });
+
+}
+
+
+function clearError() {
+
+    errorBox.textContent = "";
+
+    errorBox.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   GENERATE
+========================================================= */
+
+generateBtn.addEventListener("click", generateStudyGuide);
+
+
+async function generateStudyGuide() {
+
+    clearError();
+
+    const text =
+        sourceText.value.trim();
+
+    if (text.length < MIN_CHARS) {
+
+        showError(
+            `Please give me at least ${MIN_CHARS} characters of material.`
+        );
+
+        return;
+
+    }
+
+
+    if (text.length > MAX_CHARS) {
+
+        showError(
+            `Your material is too long. Please keep it below ${MAX_CHARS.toLocaleString()} characters.`
+        );
+
+        return;
+
+    }
+
+
+    generateBtn.disabled = true;
+
+    loading.classList.add("show");
+
+    results.classList.remove("show");
+
+
+    try {
+
+        const response =
+            await fetch("/api/generate", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    text
+                })
+
+            });
+
+
+        let data;
+
+        try {
+
+            data = await response.json();
+
+        }
+
+        catch {
+
+            throw new Error(
+                "The server returned an invalid response."
+            );
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Something went wrong while generating your study guide."
+            );
+
+        }
+
+
+        validateResult(data);
+
+        renderResults(data);
+
+        results.classList.add("show");
+
+        setActiveTab("gist");
+
+        setTimeout(() => {
+
+            results.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }, 100);
+
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        showError(
+            err.message ||
+            "Something went wrong. Please try again."
+        );
+
+    }
+
+    finally {
+
+        loading.classList.remove("show");
+
+        generateBtn.disabled =
+            sourceText.value.trim().length < MIN_CHARS;
+
+    }
+
+}
+
+
+/* =========================================================
+   VALIDATE AI RESULT
+========================================================= */
+
+function validateResult(data) {
+
+    if (
+        !data ||
+        typeof data.summary !== "string" ||
+        !Array.isArray(data.keyPoints) ||
+        !Array.isArray(data.flashcards) ||
+        !Array.isArray(data.examples) ||
+        !Array.isArray(data.quiz)
+    ) {
+
+        throw new Error(
+            "The AI returned an unexpected format. Please try again."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER RESULTS
+========================================================= */
+
+let studyData = null;
+
+function renderResults(data) {
+
+    studyData = data;
+
+    document.getElementById(
+        "summaryOutput"
+    ).textContent = data.summary;
+
+
+    /* KEY POINTS */
+
+    const keyPointsOutput =
+        document.getElementById("keyPointsOutput");
+
+    keyPointsOutput.innerHTML = "";
+
+    data.keyPoints.forEach((point, index) => {
+
+        const li =
+            document.createElement("li");
+
+        li.innerHTML = `
+            <span class="point-number">
+                ${String(index + 1).padStart(2, "0")}
+            </span>
+
+            <span>
+                ${escapeHTML(point)}
+            </span>
+        `;
+
+        keyPointsOutput.appendChild(li);
+
+    });
+
+
+    /* FLASHCARDS */
+
+    flashIndex = 0;
+
+    renderFlashcard();
+
+
+    /* EXAMPLES */
+
+    const examplesOutput =
+        document.getElementById("examplesOutput");
+
+    examplesOutput.innerHTML = "";
+
+    data.examples.forEach(example => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "example-card";
+
+        card.innerHTML = `
+            <div class="example-concept">
+                ${escapeHTML(example.concept || "CONCEPT")}
+            </div>
+
+            <h4>
+                ${escapeHTML(example.example || "")}
+            </h4>
+
+            <p class="example-why">
+                ${escapeHTML(example.whyItMatters || "")}
+            </p>
+        `;
+
+        examplesOutput.appendChild(card);
+
+    });
+
+
+    /* QUIZ */
+
+    quizIndex = 0;
+    quizScore = 0;
+
+    renderQuiz();
+
+}
+
+
+/* =========================================================
+   FLASHCARDS
+========================================================= */
+
+let flashIndex = 0;
+
+const flashcard =
+    document.getElementById("flashcard");
+
+flashcard.addEventListener("click", () => {
+
+    flashcard.classList.toggle("flipped");
+
+});
+
+
+document.getElementById("prevCard")
+    .addEventListener("click", event => {
+
+        event.stopPropagation();
+
+        if (!studyData) return;
+
+        flashIndex--;
+
+        if (flashIndex < 0) {
+
+            flashIndex =
+                studyData.flashcards.length - 1;
+
+        }
+
+        renderFlashcard();
+
+    });
+
+
+document.getElementById("nextCard")
+    .addEventListener("click", event => {
+
+        event.stopPropagation();
+
+        if (!studyData) return;
+
+        flashIndex++;
+
+        if (
+            flashIndex >=
+            studyData.flashcards.length
+        ) {
+
+            flashIndex = 0;
+
+        }
+
+        renderFlashcard();
+
+    });
+
+
+function renderFlashcard() {
+
+    if (
+        !studyData ||
+        !studyData.flashcards.length
+    ) return;
+
+
+    const card =
+        studyData.flashcards[flashIndex];
+
+
+    flashcard.classList.remove("flipped");
+
+
+    document.getElementById(
+        "flashQuestion"
+    ).textContent =
+        card.question || "";
+
+
+    document.getElementById(
+        "flashAnswer"
+    ).textContent =
+        card.answer || "";
+
+
+    document.getElementById(
+        "cardCount"
+    ).textContent =
+        `${flashIndex + 1} / ${studyData.flashcards.length}`;
+
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+let quizIndex = 0;
+let quizScore = 0;
+
+
+function renderQuiz() {
+
+    const output =
+        document.getElementById("quizOutput");
+
+    if (
+        !studyData ||
+        !studyData.quiz.length
+    ) {
+
+        output.innerHTML = `
+            <div class="quiz-score">
+                <strong>No quiz questions were generated.</strong>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    if (
+        quizIndex >=
+        studyData.quiz.length
+    ) {
+
+        renderQuizScore();
+
+        return;
+
+    }
+
+
+    const question =
+        studyData.quiz[quizIndex];
+
+
+    output.innerHTML = `
+
+        <div class="quiz-question">
+
+            <div class="quiz-number">
+                QUESTION ${quizIndex + 1}
+                / ${studyData.quiz.length}
+            </div>
+
+            <h3>
+                ${escapeHTML(question.question)}
+            </h3>
+
+        </div>
+
+
+        <div class="options">
+
+            ${question.options
+                .map((option, index) => `
+
+                    <button
+                        class="option"
+                        data-option="${index}">
+
+                        ${escapeHTML(option)}
+
+                    </button>
+
+                `)
+                .join("")}
+
+        </div>
+
+
+        <div
+            class="quiz-explanation"
+            id="quizExplanation">
+        </div>
+
+
+        <button
+            class="quiz-next"
+            id="quizNext"
+            style="display:none;">
+
+            ${quizIndex === studyData.quiz.length - 1
+                ? "See my score"
+                : "Next question"}
+
+        </button>
+    `;
+
+
+    output
+        .querySelectorAll(".option")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => answerQuiz(
+                    Number(button.dataset.option)
+                )
+            );
+
+        });
+
+
+    document
+        .getElementById("quizNext")
+        .addEventListener(
+            "click",
+            () => {
+
+                quizIndex++;
+
+                renderQuiz();
+
+            }
+        );
+
+}
+
+
+function answerQuiz(selected) {
+
+    const question =
+        studyData.quiz[quizIndex];
+
+    const buttons =
+        document.querySelectorAll(".option");
+
+    buttons.forEach(button => {
+
+        button.disabled = true;
+
+    });
+
+
+    buttons.forEach((button, index) => {
+
+        if (
+            index ===
+            Number(question.answer)
+        ) {
+
+            button.classList.add("correct");
+
+        }
+
+        if (
+            index === selected &&
+            selected !== Number(question.answer)
+        ) {
+
+            button.classList.add("wrong");
+
+        }
+
+    });
+
+
+    if (
+        selected ===
+        Number(question.answer)
+    ) {
+
+        quizScore++;
+
+    }
+
+
+    const explanation =
+        document.getElementById(
+            "quizExplanation"
+        );
+
+    explanation.textContent =
+        question.explanation ||
+        "That's the key idea to remember.";
+
+    explanation.classList.add("show");
+
+
+    document
+        .getElementById("quizNext")
+        .style.display = "block";
+
+}
+
+
+function renderQuizScore() {
+
+    const output =
+        document.getElementById("quizOutput");
+
+    const total =
+        studyData.quiz.length;
+
+    const percentage =
+        Math.round(
+            (quizScore / total) * 100
+        );
+
+
+    let message;
+
+    if (percentage >= 80) {
+
+        message = "Okay, you actually know this.";
+
+    }
+
+    else if (percentage >= 50) {
+
+        message = "Not bad. One more pass should do it.";
+
+    }
+
+    else {
+
+        message = "Your brain wants another ten minutes.";
+
+    }
+
+
+    output.innerHTML = `
+
+        <div class="quiz-score">
+
+            <div class="quiz-score-number">
+                ${quizScore}/${total}
+            </div>
+
+            <strong>
+                ${percentage}%
+            </strong>
+
+            <p>
+                ${message}
+            </p>
+
+            <button
+                class="quiz-next"
+                id="retakeQuiz">
+
+                Try again
+
+            </button>
+
+        </div>
+    `;
+
+
+    document
+        .getElementById("retakeQuiz")
+        .addEventListener(
+            "click",
+            () => {
+
+                quizIndex = 0;
+                quizScore = 0;
+
+                renderQuiz();
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+document
+    .querySelectorAll(".tab")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                setActiveTab(
+                    button.dataset.tab
+                );
+
+            }
+        );
+
+    });
+
+
+document
+    .querySelectorAll(".drawer-link")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                setActiveTab(
+                    button.dataset.tab
+                );
+
+                closeMenu();
+
+                if (studyData) {
+
+                    results.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }
+
+            }
+        );
+
+    });
+
+
+function setActiveTab(tabName) {
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.tab === tabName
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(".drawer-link")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.tab === tabName
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(".tab-panel")
+        .forEach(panel => {
+
+            panel.classList.remove("active");
+
+        });
+
+
+    const panel =
+        document.getElementById(
+            `panel-${tabName}`
+        );
+
+    if (panel) {
+
+        panel.classList.add("active");
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAWER
+========================================================= */
+
+menuBtn.addEventListener(
+    "click",
+    openMenu
+);
+
+
+closeDrawer.addEventListener(
+    "click",
+    closeMenu
+);
+
+
+drawerOverlay.addEventListener(
+    "click",
+    closeMenu
+);
+
+
+function openMenu() {
+
+    drawer.classList.add("open");
+
+    drawerOverlay.classList.add("open");
+
+    document.body.style.overflow = "hidden";
+
+}
+
+
+function closeMenu() {
+
+    drawer.classList.remove("open");
+
+    drawerOverlay.classList.remove("open");
+
+    document.body.style.overflow = "";
+
+}
+
+
+/* =========================================================
+   ESCAPE KEY
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Escape") {
+
+            closeMenu();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HTML ESCAPE
+========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+updateInputState();
+
+</script>
+
+</body>
+</html>
