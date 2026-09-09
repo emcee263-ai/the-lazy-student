@@ -265,7 +265,7 @@
       right: 0;
       bottom: 0;
 
-      width: min(78vw, 360px);
+      width: min(82vw, 380px);
 
       background: var(--navy);
 
@@ -295,7 +295,7 @@
       align-items: center;
       justify-content: space-between;
 
-      margin-bottom: 38px;
+      margin-bottom: 31px;
     }
 
     .drawer-brand {
@@ -398,9 +398,230 @@
       color: var(--yellow);
     }
 
+    /* =========================================================
+       RECENT STUDY
+    ========================================================= */
+
+    .recent-study {
+      margin-top: 31px;
+    }
+
+    .recent-study-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 11px;
+    }
+
+    .recent-study-label {
+      font-family: "DM Mono", monospace;
+
+      color: var(--yellow);
+
+      font-size: 9px;
+      letter-spacing: 0.12em;
+    }
+
+    .recent-study-count {
+      font-family: "DM Mono", monospace;
+
+      color: #9691aa;
+
+      font-size: 8px;
+    }
+
+    .recent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .recent-empty {
+      padding: 14px 12px;
+
+      background: rgba(255,255,255,0.035);
+
+      border: 1px dashed rgba(255,255,255,0.10);
+
+      border-radius: 10px;
+
+      color: #aaa6b7;
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 8px;
+
+      line-height: 1.6;
+    }
+
+    .recent-item {
+      position: relative;
+
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+
+      gap: 9px;
+
+      padding: 10px;
+
+      background: rgba(255,255,255,0.045);
+
+      border: 1px solid transparent;
+
+      border-radius: 10px;
+
+      color: white;
+
+      text-align: left;
+
+      transition:
+        background var(--transition),
+        border var(--transition);
+    }
+
+    .recent-item:hover {
+      background: var(--navy-2);
+
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .recent-item.current {
+      background: var(--navy-2);
+
+      border-color: rgba(246,197,77,0.35);
+    }
+
+    .recent-icon {
+      width: 30px;
+      height: 30px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      background: rgba(246,197,77,0.13);
+
+      border-radius: 8px;
+
+      color: var(--yellow);
+
+      font-size: 12px;
+    }
+
+    .recent-content {
+      min-width: 0;
+
+      flex: 1;
+    }
+
+    .recent-title {
+      overflow: hidden;
+
+      color: #f4f1f7;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .recent-meta {
+      margin-top: 4px;
+
+      overflow: hidden;
+
+      color: #9691aa;
+
+      font-family: "DM Mono", monospace;
+
+      font-size: 7px;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .recent-delete {
+      width: 27px;
+      height: 27px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      background: transparent;
+
+      border-radius: 50%;
+
+      color: #9691aa;
+
+      font-size: 14px;
+
+      opacity: 0.7;
+
+      transition:
+        background var(--transition),
+        color var(--transition);
+    }
+
+    .recent-delete:hover {
+      background: rgba(211,95,88,0.16);
+
+      color: #ef958c;
+
+      opacity: 1;
+    }
+
+    .new-study-button {
+      width: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+
+      margin-top: 9px;
+
+      padding: 11px;
+
+      background: var(--yellow);
+
+      color: var(--ink);
+
+      border-radius: 10px;
+
+      font-size: 10px;
+      font-weight: 800;
+
+      transition:
+        transform var(--transition),
+        background var(--transition);
+    }
+
+    .new-study-button:hover {
+      background: #f8ce62;
+
+      transform: translateY(-1px);
+    }
+
+    .new-study-button:active {
+      transform: translateY(1px);
+    }
+
+    .new-study-plus {
+      font-size: 14px;
+      line-height: 1;
+    }
+
     .drawer-bottom {
       margin-top: auto;
-      padding-top: 35px;
+      padding-top: 30px;
     }
 
     .promise-card {
@@ -1507,22 +1728,6 @@
     }
 
     /* =========================================================
-       EMPTY STATE
-    ========================================================= */
-
-    .empty-state {
-      padding: 25px 15px;
-
-      color: var(--ink-faint);
-
-      text-align: center;
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 9px;
-    }
-
-    /* =========================================================
        FOOTER
     ========================================================= */
 
@@ -1618,6 +1823,7 @@
       .quiz-question {
         font-size: 17px;
       }
+
     }
 
   </style>
@@ -1713,6 +1919,10 @@
     </div>
 
 
+    <!-- =====================================================
+         YOUR GUIDE
+    ====================================================== -->
+
     <div class="drawer-label">
       YOUR GUIDE
     </div>
@@ -1762,6 +1972,63 @@
 
     </nav>
 
+
+    <!-- =====================================================
+         RECENT STUDY
+    ====================================================== -->
+
+    <section class="recent-study">
+
+      <div class="recent-study-heading">
+
+        <div class="recent-study-label">
+          RECENT STUDY
+        </div>
+
+        <div
+          class="recent-study-count"
+          id="recentStudyCount"
+        >
+          0 SAVED
+        </div>
+
+      </div>
+
+
+      <div
+        class="recent-list"
+        id="recentList"
+      >
+
+        <div class="recent-empty">
+          Your generated guides will appear here.
+        </div>
+
+      </div>
+
+
+      <button
+        class="new-study-button"
+        id="newStudyButton"
+        type="button"
+      >
+
+        <span class="new-study-plus">
+          +
+        </span>
+
+        <span>
+          New study
+        </span>
+
+      </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROMISE
+    ====================================================== -->
 
     <div class="drawer-bottom">
 
@@ -2059,7 +2326,10 @@
             YOUR STUDY GUIDE
           </div>
 
-          <h2 class="results-title">
+          <h2
+            class="results-title"
+            id="resultsTitle"
+          >
             Okay. Now it makes sense.
           </h2>
 
@@ -2115,9 +2385,7 @@
         </div>
 
 
-        <!-- =================================================
-             GIST
-        ================================================== -->
+        <!-- GIST -->
 
         <div
           class="result-panel active"
@@ -2140,9 +2408,7 @@
         </div>
 
 
-        <!-- =================================================
-             KEY POINTS
-        ================================================== -->
+        <!-- KEY POINTS -->
 
         <div
           class="result-panel"
@@ -2165,9 +2431,7 @@
         </div>
 
 
-        <!-- =================================================
-             FLASHCARDS
-        ================================================== -->
+        <!-- FLASHCARDS -->
 
         <div
           class="result-panel"
@@ -2190,9 +2454,7 @@
         </div>
 
 
-        <!-- =================================================
-             EXAMPLES
-        ================================================== -->
+        <!-- EXAMPLES -->
 
         <div
           class="result-panel"
@@ -2215,9 +2477,7 @@
         </div>
 
 
-        <!-- =================================================
-             QUIZ
-        ================================================== -->
+        <!-- QUIZ -->
 
         <div
           class="result-panel"
@@ -2323,9 +2583,7 @@
   </main>
 
 
-  <!-- =======================================================
-       FOOTER
-  ======================================================== -->
+  <!-- FOOTER -->
 
   <footer>
 
@@ -2400,6 +2658,9 @@
   const results =
     document.getElementById("results");
 
+  const resultsTitle =
+    document.getElementById("resultsTitle");
+
   const summary =
     document.getElementById("summary");
 
@@ -2450,6 +2711,15 @@
 
   const resultsMode =
     document.getElementById("resultsMode");
+
+  const recentList =
+    document.getElementById("recentList");
+
+  const recentStudyCount =
+    document.getElementById("recentStudyCount");
+
+  const newStudyButton =
+    document.getElementById("newStudyButton");
 
 
   /* =========================================================
@@ -2508,62 +2778,1058 @@
 
 
   /* =========================================================
+     LOCAL STORAGE
+  ========================================================= */
+
+  const STORAGE_KEY =
+    "lazyStudent.sessions";
+
+
+  const MAX_SAVED_SESSIONS =
+    20;
+
+
+  let sessions = [];
+
+  let currentSessionId = null;
+
+
+  function loadSessionsFromStorage() {
+
+    try {
+
+      const saved =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+
+      if (!saved) {
+
+        sessions = [];
+
+        return;
+
+      }
+
+
+      const parsed =
+        JSON.parse(saved);
+
+
+      if (Array.isArray(parsed)) {
+
+        sessions = parsed;
+
+      } else {
+
+        sessions = [];
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        "Could not load saved study sessions.",
+        error
+      );
+
+      sessions = [];
+
+    }
+
+  }
+
+
+  function saveSessionsToStorage() {
+
+    try {
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(sessions)
+      );
+
+      return true;
+
+    } catch (error) {
+
+      console.warn(
+        "Could not save study sessions.",
+        error
+      );
+
+      showError(
+        "Your browser could not save this study session. You can still use it for this visit."
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  function createSessionId() {
+
+    return (
+      "session_" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .slice(2, 9)
+    );
+
+  }
+
+
+  function createSessionTitle(text) {
+
+    const cleaned =
+      text
+        .replace(/\s+/g, " ")
+        .trim();
+
+
+    if (!cleaned) {
+
+      return "Untitled study";
+
+    }
+
+
+    /*
+      Prefer the first sentence/line because
+      students often start notes with the topic.
+    */
+
+    const firstPart =
+      cleaned
+        .split(/[.!?]\s+|\n/)
+        .find(part => part.trim().length > 2);
+
+
+    let title =
+      firstPart ||
+      cleaned;
+
+
+    title =
+      title
+        .replace(/^[-•*#\d.)\s]+/, "")
+        .trim();
+
+
+    if (title.length > 55) {
+
+      title =
+        title.slice(0, 55).trim() +
+        "…";
+
+    }
+
+
+    return title ||
+      "Untitled study";
+
+  }
+
+
+  function getModeName(mode) {
+
+    const names = {
+
+      quick: "Quick",
+      standard: "Standard",
+      deep: "Deep"
+
+    };
+
+
+    return names[mode] ||
+      "Standard";
+
+  }
+
+
+  function formatSessionDate(timestamp) {
+
+    if (!timestamp) {
+
+      return "";
+
+    }
+
+
+    try {
+
+      const date =
+        new Date(timestamp);
+
+
+      return date.toLocaleDateString(
+        undefined,
+        {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        }
+      );
+
+    } catch {
+
+      return "";
+
+    }
+
+  }
+
+
+  function saveCurrentSession() {
+
+    if (
+      !studyData ||
+      !currentSessionId
+    ) {
+
+      return;
+
+    }
+
+
+    const existingIndex =
+      sessions.findIndex(
+        session =>
+          session.id === currentSessionId
+      );
+
+
+    if (existingIndex === -1) {
+
+      return;
+
+    }
+
+
+    const existing =
+      sessions[existingIndex];
+
+
+    sessions[existingIndex] = {
+
+      ...existing,
+
+      sourceText:
+        sourceText.value,
+
+      mode:
+        selectedStudyMode,
+
+      guide:
+        studyData,
+
+      quiz: {
+
+        index:
+          quizIndex,
+
+        score:
+          quizScore,
+
+        answered:
+          quizAnswered,
+
+        finished:
+          quizFinal.classList.contains(
+            "visible"
+          )
+
+      },
+
+      updatedAt:
+        new Date().toISOString()
+
+    };
+
+
+    /*
+      Put the active session at the top.
+    */
+
+    const updatedSession =
+      sessions[existingIndex];
+
+
+    sessions.splice(
+      existingIndex,
+      1
+    );
+
+
+    sessions.unshift(
+      updatedSession
+    );
+
+
+    saveSessionsToStorage();
+
+    renderRecentSessions();
+
+  }
+
+
+  function createAndSaveSession() {
+
+    if (!studyData) {
+
+      return;
+
+    }
+
+
+    const now =
+      new Date().toISOString();
+
+
+    const session = {
+
+      id:
+        createSessionId(),
+
+      title:
+        createSessionTitle(
+          sourceText.value
+        ),
+
+      sourceText:
+        sourceText.value,
+
+      mode:
+        selectedStudyMode,
+
+      guide:
+        studyData,
+
+      quiz: {
+
+        index:
+          quizIndex,
+
+        score:
+          quizScore,
+
+        answered:
+          quizAnswered,
+
+        finished:
+          false
+
+      },
+
+      createdAt:
+        now,
+
+      updatedAt:
+        now
+
+    };
+
+
+    currentSessionId =
+      session.id;
+
+
+    /*
+      Newest sessions appear first.
+    */
+
+    sessions.unshift(
+      session
+    );
+
+
+    /*
+      Prevent localStorage from growing
+      indefinitely.
+    */
+
+    if (
+      sessions.length >
+      MAX_SAVED_SESSIONS
+    ) {
+
+      sessions =
+        sessions.slice(
+          0,
+          MAX_SAVED_SESSIONS
+        );
+
+    }
+
+
+    saveSessionsToStorage();
+
+    renderRecentSessions();
+
+  }
+
+
+  function openSavedSession(sessionId) {
+
+    const session =
+      sessions.find(
+        item =>
+          item.id === sessionId
+      );
+
+
+    if (!session) {
+
+      return;
+
+    }
+
+
+    if (
+      !session.guide
+    ) {
+
+      return;
+
+    }
+
+
+    currentSessionId =
+      session.id;
+
+
+    sourceText.value =
+      session.sourceText ||
+      "";
+
+
+    selectedStudyMode =
+      session.mode ||
+      "standard";
+
+
+    updateStudyModeUI();
+
+
+    studyData =
+      session.guide;
+
+
+    renderStudyGuide(
+      studyData
+    );
+
+
+    /*
+      Restore saved quiz position.
+    */
+
+    const savedQuiz =
+      session.quiz;
+
+
+    if (
+      savedQuiz &&
+      Number.isInteger(
+        Number(savedQuiz.index)
+      )
+    ) {
+
+      quizIndex =
+        Math.max(
+          0,
+          Math.min(
+            Number(savedQuiz.index),
+            Math.max(
+              0,
+              studyData.quiz.length - 1
+            )
+          )
+        );
+
+    }
+
+
+    if (
+      savedQuiz &&
+      Number.isInteger(
+        Number(savedQuiz.score)
+      )
+    ) {
+
+      quizScore =
+        Math.max(
+          0,
+          Number(savedQuiz.score)
+        );
+
+    }
+
+
+    const wasFinished =
+      Boolean(
+        savedQuiz &&
+        savedQuiz.finished
+      );
+
+
+    if (wasFinished) {
+
+      finishQuiz();
+
+    } else {
+
+      renderQuizQuestion();
+
+      /*
+        If the saved session was on a question
+        that had already been answered, show
+        the answer state again.
+      */
+
+      if (
+        savedQuiz &&
+        savedQuiz.answered
+      ) {
+
+        const question =
+          studyData.quiz[quizIndex];
+
+
+        const correctAnswer =
+          Number(question.answer);
+
+
+        const buttons =
+          document.querySelectorAll(
+            ".option"
+          );
+
+
+        buttons.forEach(button => {
+
+          button.disabled = true;
+
+
+          const index =
+            Number(
+              button.dataset.index
+            );
+
+
+          if (
+            index === correctAnswer
+          ) {
+
+            button.classList.add(
+              "correct"
+            );
+
+          }
+
+        });
+
+
+        quizAnswered =
+          true;
+
+
+        quizScoreElement.textContent =
+          `SCORE: ${quizScore}`;
+
+
+        quizExplanation.classList.add(
+          "visible"
+        );
+
+
+        if (
+          quizIndex <
+          studyData.quiz.length - 1
+        ) {
+
+          quizNext.textContent =
+            "Next question →";
+
+        } else {
+
+          quizNext.textContent =
+            "See my score →";
+
+        }
+
+
+        quizNext.classList.add(
+          "visible"
+        );
+
+      }
+
+    }
+
+
+    updateCharacterCount();
+
+
+    results.classList.add(
+      "visible"
+    );
+
+
+    showResultTab("gist");
+
+
+    renderRecentSessions();
+
+    closeDrawer();
+
+
+    results.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+
+    /*
+      Update last-opened time.
+    */
+
+    saveCurrentSession();
+
+  }
+
+
+  function deleteSavedSession(
+    sessionId
+  ) {
+
+    const session =
+      sessions.find(
+        item =>
+          item.id === sessionId
+      );
+
+
+    if (!session) {
+
+      return;
+
+    }
+
+
+    const confirmed =
+      window.confirm(
+        `Delete "${session.title}" from your saved studies?`
+      );
+
+
+    if (!confirmed) {
+
+      return;
+
+    }
+
+
+    sessions =
+      sessions.filter(
+        item =>
+          item.id !== sessionId
+      );
+
+
+    if (
+      currentSessionId === sessionId
+    ) {
+
+      currentSessionId =
+        null;
+
+    }
+
+
+    saveSessionsToStorage();
+
+    renderRecentSessions();
+
+  }
+
+
+  function renderRecentSessions() {
+
+    recentList.innerHTML = "";
+
+
+    recentStudyCount.textContent =
+      `${sessions.length} SAVED`;
+
+
+    if (!sessions.length) {
+
+      const empty =
+        document.createElement("div");
+
+
+      empty.className =
+        "recent-empty";
+
+
+      empty.textContent =
+        "Your generated guides will appear here.";
+
+
+      recentList.appendChild(
+        empty
+      );
+
+
+      return;
+
+    }
+
+
+    sessions.forEach(
+      session => {
+
+        const row =
+          document.createElement("div");
+
+
+        row.className =
+          "recent-item";
+
+
+        if (
+          session.id ===
+          currentSessionId
+        ) {
+
+          row.classList.add(
+            "current"
+          );
+
+        }
+
+
+        const openButton =
+          document.createElement("button");
+
+
+        openButton.type =
+          "button";
+
+
+        openButton.className =
+          "recent-item";
+
+
+        if (
+          session.id ===
+          currentSessionId
+        ) {
+
+          openButton.classList.add(
+            "current"
+          );
+
+        }
+
+
+        openButton.title =
+          "Open study session";
+
+
+        const icon =
+          document.createElement("span");
+
+
+        icon.className =
+          "recent-icon";
+
+
+        icon.textContent =
+          "◫";
+
+
+        const content =
+          document.createElement("span");
+
+
+        content.className =
+          "recent-content";
+
+
+        const title =
+          document.createElement("span");
+
+
+        title.className =
+          "recent-title";
+
+
+        title.textContent =
+          session.title ||
+          "Untitled study";
+
+
+        const meta =
+          document.createElement("span");
+
+
+        meta.className =
+          "recent-meta";
+
+
+        meta.textContent =
+          `${getModeName(session.mode)} · ${formatSessionDate(session.updatedAt || session.createdAt)}`;
+
+
+        content.appendChild(title);
+
+        content.appendChild(meta);
+
+
+        openButton.appendChild(icon);
+
+        openButton.appendChild(content);
+
+
+        openButton.addEventListener(
+          "click",
+          () => {
+
+            openSavedSession(
+              session.id
+            );
+
+          }
+        );
+
+
+        const deleteButton =
+          document.createElement("button");
+
+
+        deleteButton.type =
+          "button";
+
+
+        deleteButton.className =
+          "recent-delete";
+
+
+        deleteButton.textContent =
+          "×";
+
+
+        deleteButton.setAttribute(
+          "aria-label",
+          `Delete ${session.title}`
+        );
+
+
+        deleteButton.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+
+            deleteSavedSession(
+              session.id
+            );
+
+          }
+        );
+
+
+        row.appendChild(
+          openButton
+        );
+
+        row.appendChild(
+          deleteButton
+        );
+
+
+        recentList.appendChild(
+          row
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     NEW STUDY
+  ========================================================= */
+
+  newStudyButton.addEventListener(
+    "click",
+    startNewStudy
+  );
+
+
+  function startNewStudy() {
+
+    currentSessionId =
+      null;
+
+    studyData =
+      null;
+
+
+    sourceText.value =
+      "";
+
+
+    updateCharacterCount();
+
+
+    selectedStudyMode =
+      "standard";
+
+
+    updateStudyModeUI();
+
+
+    results.classList.remove(
+      "visible"
+    );
+
+
+    errorBox.classList.remove(
+      "visible"
+    );
+
+
+    quizIndex =
+      0;
+
+    quizScore =
+      0;
+
+    quizAnswered =
+      false;
+
+
+    showResultTab(
+      "gist"
+    );
+
+
+    renderRecentSessions();
+
+    closeDrawer();
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+
+    setTimeout(
+      () => sourceText.focus(),
+      250
+    );
+
+  }
+
+
+  /* =========================================================
      STUDY MODE
   ========================================================= */
 
-  let selectedStudyMode = "standard";
+  let selectedStudyMode =
+    "standard";
 
 
   const modeButtons =
-    document.querySelectorAll(".mode-option");
+    document.querySelectorAll(
+      ".mode-option"
+    );
 
 
-  modeButtons.forEach(button => {
+  const modeNames = {
 
-    button.addEventListener("click", () => {
+    quick: "QUICK",
+    standard: "STANDARD",
+    deep: "DEEP"
 
-      selectedStudyMode =
-        button.dataset.mode;
+  };
 
-      modeButtons.forEach(item => {
 
-        item.classList.toggle(
+  const modeButtonLabels = {
+
+    quick:
+      "⚡ Make it make sense · Quick",
+
+    standard:
+      "◎ Make it make sense · Standard",
+
+    deep:
+      "◉ Make it make sense · Deep"
+
+  };
+
+
+  function updateStudyModeUI() {
+
+    modeButtons.forEach(
+      button => {
+
+        button.classList.toggle(
           "selected",
-          item === button
+          button.dataset.mode ===
+            selectedStudyMode
         );
 
-      });
+      }
+    );
 
 
-      const names = {
-        quick: "QUICK",
-        standard: "STANDARD",
-        deep: "DEEP"
-      };
+    studyModeCurrent.textContent =
+      modeNames[
+        selectedStudyMode
+      ] ||
+      "STANDARD";
 
 
-      const labels = {
-        quick:
-          "⚡ Make it make sense · Quick",
+    generateButton.textContent =
+      modeButtonLabels[
+        selectedStudyMode
+      ] ||
+      modeButtonLabels.standard;
 
-        standard:
-          "◎ Make it make sense · Standard",
-
-        deep:
-          "◉ Make it make sense · Deep"
-      };
+  }
 
 
-      studyModeCurrent.textContent =
-        names[selectedStudyMode];
+  modeButtons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          selectedStudyMode =
+            button.dataset.mode;
 
 
-      generateButton.textContent =
-        labels[selectedStudyMode];
+          updateStudyModeUI();
 
-    });
+        }
+      );
 
-  });
+    }
+  );
 
 
   /* =========================================================
@@ -2580,6 +3846,7 @@
 
     const length =
       sourceText.value.length;
+
 
     characterCount.textContent =
       `${length.toLocaleString()} / 18,000`;
@@ -2611,6 +3878,7 @@ The Calvin cycle uses ATP and NADPH to help convert carbon dioxide into sugars.
 Photosynthesis is important because it provides the chemical energy that supports most food chains and releases oxygen into the atmosphere.
       `.trim();
 
+
       updateCharacterCount();
 
       sourceText.focus();
@@ -2634,7 +3902,12 @@ Photosynthesis is important because it provides the chemical energy that support
     const file =
       event.target.files[0];
 
-    if (!file) return;
+
+    if (!file) {
+
+      return;
+
+    }
 
 
     errorBox.classList.remove(
@@ -2659,11 +3932,14 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
       else if (
-        file.name.toLowerCase().endsWith(".docx")
+        file.name
+          .toLowerCase()
+          .endsWith(".docx")
       ) {
 
         if (
-          typeof mammoth === "undefined"
+          typeof mammoth ===
+          "undefined"
         ) {
 
           throw new Error(
@@ -2690,7 +3966,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
       else if (
-        file.name.toLowerCase().endsWith(".pdf")
+        file.name
+          .toLowerCase()
+          .endsWith(".pdf")
       ) {
 
         const arrayBuffer =
@@ -2708,12 +3986,15 @@ Photosynthesis is important because it provides the chemical energy that support
 
         for (
           let pageNumber = 1;
-          pageNumber <= pdf.numPages;
+          pageNumber <=
+          pdf.numPages;
           pageNumber++
         ) {
 
           const page =
-            await pdf.getPage(pageNumber);
+            await pdf.getPage(
+              pageNumber
+            );
 
 
           const content =
@@ -2722,17 +4003,23 @@ Photosynthesis is important because it provides the chemical energy that support
 
           const pageText =
             content.items
-              .map(item => item.str)
+              .map(
+                item => item.str
+              )
               .join(" ");
 
 
-          pages.push(pageText);
+          pages.push(
+            pageText
+          );
 
         }
 
 
         text =
-          pages.join("\n\n");
+          pages.join(
+            "\n\n"
+          );
 
       }
 
@@ -2762,10 +4049,16 @@ Photosynthesis is important because it provides the chemical energy that support
       }
 
 
-      if (text.length > 18000) {
+      if (
+        text.length >
+        18000
+      ) {
 
         text =
-          text.slice(0, 18000);
+          text.slice(
+            0,
+            18000
+          );
 
       }
 
@@ -2773,8 +4066,8 @@ Photosynthesis is important because it provides the chemical energy that support
       sourceText.value =
         text;
 
-      updateCharacterCount();
 
+      updateCharacterCount();
 
     } catch (error) {
 
@@ -2796,154 +4089,219 @@ Photosynthesis is important because it provides the chemical energy that support
   ========================================================= */
 
   const resultTabs =
-    document.querySelectorAll(".result-tab");
+    document.querySelectorAll(
+      ".result-tab"
+    );
+
 
   const resultPanels =
-    document.querySelectorAll(".result-panel");
+    document.querySelectorAll(
+      ".result-panel"
+    );
 
 
-  function showResultTab(tabName) {
+  function showResultTab(
+    tabName
+  ) {
 
-    resultTabs.forEach(tab => {
+    resultTabs.forEach(
+      tab => {
 
-      tab.classList.toggle(
-        "active",
-        tab.dataset.resultTab === tabName
-      );
-
-    });
-
-
-    resultPanels.forEach(panel => {
-
-      panel.classList.toggle(
-        "active",
-        panel.dataset.panel === tabName
-      );
-
-    });
-
-
-    document
-      .querySelectorAll(".drawer-nav-button")
-      .forEach(button => {
-
-        button.classList.toggle(
+        tab.classList.toggle(
           "active",
-          button.dataset.tab === tabName
-        );
-
-      });
-
-  }
-
-
-  resultTabs.forEach(tab => {
-
-    tab.addEventListener(
-      "click",
-      () => {
-
-        showResultTab(
-          tab.dataset.resultTab
+          tab.dataset.resultTab ===
+            tabName
         );
 
       }
     );
 
-  });
+
+    resultPanels.forEach(
+      panel => {
+
+        panel.classList.toggle(
+          "active",
+          panel.dataset.panel ===
+            tabName
+        );
+
+      }
+    );
 
 
-  document
-    .querySelectorAll(".drawer-nav-button")
-    .forEach(button => {
+    document
+      .querySelectorAll(
+        ".drawer-nav-button"
+      )
+      .forEach(
+        button => {
 
-      button.addEventListener(
-        "click",
-        () => {
-
-          const tab =
-            button.dataset.tab;
-
-          if (!results.classList.contains("visible")) {
-
-            closeDrawer();
-
-            return;
-
-          }
-
-
-          showResultTab(tab);
-
-          closeDrawer();
-
-
-          results.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
+          button.classList.toggle(
+            "active",
+            button.dataset.tab ===
+              tabName
+          );
 
         }
       );
 
-    });
+  }
+
+
+  resultTabs.forEach(
+    tab => {
+
+      tab.addEventListener(
+        "click",
+        () => {
+
+          showResultTab(
+            tab.dataset.resultTab
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  document
+    .querySelectorAll(
+      ".drawer-nav-button"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const tab =
+              button.dataset.tab;
+
+
+            if (
+              !results.classList.contains(
+                "visible"
+              )
+            ) {
+
+              closeDrawer();
+
+              return;
+
+            }
+
+
+            showResultTab(
+              tab
+            );
+
+
+            closeDrawer();
+
+
+            results.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+
+          }
+        );
+
+      }
+    );
 
 
   /* =========================================================
      VALIDATION
   ========================================================= */
 
-  function validateStudyData(data) {
+  function validateStudyData(
+    data
+  ) {
 
-    if (!data || typeof data !== "object") {
+    if (
+      !data ||
+      typeof data !== "object"
+    ) {
+
       return false;
+
     }
 
 
     if (
-      typeof data.summary !== "string" ||
+      typeof data.summary !==
+      "string" ||
       !data.summary.trim()
     ) {
+
       return false;
+
     }
 
 
     if (
-      !Array.isArray(data.keyPoints)
+      !Array.isArray(
+        data.keyPoints
+      )
     ) {
+
       return false;
+
     }
 
 
     if (
-      !Array.isArray(data.flashcards)
+      !Array.isArray(
+        data.flashcards
+      )
     ) {
+
       return false;
+
     }
 
 
     if (
-      !Array.isArray(data.examples)
+      !Array.isArray(
+        data.examples
+      )
     ) {
+
       return false;
+
     }
 
 
     if (
-      !Array.isArray(data.quiz)
+      !Array.isArray(
+        data.quiz
+      )
     ) {
+
       return false;
+
     }
 
 
-    for (const question of data.quiz) {
+    for (
+      const question of
+      data.quiz
+    ) {
 
       if (
         !question ||
-        typeof question.question !== "string" ||
-        !Array.isArray(question.options) ||
-        question.options.length !== 4
+        typeof question.question !==
+          "string" ||
+        !Array.isArray(
+          question.options
+        ) ||
+        question.options.length !==
+          4
       ) {
 
         return false;
@@ -2952,11 +4310,15 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
       const answer =
-        Number(question.answer);
+        Number(
+          question.answer
+        );
 
 
       if (
-        !Number.isInteger(answer) ||
+        !Number.isInteger(
+          answer
+        ) ||
         answer < 0 ||
         answer > 3
       ) {
@@ -2977,7 +4339,8 @@ Photosynthesis is important because it provides the chemical energy that support
      GENERATE
   ========================================================= */
 
-  let studyData = null;
+  let studyData =
+    null;
 
 
   generateButton.addEventListener(
@@ -2997,24 +4360,31 @@ Photosynthesis is important because it provides the chemical energy that support
     );
 
 
-    if (text.length < 40) {
+    if (
+      text.length < 40
+    ) {
 
       showError(
         "Give me at least 40 characters of material first."
       );
 
+
       sourceText.focus();
+
 
       return;
 
     }
 
 
-    if (text.length > 18000) {
+    if (
+      text.length > 18000
+    ) {
 
       showError(
         "That material is too long. Please keep it under 18,000 characters."
       );
+
 
       return;
 
@@ -3037,10 +4407,12 @@ Photosynthesis is important because it provides the chemical energy that support
                 "application/json"
             },
 
-            body: JSON.stringify({
-              text,
-              mode: selectedStudyMode
-            })
+            body:
+              JSON.stringify({
+                text,
+                mode:
+                  selectedStudyMode
+              })
           }
         );
 
@@ -3062,7 +4434,9 @@ Photosynthesis is important because it provides the chemical energy that support
       }
 
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
 
         throw new Error(
           data.error ||
@@ -3073,7 +4447,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
       if (
-        !validateStudyData(data)
+        !validateStudyData(
+          data
+        )
       ) {
 
         throw new Error(
@@ -3087,6 +4463,24 @@ Photosynthesis is important because it provides the chemical energy that support
         data;
 
 
+      /*
+        This is a brand-new generated study,
+        so create a persistent session.
+      */
+
+      quizIndex =
+        0;
+
+      quizScore =
+        0;
+
+      quizAnswered =
+        false;
+
+
+      createAndSaveSession();
+
+
       renderStudyGuide(
         studyData
       );
@@ -3094,6 +4488,11 @@ Photosynthesis is important because it provides the chemical energy that support
 
       results.classList.add(
         "visible"
+      );
+
+
+      showResultTab(
+        "gist"
       );
 
 
@@ -3123,7 +4522,9 @@ Photosynthesis is important because it provides the chemical energy that support
      LOADING
   ========================================================= */
 
-  function setLoading(isLoading) {
+  function setLoading(
+    isLoading
+  ) {
 
     generateButton.disabled =
       isLoading;
@@ -3135,29 +4536,19 @@ Photosynthesis is important because it provides the chemical energy that support
     );
 
 
-    if (isLoading) {
+    if (
+      isLoading
+    ) {
 
       generateButton.textContent =
         "Making it make sense...";
 
     } else {
 
-      const labels = {
-
-        quick:
-          "⚡ Make it make sense · Quick",
-
-        standard:
-          "◎ Make it make sense · Standard",
-
-        deep:
-          "◉ Make it make sense · Deep"
-
-      };
-
-
       generateButton.textContent =
-        labels[selectedStudyMode];
+        modeButtonLabels[
+          selectedStudyMode
+        ];
 
     }
 
@@ -3168,10 +4559,13 @@ Photosynthesis is important because it provides the chemical energy that support
      ERROR
   ========================================================= */
 
-  function showError(message) {
+  function showError(
+    message
+  ) {
 
     errorBox.textContent =
       message;
+
 
     errorBox.classList.add(
       "visible"
@@ -3184,7 +4578,9 @@ Photosynthesis is important because it provides the chemical energy that support
      RENDER STUDY GUIDE
   ========================================================= */
 
-  function renderStudyGuide(data) {
+  function renderStudyGuide(
+    data
+  ) {
 
     summary.textContent =
       data.summary;
@@ -3194,32 +4590,78 @@ Photosynthesis is important because it provides the chemical energy that support
        MODE
     ------------------------------------------------------- */
 
-    const modeNames = {
+    const modeDisplayNames = {
 
-      quick: "QUICK MODE",
-      standard: "STANDARD MODE",
-      deep: "DEEP MODE"
+      quick:
+        "QUICK MODE",
+
+      standard:
+        "STANDARD MODE",
+
+      deep:
+        "DEEP MODE"
 
     };
 
 
     resultsMode.textContent =
-      modeNames[selectedStudyMode] ||
+      modeDisplayNames[
+        selectedStudyMode
+      ] ||
       "STANDARD MODE";
+
+
+    /* -------------------------------------------------------
+       TITLE
+    ------------------------------------------------------- */
+
+    if (
+      currentSessionId
+    ) {
+
+      const session =
+        sessions.find(
+          item =>
+            item.id ===
+            currentSessionId
+        );
+
+
+      if (session) {
+
+        resultsTitle.textContent =
+          session.title;
+
+      } else {
+
+        resultsTitle.textContent =
+          "Okay. Now it makes sense.";
+
+      }
+
+    } else {
+
+      resultsTitle.textContent =
+        "Okay. Now it makes sense.";
+
+    }
 
 
     /* -------------------------------------------------------
        KEY POINTS
     ------------------------------------------------------- */
 
-    pointsList.innerHTML = "";
+    pointsList.innerHTML =
+      "";
 
 
     data.keyPoints.forEach(
       (point, index) => {
 
         const li =
-          document.createElement("li");
+          document.createElement(
+            "li"
+          );
 
 
         li.className =
@@ -3227,7 +4669,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         const number =
-          document.createElement("span");
+          document.createElement(
+            "span"
+          );
 
 
         number.className =
@@ -3235,11 +4679,18 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         number.textContent =
-          String(index + 1).padStart(2, "0");
+          String(
+            index + 1
+          ).padStart(
+            2,
+            "0"
+          );
 
 
         const text =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         text.className =
@@ -3250,11 +4701,19 @@ Photosynthesis is important because it provides the chemical energy that support
           point;
 
 
-        li.appendChild(number);
+        li.appendChild(
+          number
+        );
 
-        li.appendChild(text);
 
-        pointsList.appendChild(li);
+        li.appendChild(
+          text
+        );
+
+
+        pointsList.appendChild(
+          li
+        );
 
       }
     );
@@ -3264,14 +4723,17 @@ Photosynthesis is important because it provides the chemical energy that support
        FLASHCARDS
     ------------------------------------------------------- */
 
-    flashcards.innerHTML = "";
+    flashcards.innerHTML =
+      "";
 
 
     data.flashcards.forEach(
       card => {
 
         const element =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         element.className =
@@ -3335,14 +4797,17 @@ Photosynthesis is important because it provides the chemical energy that support
        EXAMPLES
     ------------------------------------------------------- */
 
-    examples.innerHTML = "";
+    examples.innerHTML =
+      "";
 
 
     data.examples.forEach(
       item => {
 
         const card =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         card.className =
@@ -3350,7 +4815,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         const concept =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         concept.className =
@@ -3362,7 +4829,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         const example =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         example.className =
@@ -3374,7 +4843,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         const why =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         why.className =
@@ -3382,14 +4853,18 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         const strong =
-          document.createElement("strong");
+          document.createElement(
+            "strong"
+          );
 
 
         strong.textContent =
           "Why it matters: ";
 
 
-        why.appendChild(strong);
+        why.appendChild(
+          strong
+        );
 
 
         why.appendChild(
@@ -3399,14 +4874,24 @@ Photosynthesis is important because it provides the chemical energy that support
         );
 
 
-        card.appendChild(concept);
-
-        card.appendChild(example);
-
-        card.appendChild(why);
+        card.appendChild(
+          concept
+        );
 
 
-        examples.appendChild(card);
+        card.appendChild(
+          example
+        );
+
+
+        card.appendChild(
+          why
+        );
+
+
+        examples.appendChild(
+          card
+        );
 
       }
     );
@@ -3416,11 +4901,14 @@ Photosynthesis is important because it provides the chemical energy that support
        QUIZ
     ------------------------------------------------------- */
 
-    quizIndex = 0;
+    quizIndex =
+      0;
 
-    quizScore = 0;
+    quizScore =
+      0;
 
-    quizAnswered = false;
+    quizAnswered =
+      false;
 
 
     quizFinal.classList.remove(
@@ -3434,9 +4922,11 @@ Photosynthesis is important because it provides the chemical energy that support
     quizOptions.style.display =
       "";
 
+
     quizExplanation.classList.remove(
       "visible"
     );
+
 
     quizNext.classList.remove(
       "visible"
@@ -3452,11 +4942,16 @@ Photosynthesis is important because it provides the chemical energy that support
      QUIZ STATE
   ========================================================= */
 
-  let quizIndex = 0;
+  let quizIndex =
+    0;
 
-  let quizScore = 0;
 
-  let quizAnswered = false;
+  let quizScore =
+    0;
+
+
+  let quizAnswered =
+    false;
 
 
   /* =========================================================
@@ -3467,7 +4962,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
     if (
       !studyData ||
-      !Array.isArray(studyData.quiz) ||
+      !Array.isArray(
+        studyData.quiz
+      ) ||
       !studyData.quiz.length
     ) {
 
@@ -3477,10 +4974,13 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
     const question =
-      studyData.quiz[quizIndex];
+      studyData.quiz[
+        quizIndex
+      ];
 
 
-    quizAnswered = false;
+    quizAnswered =
+      false;
 
 
     quizCounter.textContent =
@@ -3505,7 +5005,8 @@ Photosynthesis is important because it provides the chemical energy that support
       question.question;
 
 
-    quizOptions.innerHTML = "";
+    quizOptions.innerHTML =
+      "";
 
 
     quizExplanation.textContent =
@@ -3524,10 +5025,15 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
     question.options.forEach(
-      (optionText, index) => {
+      (
+        optionText,
+        index
+      ) => {
 
         const button =
-          document.createElement("button");
+          document.createElement(
+            "button"
+          );
 
 
         button.type =
@@ -3543,7 +5049,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         const letter =
-          document.createElement("span");
+          document.createElement(
+            "span"
+          );
 
 
         letter.className =
@@ -3557,21 +5065,29 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
         const text =
-          document.createElement("span");
+          document.createElement(
+            "span"
+          );
 
 
         text.textContent =
           optionText;
 
 
-        button.appendChild(letter);
+        button.appendChild(
+          letter
+        );
 
-        button.appendChild(text);
+
+        button.appendChild(
+          text
+        );
 
 
         button.addEventListener(
           "click",
-          () => answerQuiz(index)
+          () =>
+            answerQuiz(index)
         );
 
 
@@ -3589,18 +5105,27 @@ Photosynthesis is important because it provides the chemical energy that support
      ANSWER QUIZ
   ========================================================= */
 
-  function answerQuiz(selected) {
+  function answerQuiz(
+    selected
+  ) {
 
-    if (quizAnswered) {
+    if (
+      quizAnswered
+    ) {
+
       return;
+
     }
 
 
-    quizAnswered = true;
+    quizAnswered =
+      true;
 
 
     const question =
-      studyData.quiz[quizIndex];
+      studyData.quiz[
+        quizIndex
+      ];
 
 
     /*
@@ -3614,7 +5139,9 @@ Photosynthesis is important because it provides the chemical energy that support
     */
 
     const correctAnswer =
-      Number(question.answer);
+      Number(
+        question.answer
+      );
 
 
     const buttons =
@@ -3623,42 +5150,49 @@ Photosynthesis is important because it provides the chemical energy that support
       );
 
 
-    buttons.forEach(button => {
+    buttons.forEach(
+      button => {
 
-      button.disabled = true;
-
-
-      const index =
-        Number(button.dataset.index);
+        button.disabled =
+          true;
 
 
-      if (
-        index === correctAnswer
-      ) {
+        const index =
+          Number(
+            button.dataset.index
+          );
 
-        button.classList.add(
-          "correct"
-        );
+
+        if (
+          index ===
+          correctAnswer
+        ) {
+
+          button.classList.add(
+            "correct"
+          );
+
+        }
+
+
+        if (
+          index === selected &&
+          selected !== correctAnswer
+        ) {
+
+          button.classList.add(
+            "wrong"
+          );
+
+        }
 
       }
-
-
-      if (
-        index === selected &&
-        selected !== correctAnswer
-      ) {
-
-        button.classList.add(
-          "wrong"
-        );
-
-      }
-
-    });
+    );
 
 
     if (
-      selected === correctAnswer
+      selected ===
+      correctAnswer
     ) {
 
       quizScore++;
@@ -3683,6 +5217,7 @@ Photosynthesis is important because it provides the chemical energy that support
       quizNext.textContent =
         "Next question →";
 
+
       quizNext.classList.add(
         "visible"
       );
@@ -3692,11 +5227,20 @@ Photosynthesis is important because it provides the chemical energy that support
       quizNext.textContent =
         "See my score →";
 
+
       quizNext.classList.add(
         "visible"
       );
 
     }
+
+
+    /*
+      Persist the student's progress
+      immediately after answering.
+    */
+
+    saveCurrentSession();
 
   }
 
@@ -3716,7 +5260,15 @@ Photosynthesis is important because it provides the chemical energy that support
 
         quizIndex++;
 
+
+        quizAnswered =
+          false;
+
+
         renderQuizQuestion();
+
+
+        saveCurrentSession();
 
       } else {
 
@@ -3737,12 +5289,15 @@ Photosynthesis is important because it provides the chemical energy that support
     quizQuestion.style.display =
       "none";
 
+
     quizOptions.style.display =
       "none";
+
 
     quizExplanation.classList.remove(
       "visible"
     );
+
 
     quizNext.classList.remove(
       "visible"
@@ -3772,21 +5327,27 @@ Photosynthesis is important because it provides the chemical energy that support
     let message;
 
 
-    if (percentage === 100) {
+    if (
+      percentage === 100
+    ) {
 
       message =
         "Perfect. You actually know this.";
 
     }
 
-    else if (percentage >= 80) {
+    else if (
+      percentage >= 80
+    ) {
 
       message =
         "Very solid. Your brain got the memo.";
 
     }
 
-    else if (percentage >= 60) {
+    else if (
+      percentage >= 60
+    ) {
 
       message =
         "Not bad. A quick review should tighten it up.";
@@ -3809,6 +5370,13 @@ Photosynthesis is important because it provides the chemical energy that support
       "visible"
     );
 
+
+    /*
+      Persist the completed quiz.
+    */
+
+    saveCurrentSession();
+
   }
 
 
@@ -3820,15 +5388,21 @@ Photosynthesis is important because it provides the chemical energy that support
     "click",
     () => {
 
-      quizIndex = 0;
+      quizIndex =
+        0;
 
-      quizScore = 0;
 
-      quizAnswered = false;
+      quizScore =
+        0;
+
+
+      quizAnswered =
+        false;
 
 
       quizQuestion.style.display =
         "";
+
 
       quizOptions.style.display =
         "";
@@ -3840,6 +5414,9 @@ Photosynthesis is important because it provides the chemical energy that support
 
 
       renderQuizQuestion();
+
+
+      saveCurrentSession();
 
     }
   );
@@ -3854,7 +5431,8 @@ Photosynthesis is important because it provides the chemical energy that support
     event => {
 
       if (
-        event.key === "Escape"
+        event.key ===
+        "Escape"
       ) {
 
         closeDrawer();
@@ -3869,8 +5447,148 @@ Photosynthesis is important because it provides the chemical energy that support
      INITIAL STATE
   ========================================================= */
 
+  loadSessionsFromStorage();
+
+  renderRecentSessions();
+
   updateCharacterCount();
 
+  updateStudyModeUI();
+
+
+  /*
+    Automatically restore the most recently
+    updated study guide.
+
+    We do NOT call Gemini here.
+  */
+
+  if (
+    sessions.length > 0
+  ) {
+
+    const latestSession =
+      sessions[0];
+
+
+    if (
+      latestSession &&
+      latestSession.guide
+    ) {
+
+      /*
+        We restore the guide silently so
+        the student can continue immediately.
+      */
+
+      currentSessionId =
+        latestSession.id;
+
+
+      sourceText.value =
+        latestSession.sourceText ||
+        "";
+
+
+      selectedStudyMode =
+        latestSession.mode ||
+        "standard";
+
+
+      updateStudyModeUI();
+
+
+      studyData =
+        latestSession.guide;
+
+
+      renderStudyGuide(
+        studyData
+      );
+
+
+      results.classList.add(
+        "visible"
+      );
+
+
+      /*
+        Restore quiz state.
+      */
+
+      const savedQuiz =
+        latestSession.quiz;
+
+
+      if (
+        savedQuiz
+      ) {
+
+        if (
+          Number.isInteger(
+            Number(
+              savedQuiz.index
+            )
+          )
+        ) {
+
+          quizIndex =
+            Math.max(
+              0,
+              Math.min(
+                Number(
+                  savedQuiz.index
+                ),
+                Math.max(
+                  0,
+                  studyData.quiz.length - 1
+                )
+              )
+            );
+
+        }
+
+
+        if (
+          Number.isInteger(
+            Number(
+              savedQuiz.score
+            )
+          )
+        ) {
+
+          quizScore =
+            Math.max(
+              0,
+              Number(
+                savedQuiz.score
+              )
+            );
+
+        }
+
+      }
+
+
+      if (
+        savedQuiz &&
+        savedQuiz.finished
+      ) {
+
+        finishQuiz();
+
+      } else {
+
+        renderQuizQuestion();
+
+      }
+
+
+      updateCharacterCount();
+
+    }
+
+  }
 
 </script>
 
