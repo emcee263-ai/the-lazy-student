@@ -1,5594 +1,3217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
-  >
-
-  <meta
-    name="theme-color"
-    content="#f8f1e5"
-  >
-
-  <title>The Lazy Student</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-
-  <style>
-
-    /* =========================================================
-       THE LAZY STUDENT
-       Main theme
-    ========================================================= */
-
-    :root {
-      --paper: #f8f1e5;
-      --paper-2: #fffaf1;
-      --paper-3: #f2e8d8;
-
-      --ink: #28243f;
-      --ink-soft: #777487;
-      --ink-faint: #a19ba8;
-
-      --navy: #2b2945;
-      --navy-2: #36334f;
-
-      --yellow: #f6c54d;
-      --yellow-soft: #f9dda0;
-
-      --coral: #ed755f;
-      --coral-soft: #f5b0a1;
-
-      --purple: #716c89;
-
-      --line: #e4dacb;
-      --line-dark: #4a4662;
-
-      --success: #5e9174;
-      --danger: #d35f58;
-
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-
-      --shadow:
-        0 12px 35px rgba(43, 41, 69, 0.07);
-
-      --transition:
-        180ms ease;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-
-      background: var(--paper);
-      color: var(--ink);
-
-      font-family: "Manrope", sans-serif;
-
-      -webkit-font-smoothing: antialiased;
-
-      overflow-x: hidden;
-    }
-
-    button,
-    textarea,
-    input {
-      font: inherit;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      cursor: not-allowed;
-    }
-
-    .mono {
-      font-family: "DM Mono", monospace;
-    }
-
-    /* =========================================================
-       APP
-    ========================================================= */
-
-    .app {
-      width: 100%;
-      min-height: 100vh;
-    }
-
-    .container {
-      width: min(100% - 32px, 760px);
-      margin: 0 auto;
-    }
-
-    /* =========================================================
-       HEADER
-    ========================================================= */
-
-    header {
-      padding: 18px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      min-width: 0;
-    }
-
-    .brand-logo {
-      width: 42px;
-      height: 42px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      background: var(--yellow);
-
-      border-radius: 50%;
-
-      color: var(--ink);
-
-      font-size: 19px;
-      font-weight: 800;
-
-      box-shadow:
-        3px 3px 0 rgba(40, 36, 63, 0.12);
-    }
-
-    .brand-text {
-      min-width: 0;
-    }
-
-    .brand-name {
-      font-size: 15px;
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-tagline {
-      margin-top: 4px;
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-      letter-spacing: 0.06em;
-
-      color: var(--ink-soft);
-    }
-
-    .menu-button {
-      width: 43px;
-      height: 43px;
-
-      display: grid;
-      place-items: center;
-
-      background: transparent;
-
-      color: var(--ink);
-
-      border: 1px solid var(--line);
-      border-radius: 50%;
-
-      transition:
-        background var(--transition),
-        transform var(--transition);
-    }
-
-    .menu-button:hover {
-      background: var(--paper-3);
-    }
-
-    .menu-button:active {
-      transform: scale(0.94);
-    }
-
-    .hamburger {
-      width: 17px;
-
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 100%;
-      height: 1.5px;
-
-      background: currentColor;
-      border-radius: 10px;
-    }
-
-    /* =========================================================
-       DRAWER
-    ========================================================= */
-
-    .drawer-backdrop {
-      position: fixed;
-      inset: 0;
-
-      background: rgba(25, 22, 40, 0.45);
-
-      opacity: 0;
-      visibility: hidden;
-
-      transition:
-        opacity 220ms ease,
-        visibility 220ms ease;
-
-      z-index: 90;
-    }
-
-    .drawer-backdrop.open {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .drawer {
-      position: fixed;
-
-      top: 0;
-      right: 0;
-      bottom: 0;
-
-      width: min(82vw, 380px);
-
-      background: var(--navy);
-
-      color: white;
-
-      transform: translateX(100%);
-
-      transition:
-        transform 260ms cubic-bezier(.2,.8,.2,1);
-
-      z-index: 100;
-
-      padding: 25px 22px;
-
-      display: flex;
-      flex-direction: column;
-
-      overflow-y: auto;
-    }
-
-    .drawer.open {
-      transform: translateX(0);
-    }
-
-    .drawer-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 31px;
-    }
-
-    .drawer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .drawer-brand .brand-logo {
-      width: 37px;
-      height: 37px;
-
-      font-size: 16px;
-    }
-
-    .drawer-brand-name {
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .drawer-close {
-      width: 37px;
-      height: 37px;
-
-      border-radius: 50%;
-
-      background: transparent;
-
-      border: 1px solid var(--line-dark);
-
-      color: white;
-
-      font-size: 20px;
-      line-height: 1;
-
-      transition:
-        background var(--transition);
-    }
-
-    .drawer-close:hover {
-      background: var(--navy-2);
-    }
-
-    .drawer-label {
-      margin-bottom: 15px;
-
-      font-family: "DM Mono", monospace;
-
-      color: var(--yellow);
-
-      font-size: 9px;
-      letter-spacing: 0.12em;
-    }
-
-    .drawer-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .drawer-nav button {
-      width: 100%;
-
-      display: flex;
-      align-items: center;
-      gap: 13px;
-
-      padding: 13px 12px;
-
-      background: transparent;
-
-      color: #ddd9e5;
-
-      text-align: left;
-
-      border-radius: 10px;
-
-      transition:
-        background var(--transition),
-        color var(--transition);
-    }
-
-    .drawer-nav button:hover,
-    .drawer-nav button.active {
-      background: var(--navy-2);
-      color: white;
-    }
-
-    .drawer-number {
-      width: 25px;
-
-      font-family: "DM Mono", monospace;
-
-      color: #9691aa;
-
-      font-size: 10px;
-    }
-
-    .drawer-nav button.active .drawer-number {
-      color: var(--yellow);
-    }
-
-    /* =========================================================
-       RECENT STUDY
-    ========================================================= */
-
-    .recent-study {
-      margin-top: 31px;
-    }
-
-    .recent-study-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 11px;
-    }
-
-    .recent-study-label {
-      font-family: "DM Mono", monospace;
-
-      color: var(--yellow);
-
-      font-size: 9px;
-      letter-spacing: 0.12em;
-    }
-
-    .recent-study-count {
-      font-family: "DM Mono", monospace;
-
-      color: #9691aa;
-
-      font-size: 8px;
-    }
-
-    .recent-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .recent-empty {
-      padding: 14px 12px;
-
-      background: rgba(255,255,255,0.035);
-
-      border: 1px dashed rgba(255,255,255,0.10);
-
-      border-radius: 10px;
-
-      color: #aaa6b7;
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-
-      line-height: 1.6;
-    }
-
-    .recent-item {
-      position: relative;
-
-      width: 100%;
-
-      display: flex;
-      align-items: center;
-
-      gap: 9px;
-
-      padding: 10px;
-
-      background: rgba(255,255,255,0.045);
-
-      border: 1px solid transparent;
-
-      border-radius: 10px;
-
-      color: white;
-
-      text-align: left;
-
-      transition:
-        background var(--transition),
-        border var(--transition);
-    }
-
-    .recent-item:hover {
-      background: var(--navy-2);
-
-      border-color: rgba(255,255,255,0.08);
-    }
-
-    .recent-item.current {
-      background: var(--navy-2);
-
-      border-color: rgba(246,197,77,0.35);
-    }
-
-    .recent-icon {
-      width: 30px;
-      height: 30px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      background: rgba(246,197,77,0.13);
-
-      border-radius: 8px;
-
-      color: var(--yellow);
-
-      font-size: 12px;
-    }
-
-    .recent-content {
-      min-width: 0;
-
-      flex: 1;
-    }
-
-    .recent-title {
-      overflow: hidden;
-
-      color: #f4f1f7;
-
-      font-size: 10px;
-      font-weight: 700;
-
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .recent-meta {
-      margin-top: 4px;
-
-      overflow: hidden;
-
-      color: #9691aa;
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 7px;
-
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-
-    .recent-delete {
-      width: 27px;
-      height: 27px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      background: transparent;
-
-      border-radius: 50%;
-
-      color: #9691aa;
-
-      font-size: 14px;
-
-      opacity: 0.7;
-
-      transition:
-        background var(--transition),
-        color var(--transition);
-    }
-
-    .recent-delete:hover {
-      background: rgba(211,95,88,0.16);
-
-      color: #ef958c;
-
-      opacity: 1;
-    }
-
-    .new-study-button {
-      width: 100%;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      gap: 7px;
-
-      margin-top: 9px;
-
-      padding: 11px;
-
-      background: var(--yellow);
-
-      color: var(--ink);
-
-      border-radius: 10px;
-
-      font-size: 10px;
-      font-weight: 800;
-
-      transition:
-        transform var(--transition),
-        background var(--transition);
-    }
-
-    .new-study-button:hover {
-      background: #f8ce62;
-
-      transform: translateY(-1px);
-    }
-
-    .new-study-button:active {
-      transform: translateY(1px);
-    }
-
-    .new-study-plus {
-      font-size: 14px;
-      line-height: 1;
-    }
-
-    .drawer-bottom {
-      margin-top: auto;
-      padding-top: 30px;
-    }
-
-    .promise-card {
-      padding: 17px;
-
-      background: rgba(255,255,255,0.055);
-
-      border: 1px solid rgba(255,255,255,0.09);
-
-      border-radius: 14px;
-    }
-
-    .promise-label {
-      margin-bottom: 8px;
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-      letter-spacing: 0.12em;
-
-      color: var(--yellow);
-    }
-
-    .promise-text {
-      color: #ddd9e5;
-
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    /* =========================================================
-       HERO
-    ========================================================= */
-
-    .hero {
-      padding: 62px 0 45px;
-    }
-
-    .eyebrow {
-      margin-bottom: 17px;
-
-      font-family: "DM Mono", monospace;
-
-      color: var(--purple);
-
-      font-size: 9px;
-      letter-spacing: 0.11em;
-      line-height: 1.5;
-    }
-
-    .hero h1 {
-      max-width: 680px;
-
-      font-size: clamp(40px, 9vw, 68px);
-
-      line-height: 0.98;
-
-      letter-spacing: -0.055em;
-
-      font-weight: 800;
-    }
-
-    .hero h1 .coral {
-      color: var(--coral);
-    }
-
-    .hero-subtitle {
-      max-width: 510px;
-
-      margin-top: 22px;
-
-      color: var(--purple);
-
-      font-size: 16px;
-      line-height: 1.65;
-
-      font-weight: 500;
-    }
-
-    /* =========================================================
-       SOURCE MATERIAL CARD
-    ========================================================= */
-
-    .source-section {
-      padding-bottom: 65px;
-    }
-
-    .source-card {
-      padding: 23px;
-
-      background: var(--paper-2);
-
-      border: 1px solid var(--line);
-
-      border-radius: var(--radius-lg);
-
-      box-shadow: var(--shadow);
-    }
-
-    .section-kicker {
-      margin-bottom: 7px;
-
-      font-family: "DM Mono", monospace;
-
-      color: var(--coral);
-
-      font-size: 9px;
-      letter-spacing: 0.11em;
-    }
-
-    .source-title {
-      font-size: 22px;
-      font-weight: 800;
-
-      letter-spacing: -0.035em;
-    }
-
-    .source-description {
-      margin-top: 8px;
-
-      color: var(--ink-soft);
-
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    /* =========================================================
-       TEXTAREA
-    ========================================================= */
-
-    .textarea-wrap {
-      position: relative;
-
-      margin-top: 21px;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 220px;
-
-      resize: vertical;
-
-      padding: 18px;
-
-      background: var(--paper);
-
-      border: 1px solid var(--line);
-
-      border-radius: 14px;
-
-      outline: none;
-
-      color: var(--ink);
-
-      font-size: 14px;
-      line-height: 1.65;
-
-      transition:
-        border var(--transition),
-        box-shadow var(--transition);
-    }
-
-    textarea::placeholder {
-      color: var(--ink-faint);
-    }
-
-    textarea:focus {
-      border-color: var(--purple);
-
-      box-shadow:
-        0 0 0 3px rgba(113,108,137,0.10);
-    }
-
-    .character-count {
-      position: absolute;
-
-      right: 12px;
-      bottom: 11px;
-
-      padding: 4px 7px;
-
-      background: rgba(248,241,229,0.9);
-
-      border-radius: 5px;
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-
-      color: var(--ink-faint);
-
-      pointer-events: none;
-    }
-
-    /* =========================================================
-       UPLOAD
-    ========================================================= */
-
-    .upload-row {
-      display: grid;
-
-      grid-template-columns: 1fr 1fr;
-
-      gap: 10px;
-
-      margin-top: 11px;
-    }
-
-    .upload-button,
-    .sample-button {
-      min-height: 56px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      gap: 9px;
-
-      padding: 12px;
-
-      background: var(--paper);
-
-      border: 1px dashed var(--line);
-
-      border-radius: 12px;
-
-      color: var(--ink-soft);
-
-      font-size: 11px;
-      font-weight: 700;
-
-      transition:
-        border var(--transition),
-        background var(--transition),
-        color var(--transition);
-    }
-
-    .upload-button:hover,
-    .sample-button:hover {
-      background: var(--paper-3);
-
-      border-color: var(--purple);
-
-      color: var(--ink);
-    }
-
-    .upload-icon {
-      font-size: 17px;
-    }
-
-    .upload-info {
-      margin-top: 8px;
-
-      color: var(--ink-faint);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-
-      text-align: center;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    /* =========================================================
-       STUDY MODE
-    ========================================================= */
-
-    .study-mode {
-      margin-top: 23px;
-
-      padding: 17px;
-
-      background: var(--paper);
-
-      border: 1px solid var(--line);
-
-      border-radius: 14px;
-    }
-
-    .study-mode-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      margin-bottom: 12px;
-    }
-
-    .study-mode-title {
-      font-family: "DM Mono", monospace;
-
-      color: var(--purple);
-
-      font-size: 9px;
-      letter-spacing: 0.1em;
-    }
-
-    .study-mode-current {
-      font-family: "DM Mono", monospace;
-
-      color: var(--ink-faint);
-
-      font-size: 8px;
-    }
-
-    .mode-options {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 8px;
-    }
-
-    .mode-option {
-      padding: 12px 9px;
-
-      background: var(--paper-2);
-
-      border: 1px solid var(--line);
-
-      border-radius: 10px;
-
-      text-align: left;
-
-      transition:
-        border var(--transition),
-        background var(--transition),
-        transform var(--transition);
-    }
-
-    .mode-option:hover {
-      transform: translateY(-1px);
-
-      border-color: var(--purple);
-    }
-
-    .mode-option.selected {
-      background: var(--yellow-soft);
-
-      border-color: var(--yellow);
-    }
-
-    .mode-icon {
-      display: block;
-
-      margin-bottom: 5px;
-
-      font-size: 15px;
-    }
-
-    .mode-name {
-      display: block;
-
-      color: var(--ink);
-
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .mode-description {
-      display: block;
-
-      margin-top: 4px;
-
-      color: var(--ink-soft);
-
-      font-size: 8px;
-      line-height: 1.45;
-    }
-
-    /* =========================================================
-       GENERATE BUTTON
-    ========================================================= */
-
-    .generate-button {
-      width: 100%;
-
-      margin-top: 15px;
-
-      min-height: 61px;
-
-      padding: 14px 18px;
-
-      background: var(--navy);
-
-      color: white;
-
-      border-radius: 14px;
-
-      font-size: 14px;
-      font-weight: 800;
-
-      letter-spacing: -0.01em;
-
-      transition:
-        transform var(--transition),
-        background var(--transition),
-        box-shadow var(--transition);
-    }
-
-    .generate-button:hover:not(:disabled) {
-      background: var(--navy-2);
-
-      transform: translateY(-1px);
-
-      box-shadow:
-        0 8px 20px rgba(43,41,69,0.14);
-    }
-
-    .generate-button:active:not(:disabled) {
-      transform: translateY(1px);
-    }
-
-    .generate-button:disabled {
-      opacity: 0.6;
-    }
-
-    /* =========================================================
-       LOADING
-    ========================================================= */
-
-    .loading {
-      display: none;
-
-      padding: 20px;
-
-      text-align: center;
-    }
-
-    .loading.visible {
-      display: block;
-    }
-
-    .loading-dots {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-
-      margin-bottom: 11px;
-    }
-
-    .loading-dots span {
-      width: 7px;
-      height: 7px;
-
-      background: var(--coral);
-
-      border-radius: 50%;
-
-      animation:
-        bounce 900ms infinite ease-in-out;
-    }
-
-    .loading-dots span:nth-child(2) {
-      animation-delay: 120ms;
-    }
-
-    .loading-dots span:nth-child(3) {
-      animation-delay: 240ms;
-    }
-
-    @keyframes bounce {
-      0%, 80%, 100% {
-        transform: scale(0.65);
-        opacity: 0.5;
-      }
-
-      40% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    .loading-text {
-      color: var(--ink-soft);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 9px;
-    }
-
-    /* =========================================================
-       ERROR
-    ========================================================= */
-
-    .error-box {
-      display: none;
-
-      margin-top: 12px;
-
-      padding: 14px;
-
-      background: #fff0ed;
-
-      border: 1px solid #efc4bb;
-
-      border-radius: 12px;
-
-      color: #9b463b;
-
-      font-size: 11px;
-
-      line-height: 1.55;
-    }
-
-    .error-box.visible {
-      display: block;
-    }
-
-    /* =========================================================
-       RESULTS
-    ========================================================= */
-
-    .results {
-      display: none;
-
-      padding-bottom: 80px;
-    }
-
-    .results.visible {
-      display: block;
-    }
-
-    .results-header {
-      margin-bottom: 21px;
-    }
-
-    .results-kicker {
-      margin-bottom: 6px;
-
-      font-family: "DM Mono", monospace;
-
-      color: var(--coral);
-
-      font-size: 9px;
-      letter-spacing: 0.11em;
-    }
-
-    .results-title {
-      font-size: 28px;
-
-      line-height: 1.05;
-
-      letter-spacing: -0.04em;
-    }
-
-    .results-mode {
-      display: inline-flex;
-
-      margin-top: 9px;
-
-      padding: 5px 8px;
-
-      background: var(--yellow-soft);
-
-      border-radius: 6px;
-
-      font-family: "DM Mono", monospace;
-
-      color: var(--ink);
-
-      font-size: 8px;
-    }
-
-    /* =========================================================
-       RESULT TABS
-    ========================================================= */
-
-    .result-tabs {
-      position: sticky;
-
-      top: 0;
-
-      z-index: 20;
-
-      display: flex;
-
-      gap: 4px;
-
-      margin-bottom: 18px;
-
-      padding: 5px;
-
-      background: rgba(248,241,229,0.93);
-
-      backdrop-filter: blur(12px);
-
-      border: 1px solid var(--line);
-
-      border-radius: 12px;
-
-      overflow-x: auto;
-    }
-
-    .result-tab {
-      flex: 1;
-
-      min-width: max-content;
-
-      padding: 9px 11px;
-
-      background: transparent;
-
-      border-radius: 8px;
-
-      color: var(--ink-soft);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-
-      transition:
-        background var(--transition),
-        color var(--transition);
-    }
-
-    .result-tab.active {
-      background: var(--navy);
-
-      color: white;
-    }
-
-    /* =========================================================
-       RESULT PANELS
-    ========================================================= */
-
-    .result-panel {
-      display: none;
-    }
-
-    .result-panel.active {
-      display: block;
-    }
-
-    .panel-card {
-      margin-bottom: 13px;
-
-      padding: 20px;
-
-      background: var(--paper-2);
-
-      border: 1px solid var(--line);
-
-      border-radius: 16px;
-
-      box-shadow: 0 7px 25px rgba(43,41,69,0.045);
-    }
-
-    .panel-label {
-      margin-bottom: 11px;
-
-      font-family: "DM Mono", monospace;
-
-      color: var(--purple);
-
-      font-size: 8px;
-
-      letter-spacing: 0.1em;
-    }
-
-    .summary-text {
-      color: var(--ink);
-
-      font-size: 15px;
-
-      line-height: 1.75;
-
-      font-weight: 500;
-    }
-
-    /* =========================================================
-       KEY POINTS
-    ========================================================= */
-
-    .points-list {
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 11px;
-
-      list-style: none;
-    }
-
-    .point-item {
-      display: flex;
-
-      gap: 12px;
-
-      align-items: flex-start;
-
-      padding: 13px;
-
-      background: var(--paper);
-
-      border-radius: 11px;
-    }
-
-    .point-number {
-      width: 24px;
-      height: 24px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      background: var(--yellow);
-
-      border-radius: 50%;
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-      font-weight: 500;
-    }
-
-    .point-text {
-      padding-top: 2px;
-
-      font-size: 12px;
-
-      line-height: 1.6;
-    }
-
-    /* =========================================================
-       FLASHCARDS
-    ========================================================= */
-
-    .flashcards {
-      display: grid;
-
-      gap: 12px;
-    }
-
-    .flashcard {
-      padding: 20px;
-
-      background: var(--paper);
-
-      border: 1px solid var(--line);
-
-      border-radius: 14px;
-
-      cursor: pointer;
-
-      perspective: 800px;
-
-      min-height: 150px;
-    }
-
-    .flashcard-inner {
-      min-height: 110px;
-
-      display: flex;
-      flex-direction: column;
-
-      justify-content: center;
-    }
-
-    .flashcard-question {
-      font-size: 15px;
-
-      font-weight: 800;
-
-      line-height: 1.45;
-    }
-
-    .flashcard-answer {
-      margin-top: 14px;
-
-      padding-top: 13px;
-
-      border-top: 1px dashed var(--line);
-
-      color: var(--purple);
-
-      font-size: 12px;
-
-      line-height: 1.6;
-
-      display: none;
-    }
-
-    .flashcard.revealed .flashcard-answer {
-      display: block;
-    }
-
-    .flashcard-hint {
-      margin-top: 12px;
-
-      color: var(--ink-faint);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 7px;
-    }
-
-    /* =========================================================
-       EXAMPLES
-    ========================================================= */
-
-    .examples {
-      display: grid;
-
-      gap: 12px;
-    }
-
-    .example-card {
-      padding: 19px;
-
-      background: var(--paper);
-
-      border-radius: 14px;
-
-      border: 1px solid var(--line);
-    }
-
-    .example-concept {
-      margin-bottom: 10px;
-
-      color: var(--coral);
-
-      font-weight: 800;
-
-      font-size: 14px;
-    }
-
-    .example-text {
-      font-size: 12px;
-
-      line-height: 1.65;
-    }
-
-    .why-it-matters {
-      margin-top: 13px;
-
-      padding-top: 12px;
-
-      border-top: 1px dashed var(--line);
-
-      color: var(--purple);
-
-      font-size: 11px;
-
-      line-height: 1.6;
-    }
-
-    .why-it-matters strong {
-      color: var(--ink);
-    }
-
-    /* =========================================================
-       QUIZ
-    ========================================================= */
-
-    .quiz-card {
-      padding: 20px;
-
-      background: var(--paper-2);
-
-      border: 1px solid var(--line);
-
-      border-radius: 16px;
-    }
-
-    .quiz-top {
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      margin-bottom: 13px;
-    }
-
-    .quiz-counter {
-      font-family: "DM Mono", monospace;
-
-      color: var(--ink-soft);
-
-      font-size: 8px;
-    }
-
-    .quiz-score {
-      font-family: "DM Mono", monospace;
-
-      color: var(--purple);
-
-      font-size: 8px;
-    }
-
-    .quiz-progress {
-      width: 100%;
-      height: 5px;
-
-      margin-bottom: 20px;
-
-      background: var(--paper-3);
-
-      border-radius: 20px;
-
-      overflow: hidden;
-    }
-
-    .quiz-progress-bar {
-      width: 0%;
-      height: 100%;
-
-      background: var(--coral);
-
-      transition: width 250ms ease;
-    }
-
-    .quiz-question {
-      margin-bottom: 19px;
-
-      font-size: 18px;
-
-      line-height: 1.4;
-
-      font-weight: 800;
-
-      letter-spacing: -0.025em;
-    }
-
-    .quiz-options {
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 8px;
-    }
-
-    .option {
-      width: 100%;
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 11px;
-
-      padding: 13px;
-
-      background: var(--paper);
-
-      border: 1px solid var(--line);
-
-      border-radius: 11px;
-
-      color: var(--ink);
-
-      text-align: left;
-
-      font-size: 11px;
-
-      line-height: 1.5;
-
-      transition:
-        border var(--transition),
-        background var(--transition);
-    }
-
-    .option:hover:not(:disabled) {
-      border-color: var(--purple);
-    }
-
-    .option-letter {
-      width: 25px;
-      height: 25px;
-
-      flex-shrink: 0;
-
-      display: grid;
-      place-items: center;
-
-      border-radius: 50%;
-
-      background: var(--paper-3);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-    }
-
-    .option.correct {
-      background: #edf6ef;
-
-      border-color: #9fc2a9;
-    }
-
-    .option.correct .option-letter {
-      background: var(--success);
-
-      color: white;
-    }
-
-    .option.wrong {
-      background: #fff0ed;
-
-      border-color: #e4aaa1;
-    }
-
-    .option.wrong .option-letter {
-      background: var(--danger);
-
-      color: white;
-    }
-
-    .quiz-explanation {
-      display: none;
-
-      margin-top: 17px;
-
-      padding: 14px;
-
-      background: var(--paper-3);
-
-      border-radius: 10px;
-
-      color: var(--ink-soft);
-
-      font-size: 11px;
-
-      line-height: 1.6;
-    }
-
-    .quiz-explanation.visible {
-      display: block;
-    }
-
-    .quiz-next {
-      display: none;
-
-      width: 100%;
-
-      margin-top: 12px;
-
-      padding: 13px;
-
-      background: var(--navy);
-
-      color: white;
-
-      border-radius: 10px;
-
-      font-size: 11px;
-
-      font-weight: 800;
-    }
-
-    .quiz-next.visible {
-      display: block;
-    }
-
-    .quiz-final {
-      display: none;
-
-      text-align: center;
-
-      padding: 18px 5px 5px;
-    }
-
-    .quiz-final.visible {
-      display: block;
-    }
-
-    .quiz-final-score {
-      font-size: 37px;
-
-      font-weight: 800;
-
-      letter-spacing: -0.05em;
-    }
-
-    .quiz-final-message {
-      margin-top: 7px;
-
-      color: var(--ink-soft);
-
-      font-size: 12px;
-
-      line-height: 1.5;
-    }
-
-    .restart-quiz {
-      margin-top: 15px;
-
-      padding: 11px 16px;
-
-      background: var(--yellow);
-
-      color: var(--ink);
-
-      border-radius: 9px;
-
-      font-size: 10px;
-
-      font-weight: 800;
-    }
-
-    /* =========================================================
-       FOOTER
-    ========================================================= */
-
-    footer {
-      padding: 30px 0 45px;
-
-      border-top: 1px solid var(--line);
-
-      color: var(--ink-faint);
-
-      font-family: "DM Mono", monospace;
-
-      font-size: 8px;
-
-      text-align: center;
-
-      letter-spacing: 0.03em;
-    }
-
-    /* =========================================================
-       MOBILE
-    ========================================================= */
-
-    @media (max-width: 560px) {
-
-      .container {
-        width: min(100% - 24px, 760px);
-      }
-
-      header {
-        padding: 14px 0;
-      }
-
-      .hero {
-        padding: 48px 0 37px;
-      }
-
-      .hero h1 {
-        font-size: 43px;
-      }
-
-      .hero-subtitle {
-        font-size: 14px;
-      }
-
-      .source-card {
-        padding: 18px;
-      }
-
-      .source-title {
-        font-size: 20px;
-      }
-
-      textarea {
-        min-height: 190px;
-      }
-
-      .upload-row {
-        grid-template-columns: 1fr;
-      }
-
-      .mode-options {
-        grid-template-columns: 1fr;
-      }
-
-      .mode-option {
-        display: grid;
-
-        grid-template-columns: 27px 1fr;
-
-        column-gap: 8px;
-      }
-
-      .mode-icon {
-        grid-row: span 2;
-
-        margin: 0;
-      }
-
-      .mode-description {
-        grid-column: 2;
-      }
-
-      .result-tabs {
-        margin-left: -3px;
-        margin-right: -3px;
-      }
-
-      .panel-card {
-        padding: 17px;
-      }
-
-      .quiz-question {
-        font-size: 17px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+>
+
+<meta name="theme-color" content="#f8f1e5">
+
+<title>The Lazy Student — Study, Minus the Drag</title>
+
+<style>
+/* =========================================================
+   THE LAZY STUDENT
+   Custom UI — warm paper / editorial study companion
+========================================================= */
+
+:root{
+  --bg:#f8f1e5;
+  --surface:#fffaf1;
+  --surface-soft:#f3eadc;
+  --surface-dark:#eee2d1;
+
+  --ink:#292521;
+  --muted:#81776b;
+  --faint:#aaa095;
+
+  --line:#ded3c4;
+  --line-dark:#cfc1ae;
+
+  --coral:#e87961;
+  --coral-dark:#d9614b;
+  --coral-soft:#f7ddd5;
+
+  --green:#71856d;
+  --green-soft:#dfe8dc;
+
+  --shadow:0 12px 35px rgba(71,52,32,.08);
+  --shadow-small:0 5px 18px rgba(71,52,32,.07);
+
+  --radius:22px;
+  --radius-small:14px;
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  line-height:1.5;
+}
+
+button,
+textarea,
+input{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.container{
+  width:min(1080px, calc(100% - 36px));
+  margin:auto;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(248,241,229,.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(222,211,196,.7);
+}
+
+.header-inner{
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-logo{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border:1.5px solid var(--ink);
+  border-radius:11px;
+  font-size:20px;
+  line-height:1;
+  transform:rotate(-3deg);
+}
+
+.brand-text{
+  display:flex;
+  flex-direction:column;
+}
+
+.brand-name{
+  font-family:Georgia,serif;
+  font-size:17px;
+  font-weight:700;
+  letter-spacing:-.3px;
+}
+
+.brand-tagline{
+  margin-top:1px;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  color:var(--muted);
+}
+
+.menu-button{
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:50%;
+  transition:.25s var(--ease);
+}
+
+.menu-button:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-small);
+}
+
+.hamburger{
+  width:18px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.hamburger span{
+  width:100%;
+  height:1.5px;
+  background:var(--ink);
+  border-radius:3px;
+}
+
+/* =========================================================
+   DRAWER
+========================================================= */
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(38,31,25,.28);
+  opacity:0;
+  visibility:hidden;
+  transition:.3s var(--ease);
+}
+
+.drawer-overlay.open{
+  opacity:1;
+  visibility:visible;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  right:0;
+  z-index:201;
+  width:min(390px,92vw);
+  height:100dvh;
+  padding:26px;
+  overflow-y:auto;
+  background:var(--surface);
+  box-shadow:-20px 0 50px rgba(45,32,20,.13);
+  transform:translateX(105%);
+  transition:.4s var(--ease);
+}
+
+.drawer.open{
+  transform:translateX(0);
+}
+
+.drawer-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:38px;
+}
+
+.drawer-brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.drawer-brand .brand-logo{
+  width:36px;
+  height:36px;
+  font-size:17px;
+}
+
+.drawer-brand-name{
+  font-family:Georgia,serif;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.drawer-close{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--surface-soft);
+  font-size:25px;
+  color:var(--ink);
+}
+
+.drawer-label,
+.recent-study-label,
+.promise-label{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.7px;
+  color:var(--muted);
+}
+
+.drawer-nav{
+  margin-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.drawer-nav-button{
+  width:100%;
+  padding:13px 12px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+  background:transparent;
+  border-radius:12px;
+  color:var(--ink);
+  transition:.2s var(--ease);
+}
+
+.drawer-nav-button:hover,
+.drawer-nav-button.active{
+  background:var(--surface-soft);
+}
+
+.drawer-nav-button.active{
+  box-shadow:inset 3px 0 0 var(--coral);
+}
+
+.drawer-number{
+  width:28px;
+  color:var(--faint);
+  font-size:10px;
+  font-weight:800;
+}
+
+.recent-study{
+  margin-top:38px;
+}
+
+.recent-study-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.recent-study-count{
+  font-size:9px;
+  color:var(--faint);
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+/* =========================================================
+   IMPORTANT FIX:
+   SINGLE COMPACT RECENT STUDY ROW
+========================================================= */
+
+.recent-list{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+/*
+  Previously this area could look like:
+  card > bordered card > title
+
+  Now each .recent-item IS the card.
+*/
+
+.recent-item{
+  width:100%;
+  min-width:0;
+  min-height:58px;
+  padding:10px 9px 10px 13px;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  background:var(--surface-soft);
+  border:1px solid transparent;
+  border-radius:13px;
+
+  transition:
+    background .2s var(--ease),
+    border-color .2s var(--ease),
+    transform .2s var(--ease);
+}
+
+.recent-item:hover{
+  background:#eee4d6;
+  border-color:var(--line);
+  transform:translateX(-2px);
+}
+
+/*
+  CRITICAL OVERFLOW FIX:
+  The content column is allowed to shrink,
+  while the delete button is permanently protected.
+*/
+
+.recent-item-content{
+  flex:1 1 auto;
+  min-width:0;
+  overflow:hidden;
+}
+
+.recent-item-title{
+  display:block;
+  width:100%;
+
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+
+  font-family:Georgia,serif;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.3;
+}
+
+.recent-item-meta{
+  margin-top:3px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  overflow:hidden;
+  white-space:nowrap;
+
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.8px;
+  color:var(--faint);
+}
+
+.recent-item-delete{
+  flex:0 0 30px;
+  width:30px;
+  height:30px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+  background:rgba(255,255,255,.42);
+  color:var(--muted);
+  font-size:18px;
+
+  transition:.2s var(--ease);
+}
+
+.recent-item-delete:hover{
+  background:var(--coral-soft);
+  color:var(--coral-dark);
+  transform:rotate(8deg);
+}
+
+.recent-empty{
+  padding:18px 14px;
+  border:1px dashed var(--line);
+  border-radius:13px;
+  color:var(--faint);
+  font-size:12px;
+  text-align:center;
+}
+
+.new-study-button{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  background:var(--ink);
+  color:#fff;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:800;
+  transition:.25s var(--ease);
+}
+
+.new-study-button:hover{
+  background:#3c3732;
+  transform:translateY(-1px);
+}
+
+.new-study-plus{
+  font-size:17px;
+  font-weight:300;
+}
+
+.drawer-bottom{
+  margin-top:42px;
+  padding-bottom:20px;
+}
+
+.promise-card{
+  padding:18px;
+  border-radius:15px;
+  background:var(--coral-soft);
+}
+
+.promise-text{
+  margin-top:7px;
+  font-family:Georgia,serif;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+  padding:76px 0 58px;
+}
+
+.eyebrow,
+.section-kicker,
+.results-kicker{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  color:var(--coral-dark);
+}
+
+.hero h1{
+  max-width:850px;
+  margin:14px 0 18px;
+  font-family:Georgia,serif;
+  font-size:clamp(42px,7vw,78px);
+  line-height:.99;
+  letter-spacing:-3.8px;
+  font-weight:700;
+}
+
+.coral{
+  color:var(--coral);
+}
+
+.hero-subtitle{
+  max-width:610px;
+  margin:0;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.65;
+}
+
+/* =========================================================
+   SOURCE
+========================================================= */
+
+.source-section{
+  padding-bottom:80px;
+}
+
+.source-card{
+  padding:clamp(22px,4vw,42px);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.source-title{
+  margin:9px 0 8px;
+  font-family:Georgia,serif;
+  font-size:clamp(27px,4vw,38px);
+  line-height:1.08;
+  letter-spacing:-1.3px;
+}
+
+.source-description{
+  max-width:650px;
+  margin:0 0 24px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.textarea-wrap{
+  position:relative;
+}
+
+textarea{
+  width:100%;
+  min-height:210px;
+  resize:vertical;
+  padding:17px 17px 40px;
+
+  border:1px solid var(--line);
+  border-radius:15px;
+
+  background:#fffdf8;
+  color:var(--ink);
+
+  outline:none;
+  font-size:14px;
+  line-height:1.65;
+
+  transition:.2s var(--ease);
+}
+
+textarea:focus{
+  border-color:var(--coral);
+  box-shadow:0 0 0 4px rgba(232,121,97,.1);
+}
+
+.character-count{
+  position:absolute;
+  right:13px;
+  bottom:12px;
+  font-size:9px;
+  color:var(--faint);
+  font-weight:800;
+}
+
+.upload-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:12px;
+}
+
+.upload-button,
+.sample-button{
+  min-height:42px;
+  padding:0 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border-radius:11px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.upload-button{
+  background:var(--ink);
+  color:white;
+}
+
+.sample-button{
+  background:var(--surface-soft);
+  color:var(--ink);
+}
+
+.upload-button,
+.sample-button{
+  transition:.2s var(--ease);
+}
+
+.upload-button:hover,
+.sample-button:hover{
+  transform:translateY(-1px);
+}
+
+.upload-icon{
+  font-size:15px;
+}
+
+.upload-info{
+  margin-top:8px;
+  font-size:9px;
+  color:var(--faint);
+  letter-spacing:.4px;
+}
+
+#fileInput{
+  display:none;
+}
+
+/* =========================================================
+   STUDY MODES
+========================================================= */
+
+.study-mode{
+  margin-top:34px;
+  padding-top:28px;
+  border-top:1px solid var(--line);
+}
+
+.study-mode-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.study-mode-title{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.6px;
+}
+
+.study-mode-current{
+  padding:5px 8px;
+  border-radius:50px;
+  background:var(--surface-soft);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.mode-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.mode-option{
+  min-height:108px;
+  padding:14px;
+  text-align:left;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:transparent;
+  color:var(--ink);
+  transition:.25s var(--ease);
+}
+
+.mode-option:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-small);
+}
+
+.mode-option.selected{
+  border-color:var(--coral);
+  background:var(--coral-soft);
+}
+
+.mode-icon{
+  display:block;
+  margin-bottom:9px;
+  font-size:18px;
+}
+
+.mode-name{
+  display:block;
+  font-size:12px;
+  font-weight:900;
+}
+
+.mode-description{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.45;
+}
+
+/* =========================================================
+   GENERATE
+========================================================= */
+
+.generate-button{
+  width:100%;
+  margin-top:24px;
+  min-height:54px;
+
+  border-radius:14px;
+  background:var(--coral);
+  color:white;
+
+  font-size:13px;
+  font-weight:900;
+
+  box-shadow:0 7px 20px rgba(232,121,97,.18);
+  transition:.25s var(--ease);
+}
+
+.generate-button:hover{
+  background:var(--coral-dark);
+  transform:translateY(-2px);
+}
+
+.generate-button:active{
+  transform:translateY(0);
+}
+
+.loading{
+  display:none;
+  padding:22px 0 3px;
+  text-align:center;
+}
+
+.loading.visible{
+  display:block;
+}
+
+.loading-dots{
+  display:flex;
+  justify-content:center;
+  gap:5px;
+}
+
+.loading-dots span{
+  width:6px;
+  height:6px;
+  background:var(--coral);
+  border-radius:50%;
+  animation:bounce 1s infinite;
+}
+
+.loading-dots span:nth-child(2){
+  animation-delay:.12s;
+}
+
+.loading-dots span:nth-child(3){
+  animation-delay:.24s;
+}
+
+@keyframes bounce{
+  0%,80%,100%{transform:translateY(0);opacity:.4}
+  40%{transform:translateY(-5px);opacity:1}
+}
+
+.loading-text{
+  margin-top:9px;
+  color:var(--muted);
+  font-family:Georgia,serif;
+  font-size:13px;
+}
+
+.error-box{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  background:#f8deda;
+  color:#8b4438;
+  font-size:12px;
+}
+
+.error-box.visible{
+  display:block;
+}
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.results{
+  display:none;
+  padding:75px 0 100px;
+  border-top:1px solid var(--line);
+}
+
+.results.visible{
+  display:block;
+  animation:rise .5s var(--ease);
+}
+
+@keyframes rise{
+  from{
+    opacity:0;
+    transform:translateY(18px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.results-header{
+  margin-bottom:28px;
+}
+
+.results-title{
+  margin:8px 0 7px;
+  font-family:Georgia,serif;
+  font-size:clamp(31px,5vw,48px);
+  line-height:1.05;
+  letter-spacing:-1.8px;
+}
+
+.results-mode{
+  display:inline-block;
+  padding:5px 8px;
+  background:var(--surface-soft);
+  border-radius:50px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.result-tabs{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding-bottom:7px;
+  margin-bottom:14px;
+  scrollbar-width:none;
+}
+
+.result-tabs::-webkit-scrollbar{
+  display:none;
+}
+
+.result-tab{
+  flex:0 0 auto;
+  padding:9px 11px;
+  border-radius:50px;
+  background:transparent;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.7px;
+  border:1px solid var(--line);
+  transition:.2s var(--ease);
+}
+
+.result-tab.active{
+  background:var(--ink);
+  color:white;
+  border-color:var(--ink);
+}
+
+.result-panel{
+  display:none;
+}
+
+.result-panel.active{
+  display:block;
+  animation:panelIn .35s var(--ease);
+}
+
+@keyframes panelIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.panel-card{
+  padding:clamp(21px,4vw,34px);
+  border:1px solid var(--line);
+  background:var(--surface);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-small);
+}
+
+.panel-label{
+  margin-bottom:17px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  color:var(--coral-dark);
+}
+
+.summary-text{
+  font-family:Georgia,serif;
+  font-size:clamp(18px,3vw,25px);
+  line-height:1.55;
+}
+
+/* =========================================================
+   KEY POINTS
+========================================================= */
+
+.points-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+  counter-reset:points;
+}
+
+.points-list li{
+  counter-increment:points;
+  position:relative;
+  padding:15px 15px 15px 51px;
+  border-bottom:1px solid var(--line);
+  font-size:14px;
+}
+
+.points-list li:last-child{
+  border-bottom:0;
+}
+
+.points-list li::before{
+  content:counter(points, decimal-leading-zero);
+  position:absolute;
+  left:0;
+  top:16px;
+  color:var(--coral-dark);
+  font-size:10px;
+  font-weight:900;
+}
+
+/* =========================================================
+   FLASHCARDS
+========================================================= */
+
+.flashcards{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.flashcard{
+  min-height:170px;
+  perspective:900px;
+  cursor:pointer;
+}
+
+.flashcard-inner{
+  width:100%;
+  height:100%;
+  min-height:170px;
+  position:relative;
+  transition:transform .55s var(--ease);
+  transform-style:preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner{
+  transform:rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back{
+  position:absolute;
+  inset:0;
+  padding:19px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  backface-visibility:hidden;
+
+  border:1px solid var(--line);
+  border-radius:16px;
+}
+
+.flashcard-front{
+  background:var(--surface-soft);
+}
+
+.flashcard-back{
+  background:var(--ink);
+  color:white;
+  transform:rotateY(180deg);
+}
+
+.flashcard-small{
+  margin-bottom:8px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  color:var(--coral-dark);
+}
+
+.flashcard-back .flashcard-small{
+  color:#f2a291;
+}
+
+.flashcard-question,
+.flashcard-answer{
+  font-family:Georgia,serif;
+  font-size:16px;
+  line-height:1.45;
+}
+
+/* =========================================================
+   EXAMPLES
+========================================================= */
+
+.examples{
+  display:grid;
+  gap:10px;
+}
+
+.example{
+  padding:18px;
+  border-left:3px solid var(--coral);
+  background:var(--surface-soft);
+  border-radius:0 14px 14px 0;
+}
+
+.example-title{
+  margin-bottom:6px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.example-text{
+  font-family:Georgia,serif;
+  font-size:15px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.quiz-card{
+  padding:clamp(20px,4vw,34px);
+  background:var(--ink);
+  color:white;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.quiz-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.quiz-score{
+  color:#f2a291;
+}
+
+.quiz-progress{
+  height:4px;
+  margin:14px 0 28px;
+  background:rgba(255,255,255,.12);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.quiz-progress-bar{
+  width:16.66%;
+  height:100%;
+  background:var(--coral);
+  transition:.3s var(--ease);
+}
+
+.quiz-question{
+  margin-bottom:22px;
+  font-family:Georgia,serif;
+  font-size:clamp(20px,4vw,29px);
+  line-height:1.3;
+}
+
+.quiz-options{
+  display:grid;
+  gap:8px;
+}
+
+.quiz-option{
+  width:100%;
+  padding:13px 14px;
+  text-align:left;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:12px;
+  background:rgba(255,255,255,.05);
+  color:white;
+  font-size:12px;
+  transition:.2s var(--ease);
+}
+
+.quiz-option:hover{
+  background:rgba(255,255,255,.1);
+}
+
+.quiz-option.correct{
+  background:#60755d;
+  border-color:#60755d;
+}
+
+.quiz-option.wrong{
+  background:#984e42;
+  border-color:#984e42;
+}
+
+.quiz-explanation{
+  display:none;
+  margin-top:15px;
+  padding:13px;
+  background:rgba(255,255,255,.07);
+  border-radius:11px;
+  color:#ddd5cc;
+  font-size:11px;
+  line-height:1.55;
+}
+
+.quiz-next{
+  display:none;
+  margin-top:16px;
+  padding:11px 14px;
+  background:white;
+  color:var(--ink);
+  border-radius:10px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.quiz-final{
+  display:none;
+  text-align:center;
+}
+
+.quiz-final-score{
+  font-family:Georgia,serif;
+  font-size:50px;
+}
+
+.quiz-final-message{
+  margin:8px auto 20px;
+  color:#cfc5ba;
+  font-size:13px;
+}
+
+.restart-quiz{
+  padding:12px 18px;
+  background:var(--coral);
+  color:white;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:900;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer{
+  padding:25px 0;
+  border-top:1px solid var(--line);
+  color:var(--faint);
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:700px){
+
+  .container{
+    width:min(100% - 26px,1080px);
+  }
+
+  .header-inner{
+    min-height:67px;
+  }
+
+  .hero{
+    padding:56px 0 42px;
+  }
+
+  .hero h1{
+    font-size:43px;
+    letter-spacing:-2.7px;
+  }
+
+  .hero-subtitle{
+    font-size:14px;
+  }
+
+  .source-section{
+    padding-bottom:55px;
+  }
+
+  .source-card{
+    border-radius:18px;
+  }
+
+  .mode-options{
+    grid-template-columns:1fr;
+  }
+
+  .mode-option{
+    min-height:auto;
+    display:grid;
+    grid-template-columns:28px 1fr;
+    column-gap:7px;
+    align-items:center;
+  }
+
+  .mode-icon{
+    grid-row:span 2;
+    margin:0;
+  }
+
+  .mode-name{
+    align-self:end;
+  }
+
+  .mode-description{
+    align-self:start;
+    margin-top:2px;
+  }
+
+  .results{
+    padding:55px 0 70px;
+  }
+
+  .flashcards{
+    grid-template-columns:1fr;
+  }
+
+  .flashcard,
+  .flashcard-inner{
+    min-height:155px;
+  }
+}
+
+@media(max-width:430px){
+
+  .brand-name{
+    font-size:15px;
+  }
+
+  .brand-tagline{
+    font-size:7px;
+  }
+
+  .brand-logo{
+    width:36px;
+    height:36px;
+  }
+
+  .hero h1{
+    font-size:39px;
+  }
+
+  .upload-row > *{
+    flex:1;
+  }
+
+  .source-title{
+    font-size:28px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- =======================================================
+     HEADER
+======================================================= -->
 
-  <!-- =======================================================
-       HEADER
-  ======================================================== -->
+<header class="site-header">
+  <div class="container header-inner">
 
-  <header>
+    <div class="brand">
 
-    <div class="container header-inner">
-
-      <div class="brand">
-
-        <div class="brand-logo">
-          ◫
-        </div>
-
-        <div class="brand-text">
-
-          <div class="brand-name">
-            The Lazy Student
-          </div>
-
-          <div class="brand-tagline">
-            STUDY, MINUS THE DRAG.
-          </div>
-
-        </div>
-
+      <div class="brand-logo">
+        ◫
       </div>
 
-      <button
-        class="menu-button"
-        id="menuButton"
-        aria-label="Open menu"
-      >
-
-        <span class="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <!-- =======================================================
-       DRAWER
-  ======================================================== -->
-
-  <div
-    class="drawer-backdrop"
-    id="drawerBackdrop"
-  ></div>
-
-  <aside
-    class="drawer"
-    id="drawer"
-  >
-
-    <div class="drawer-top">
-
-      <div class="drawer-brand">
-
-        <div class="brand-logo">
-          ◫
-        </div>
-
-        <div class="drawer-brand-name">
+      <div class="brand-text">
+        <div class="brand-name">
           The Lazy Student
         </div>
 
+        <div class="brand-tagline">
+          STUDY, MINUS THE DRAG.
+        </div>
       </div>
 
-      <button
-        class="drawer-close"
-        id="drawerClose"
-        aria-label="Close menu"
-      >
-        ×
-      </button>
+    </div>
+
+    <button
+      class="menu-button"
+      id="menuButton"
+      aria-label="Open menu"
+    >
+      <span class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+
+  </div>
+</header>
+
+
+<!-- =======================================================
+     DRAWER
+======================================================= -->
+
+<div
+  class="drawer-overlay"
+  id="drawerOverlay"
+></div>
+
+<aside
+  class="drawer"
+  id="drawer"
+>
+
+  <div class="drawer-top">
+
+    <div class="drawer-brand">
+
+      <div class="brand-logo">
+        ◫
+      </div>
+
+      <div class="drawer-brand-name">
+        The Lazy Student
+      </div>
 
     </div>
 
+    <button
+      class="drawer-close"
+      id="drawerClose"
+      aria-label="Close menu"
+    >
+      ×
+    </button>
 
-    <!-- =====================================================
-         YOUR GUIDE
-    ====================================================== -->
+  </div>
 
-    <div class="drawer-label">
-      YOUR GUIDE
+
+  <div class="drawer-label">
+    YOUR GUIDE
+  </div>
+
+  <nav class="drawer-nav">
+
+    <button
+      class="drawer-nav-button active"
+      data-tab="gist"
+    >
+      <span class="drawer-number">01</span>
+      <span>The gist</span>
+    </button>
+
+    <button
+      class="drawer-nav-button"
+      data-tab="points"
+    >
+      <span class="drawer-number">02</span>
+      <span>Key points</span>
+    </button>
+
+    <button
+      class="drawer-nav-button"
+      data-tab="flashcards"
+    >
+      <span class="drawer-number">03</span>
+      <span>Flashcards</span>
+    </button>
+
+    <button
+      class="drawer-nav-button"
+      data-tab="examples"
+    >
+      <span class="drawer-number">04</span>
+      <span>In the wild</span>
+    </button>
+
+    <button
+      class="drawer-nav-button"
+      data-tab="quiz"
+    >
+      <span class="drawer-number">05</span>
+      <span>Quick quiz</span>
+    </button>
+
+  </nav>
+
+
+  <!-- RECENT STUDY -->
+
+  <section class="recent-study">
+
+    <div class="recent-study-heading">
+
+      <div class="recent-study-label">
+        RECENT STUDY
+      </div>
+
+      <div
+        class="recent-study-count"
+        id="recentStudyCount"
+      >
+        0 SAVED
+      </div>
+
     </div>
 
+    <div
+      class="recent-list"
+      id="recentList"
+    >
+      <div class="recent-empty">
+        Your generated guides will appear here.
+      </div>
+    </div>
 
-    <nav class="drawer-nav">
+    <button
+      class="new-study-button"
+      id="newStudyButton"
+      type="button"
+    >
+      <span class="new-study-plus">+</span>
+      <span>New study</span>
+    </button>
 
-      <button
-        class="drawer-nav-button active"
-        data-tab="gist"
-      >
-        <span class="drawer-number">01</span>
-        <span>The gist</span>
-      </button>
-
-      <button
-        class="drawer-nav-button"
-        data-tab="points"
-      >
-        <span class="drawer-number">02</span>
-        <span>Key points</span>
-      </button>
-
-      <button
-        class="drawer-nav-button"
-        data-tab="flashcards"
-      >
-        <span class="drawer-number">03</span>
-        <span>Flashcards</span>
-      </button>
-
-      <button
-        class="drawer-nav-button"
-        data-tab="examples"
-      >
-        <span class="drawer-number">04</span>
-        <span>In the wild</span>
-      </button>
-
-      <button
-        class="drawer-nav-button"
-        data-tab="quiz"
-      >
-        <span class="drawer-number">05</span>
-        <span>Quick quiz</span>
-      </button>
-
-    </nav>
+  </section>
 
 
-    <!-- =====================================================
-         RECENT STUDY
-    ====================================================== -->
+  <div class="drawer-bottom">
 
-    <section class="recent-study">
+    <div class="promise-card">
 
-      <div class="recent-study-heading">
+      <div class="promise-label">
+        TINY PROMISE
+      </div>
 
-        <div class="recent-study-label">
-          RECENT STUDY
-        </div>
+      <div class="promise-text">
+        You don't need to understand everything today.
+        You just need to understand the next thing.
+      </div>
+
+    </div>
+
+  </div>
+
+</aside>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section class="hero">
+
+  <div class="container">
+
+    <div class="eyebrow">
+      A STUDY COMPANION FOR THE ALMOST-READY.
+    </div>
+
+    <h1>
+      Study less like a machine.
+      Remember more like a human<span class="coral">.</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Drop in the material you've been avoiding.
+      We'll turn it into something your brain actually
+      wants to deal with.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     SOURCE
+======================================================= -->
+
+<section class="source-section">
+
+  <div class="container">
+
+    <div class="source-card">
+
+      <div class="section-kicker">
+        SOURCE MATERIAL
+      </div>
+
+      <h2 class="source-title">
+        Paste the thing you're avoiding.
+      </h2>
+
+      <p class="source-description">
+        Notes, lecture slides, textbook chapters, messy
+        thoughts — anything with enough words to work with.
+      </p>
+
+
+      <div class="textarea-wrap">
+
+        <textarea
+          id="sourceText"
+          placeholder="Paste your notes here..."
+          maxlength="18000"
+        ></textarea>
 
         <div
-          class="recent-study-count"
-          id="recentStudyCount"
+          class="character-count"
+          id="characterCount"
         >
-          0 SAVED
+          0 / 18,000
+        </div>
+
+      </div>
+
+
+      <div class="upload-row">
+
+        <label
+          class="upload-button"
+          for="fileInput"
+        >
+          <span class="upload-icon">↑</span>
+          <span>Upload notes</span>
+        </label>
+
+        <button
+          class="sample-button"
+          id="sampleButton"
+          type="button"
+        >
+          <span class="upload-icon">✦</span>
+          <span>Try a sample</span>
+        </button>
+
+      </div>
+
+      <div class="upload-info">
+        TXT · DOCX · PDF · minimum 40 characters
+      </div>
+
+      <input
+        type="file"
+        id="fileInput"
+        accept=".txt,.docx,.pdf,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      >
+
+
+      <!-- STUDY MODE -->
+
+      <div class="study-mode">
+
+        <div class="study-mode-heading">
+
+          <div class="study-mode-title">
+            STUDY MODE
+          </div>
+
+          <div
+            class="study-mode-current"
+            id="studyModeCurrent"
+          >
+            STANDARD
+          </div>
+
+        </div>
+
+
+        <div class="mode-options">
+
+          <button
+            class="mode-option"
+            data-mode="quick"
+            type="button"
+          >
+
+            <span class="mode-icon">
+              ⚡
+            </span>
+
+            <span class="mode-name">
+              Quick
+            </span>
+
+            <span class="mode-description">
+              Fast overview for when you're short on time.
+            </span>
+
+          </button>
+
+
+          <button
+            class="mode-option selected"
+            data-mode="standard"
+            type="button"
+          >
+
+            <span class="mode-icon">
+              ◎
+            </span>
+
+            <span class="mode-name">
+              Standard
+            </span>
+
+            <span class="mode-description">
+              A balanced guide for normal studying.
+            </span>
+
+          </button>
+
+
+          <button
+            class="mode-option"
+            data-mode="deep"
+            type="button"
+          >
+
+            <span class="mode-icon">
+              ◉
+            </span>
+
+            <span class="mode-name">
+              Deep
+            </span>
+
+            <span class="mode-description">
+              More detail, connections and practice.
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- GENERATE -->
+
+      <button
+        class="generate-button"
+        id="generateButton"
+        type="button"
+      >
+        ◎ Make it make sense · Standard
+      </button>
+
+
+      <div
+        class="loading"
+        id="loading"
+      >
+
+        <div class="loading-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="loading-text">
+          Turning your material into something human...
         </div>
 
       </div>
 
 
       <div
-        class="recent-list"
-        id="recentList"
-      >
+        class="error-box"
+        id="errorBox"
+      ></div>
 
-        <div class="recent-empty">
-          Your generated guides will appear here.
-        </div>
+    </div>
 
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     RESULTS
+======================================================= -->
+
+<section
+  class="results"
+  id="results"
+>
+
+  <div class="container">
+
+    <div class="results-header">
+
+      <div class="results-kicker">
+        YOUR STUDY GUIDE
       </div>
 
+      <h2
+        class="results-title"
+        id="resultsTitle"
+      >
+        Okay. Now it makes sense.
+      </h2>
+
+      <div
+        class="results-mode"
+        id="resultsMode"
+      >
+        STANDARD MODE
+      </div>
+
+    </div>
+
+
+    <!-- RESULT TABS -->
+
+    <div class="result-tabs">
 
       <button
-        class="new-study-button"
-        id="newStudyButton"
-        type="button"
+        class="result-tab active"
+        data-result-tab="gist"
       >
-
-        <span class="new-study-plus">
-          +
-        </span>
-
-        <span>
-          New study
-        </span>
-
+        01 THE GIST
       </button>
 
-    </section>
+      <button
+        class="result-tab"
+        data-result-tab="points"
+      >
+        02 KEY POINTS
+      </button>
+
+      <button
+        class="result-tab"
+        data-result-tab="flashcards"
+      >
+        03 FLASHCARDS
+      </button>
+
+      <button
+        class="result-tab"
+        data-result-tab="examples"
+      >
+        04 IN THE WILD
+      </button>
+
+      <button
+        class="result-tab"
+        data-result-tab="quiz"
+      >
+        05 QUIZ
+      </button>
+
+    </div>
 
 
-    <!-- =====================================================
-         PROMISE
-    ====================================================== -->
+    <!-- GIST -->
 
-    <div class="drawer-bottom">
+    <div
+      class="result-panel active"
+      data-panel="gist"
+    >
 
-      <div class="promise-card">
+      <div class="panel-card">
 
-        <div class="promise-label">
-          TINY PROMISE
+        <div class="panel-label">
+          THE GIST
         </div>
 
-        <div class="promise-text">
-          You don't need to understand everything today.
-          You just need to understand the next thing.
-        </div>
+        <div
+          class="summary-text"
+          id="summary"
+        ></div>
 
       </div>
 
     </div>
 
-  </aside>
 
+    <!-- KEY POINTS -->
 
-  <!-- =======================================================
-       MAIN
-  ======================================================== -->
+    <div
+      class="result-panel"
+      data-panel="points"
+    >
 
-  <main>
+      <div class="panel-card">
 
-    <!-- HERO -->
-
-    <section class="hero">
-
-      <div class="container">
-
-        <div class="eyebrow">
-          A STUDY COMPANION FOR THE ALMOST-READY.
+        <div class="panel-label">
+          KEY POINTS
         </div>
 
-        <h1>
-          Study less like a machine.
-          Remember more like a human<span class="coral">.</span>
-        </h1>
-
-        <p class="hero-subtitle">
-          Drop in the material you've been avoiding.
-          We'll turn it into something your brain actually
-          wants to deal with.
-        </p>
+        <ol
+          class="points-list"
+          id="pointsList"
+        ></ol>
 
       </div>
 
-    </section>
+    </div>
 
 
-    <!-- SOURCE -->
+    <!-- FLASHCARDS -->
 
-    <section class="source-section">
+    <div
+      class="result-panel"
+      data-panel="flashcards"
+    >
 
-      <div class="container">
+      <div class="panel-card">
 
-        <div class="source-card">
+        <div class="panel-label">
+          FLASHCARDS · TAP TO REVEAL
+        </div>
 
-          <div class="section-kicker">
-            SOURCE MATERIAL
-          </div>
+        <div
+          class="flashcards"
+          id="flashcards"
+        ></div>
 
-          <h2 class="source-title">
-            Paste the thing you're avoiding.
-          </h2>
+      </div>
 
-          <p class="source-description">
-            Notes, lecture slides, textbook chapters, messy
-            thoughts — anything with enough words to work with.
-          </p>
-
-
-          <!-- TEXTAREA -->
-
-          <div class="textarea-wrap">
-
-            <textarea
-              id="sourceText"
-              placeholder="Paste your notes here..."
-              maxlength="18000"
-            ></textarea>
-
-            <div
-              class="character-count"
-              id="characterCount"
-            >
-              0 / 18,000
-            </div>
-
-          </div>
+    </div>
 
 
-          <!-- UPLOAD -->
+    <!-- EXAMPLES -->
 
-          <div class="upload-row">
+    <div
+      class="result-panel"
+      data-panel="examples"
+    >
 
-            <label
-              class="upload-button"
-              for="fileInput"
-            >
+      <div class="panel-card">
 
-              <span class="upload-icon">
-                ↑
-              </span>
+        <div class="panel-label">
+          IN THE WILD
+        </div>
 
-              <span>
-                Upload notes
-              </span>
+        <div
+          class="examples"
+          id="examples"
+        ></div>
 
-            </label>
+      </div>
 
-            <button
-              class="sample-button"
-              id="sampleButton"
-              type="button"
-            >
-
-              <span class="upload-icon">
-                ✦
-              </span>
-
-              <span>
-                Try a sample
-              </span>
-
-            </button>
-
-          </div>
-
-          <div class="upload-info">
-            TXT · DOCX · PDF · minimum 40 characters
-          </div>
-
-          <input
-            type="file"
-            id="fileInput"
-            accept=".txt,.docx,.pdf,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          />
+    </div>
 
 
-          <!-- STUDY MODE -->
+    <!-- QUIZ -->
 
-          <div class="study-mode">
+    <div
+      class="result-panel"
+      data-panel="quiz"
+    >
 
-            <div class="study-mode-heading">
+      <div
+        class="quiz-card"
+        id="quizCard"
+      >
 
-              <div class="study-mode-title">
-                STUDY MODE
-              </div>
-
-              <div
-                class="study-mode-current"
-                id="studyModeCurrent"
-              >
-                STANDARD
-              </div>
-
-            </div>
-
-
-            <div class="mode-options">
-
-              <button
-                class="mode-option"
-                data-mode="quick"
-                type="button"
-              >
-
-                <span class="mode-icon">
-                  ⚡
-                </span>
-
-                <span class="mode-name">
-                  Quick
-                </span>
-
-                <span class="mode-description">
-                  Fast overview for when you're short on time.
-                </span>
-
-              </button>
-
-
-              <button
-                class="mode-option selected"
-                data-mode="standard"
-                type="button"
-              >
-
-                <span class="mode-icon">
-                  ◎
-                </span>
-
-                <span class="mode-name">
-                  Standard
-                </span>
-
-                <span class="mode-description">
-                  A balanced guide for normal studying.
-                </span>
-
-              </button>
-
-
-              <button
-                class="mode-option"
-                data-mode="deep"
-                type="button"
-              >
-
-                <span class="mode-icon">
-                  ◉
-                </span>
-
-                <span class="mode-name">
-                  Deep
-                </span>
-
-                <span class="mode-description">
-                  More detail, connections and practice.
-                </span>
-
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <!-- GENERATE -->
-
-          <button
-            class="generate-button"
-            id="generateButton"
-            type="button"
-          >
-            ◎ Make it make sense · Standard
-          </button>
-
-
-          <!-- LOADING -->
+        <div class="quiz-top">
 
           <div
-            class="loading"
-            id="loading"
+            class="quiz-counter"
+            id="quizCounter"
           >
-
-            <div class="loading-dots">
-
-              <span></span>
-              <span></span>
-              <span></span>
-
-            </div>
-
-            <div class="loading-text">
-              Turning your material into something human...
-            </div>
-
+            QUESTION 1 / 6
           </div>
 
+          <div
+            class="quiz-score"
+            id="quizScore"
+          >
+            SCORE: 0
+          </div>
 
-          <!-- ERROR -->
+        </div>
+
+
+        <div class="quiz-progress">
 
           <div
-            class="error-box"
-            id="errorBox"
+            class="quiz-progress-bar"
+            id="quizProgressBar"
           ></div>
 
         </div>
 
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         RESULTS
-    ====================================================== -->
-
-    <section
-      class="results"
-      id="results"
-    >
-
-      <div class="container">
-
-
-        <div class="results-header">
-
-          <div class="results-kicker">
-            YOUR STUDY GUIDE
-          </div>
-
-          <h2
-            class="results-title"
-            id="resultsTitle"
-          >
-            Okay. Now it makes sense.
-          </h2>
-
-          <div
-            class="results-mode"
-            id="resultsMode"
-          >
-            STANDARD MODE
-          </div>
-
-        </div>
-
-
-        <!-- RESULT TABS -->
-
-        <div class="result-tabs">
-
-          <button
-            class="result-tab active"
-            data-result-tab="gist"
-          >
-            01 THE GIST
-          </button>
-
-          <button
-            class="result-tab"
-            data-result-tab="points"
-          >
-            02 KEY POINTS
-          </button>
-
-          <button
-            class="result-tab"
-            data-result-tab="flashcards"
-          >
-            03 FLASHCARDS
-          </button>
-
-          <button
-            class="result-tab"
-            data-result-tab="examples"
-          >
-            04 IN THE WILD
-          </button>
-
-          <button
-            class="result-tab"
-            data-result-tab="quiz"
-          >
-            05 QUIZ
-          </button>
-
-        </div>
-
-
-        <!-- GIST -->
 
         <div
-          class="result-panel active"
-          data-panel="gist"
+          class="quiz-question"
+          id="quizQuestion"
+        ></div>
+
+
+        <div
+          class="quiz-options"
+          id="quizOptions"
+        ></div>
+
+
+        <div
+          class="quiz-explanation"
+          id="quizExplanation"
+        ></div>
+
+
+        <button
+          class="quiz-next"
+          id="quizNext"
+          type="button"
         >
+          Next question →
+        </button>
 
-          <div class="panel-card">
-
-            <div class="panel-label">
-              THE GIST
-            </div>
-
-            <div
-              class="summary-text"
-              id="summary"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <!-- KEY POINTS -->
 
         <div
-          class="result-panel"
-          data-panel="points"
-        >
-
-          <div class="panel-card">
-
-            <div class="panel-label">
-              KEY POINTS
-            </div>
-
-            <ol
-              class="points-list"
-              id="pointsList"
-            ></ol>
-
-          </div>
-
-        </div>
-
-
-        <!-- FLASHCARDS -->
-
-        <div
-          class="result-panel"
-          data-panel="flashcards"
-        >
-
-          <div class="panel-card">
-
-            <div class="panel-label">
-              FLASHCARDS · TAP TO REVEAL
-            </div>
-
-            <div
-              class="flashcards"
-              id="flashcards"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <!-- EXAMPLES -->
-
-        <div
-          class="result-panel"
-          data-panel="examples"
-        >
-
-          <div class="panel-card">
-
-            <div class="panel-label">
-              IN THE WILD
-            </div>
-
-            <div
-              class="examples"
-              id="examples"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <!-- QUIZ -->
-
-        <div
-          class="result-panel"
-          data-panel="quiz"
+          class="quiz-final"
+          id="quizFinal"
         >
 
           <div
-            class="quiz-card"
-            id="quizCard"
+            class="quiz-final-score"
+            id="quizFinalScore"
           >
-
-            <div class="quiz-top">
-
-              <div
-                class="quiz-counter"
-                id="quizCounter"
-              >
-                QUESTION 1 / 6
-              </div>
-
-              <div
-                class="quiz-score"
-                id="quizScore"
-              >
-                SCORE: 0
-              </div>
-
-            </div>
-
-
-            <div class="quiz-progress">
-
-              <div
-                class="quiz-progress-bar"
-                id="quizProgressBar"
-              ></div>
-
-            </div>
-
-
-            <div
-              class="quiz-question"
-              id="quizQuestion"
-            ></div>
-
-
-            <div
-              class="quiz-options"
-              id="quizOptions"
-            ></div>
-
-
-            <div
-              class="quiz-explanation"
-              id="quizExplanation"
-            ></div>
-
-
-            <button
-              class="quiz-next"
-              id="quizNext"
-              type="button"
-            >
-              Next question →
-            </button>
-
-
-            <div
-              class="quiz-final"
-              id="quizFinal"
-            >
-
-              <div
-                class="quiz-final-score"
-                id="quizFinalScore"
-              >
-                0 / 0
-              </div>
-
-              <div
-                class="quiz-final-message"
-                id="quizFinalMessage"
-              ></div>
-
-              <button
-                class="restart-quiz"
-                id="restartQuiz"
-                type="button"
-              >
-                Try again
-              </button>
-
-            </div>
-
+            0 / 0
           </div>
+
+          <div
+            class="quiz-final-message"
+            id="quizFinalMessage"
+          ></div>
+
+          <button
+            class="restart-quiz"
+            id="restartQuiz"
+            type="button"
+          >
+            Try again
+          </button>
 
         </div>
 
       </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- FOOTER -->
-
-  <footer>
-
-    <div class="container">
-
-      THE LAZY STUDENT · STUDY, MINUS THE DRAG.
 
     </div>
 
-  </footer>
+  </div>
 
-</div>
+</section>
 
 
-<!-- =========================================================
-     LIBRARIES
-========================================================= -->
+<!-- =======================================================
+     FOOTER
+======================================================= -->
 
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
-  type="module"
-></script>
+<footer class="site-footer">
 
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"
-></script>
+  <div class="container">
+    THE LAZY STUDENT · STUDY, MINUS THE DRAG.
+  </div>
 
+</footer>
 
-<!-- =========================================================
-     APPLICATION JAVASCRIPT
-========================================================= -->
 
-<script type="module">
+<script>
+/* =========================================================
+   STATE
+========================================================= */
 
-  /* =========================================================
-     PDF.JS
-  ========================================================= */
+let currentMode = "standard";
 
-  const pdfjsLib = await import(
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"
-  );
+let quizQuestions = [];
+let currentQuizQuestion = 0;
+let quizScore = 0;
 
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
 
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-  /* =========================================================
-     DOM
-  ========================================================= */
+const menuButton =
+  document.getElementById("menuButton");
 
-  const sourceText =
-    document.getElementById("sourceText");
+const drawer =
+  document.getElementById("drawer");
 
-  const characterCount =
-    document.getElementById("characterCount");
+const drawerClose =
+  document.getElementById("drawerClose");
 
-  const fileInput =
-    document.getElementById("fileInput");
+const drawerOverlay =
+  document.getElementById("drawerOverlay");
 
-  const sampleButton =
-    document.getElementById("sampleButton");
+const sourceText =
+  document.getElementById("sourceText");
 
-  const generateButton =
-    document.getElementById("generateButton");
+const characterCount =
+  document.getElementById("characterCount");
 
-  const loading =
-    document.getElementById("loading");
+const sampleButton =
+  document.getElementById("sampleButton");
 
-  const errorBox =
-    document.getElementById("errorBox");
+const fileInput =
+  document.getElementById("fileInput");
 
-  const results =
-    document.getElementById("results");
+const generateButton =
+  document.getElementById("generateButton");
 
-  const resultsTitle =
-    document.getElementById("resultsTitle");
+const loading =
+  document.getElementById("loading");
 
-  const summary =
-    document.getElementById("summary");
+const errorBox =
+  document.getElementById("errorBox");
 
-  const pointsList =
-    document.getElementById("pointsList");
+const results =
+  document.getElementById("results");
 
-  const flashcards =
-    document.getElementById("flashcards");
+const studyModeCurrent =
+  document.getElementById("studyModeCurrent");
 
-  const examples =
-    document.getElementById("examples");
 
-  const quizQuestion =
-    document.getElementById("quizQuestion");
+/* =========================================================
+   DRAWER
+========================================================= */
 
-  const quizOptions =
-    document.getElementById("quizOptions");
+function openDrawer(){
 
-  const quizCounter =
-    document.getElementById("quizCounter");
+  drawer.classList.add("open");
+  drawerOverlay.classList.add("open");
 
-  const quizScoreElement =
-    document.getElementById("quizScore");
+  document.body.style.overflow = "hidden";
+}
 
-  const quizProgressBar =
-    document.getElementById("quizProgressBar");
+function closeDrawer(){
 
-  const quizExplanation =
-    document.getElementById("quizExplanation");
+  drawer.classList.remove("open");
+  drawerOverlay.classList.remove("open");
 
-  const quizNext =
-    document.getElementById("quizNext");
+  document.body.style.overflow = "";
+}
 
-  const quizFinal =
-    document.getElementById("quizFinal");
+menuButton.addEventListener(
+  "click",
+  openDrawer
+);
 
-  const quizFinalScore =
-    document.getElementById("quizFinalScore");
+drawerClose.addEventListener(
+  "click",
+  closeDrawer
+);
 
-  const quizFinalMessage =
-    document.getElementById("quizFinalMessage");
+drawerOverlay.addEventListener(
+  "click",
+  closeDrawer
+);
 
-  const restartQuiz =
-    document.getElementById("restartQuiz");
 
-  const studyModeCurrent =
-    document.getElementById("studyModeCurrent");
+/* =========================================================
+   TEXT CHARACTER COUNT
+========================================================= */
 
-  const resultsMode =
-    document.getElementById("resultsMode");
+sourceText.addEventListener(
+  "input",
+  updateCharacterCount
+);
 
-  const recentList =
-    document.getElementById("recentList");
+function updateCharacterCount(){
 
-  const recentStudyCount =
-    document.getElementById("recentStudyCount");
+  characterCount.textContent =
+    `${sourceText.value.length.toLocaleString()} / 18,000`;
+}
 
-  const newStudyButton =
-    document.getElementById("newStudyButton");
 
+/* =========================================================
+   STUDY MODE
+========================================================= */
 
-  /* =========================================================
-     DRAWER
-  ========================================================= */
+document
+  .querySelectorAll(".mode-option")
+  .forEach(button => {
 
-  const menuButton =
-    document.getElementById("menuButton");
+    button.addEventListener(
+      "click",
+      () => {
 
-  const drawer =
-    document.getElementById("drawer");
-
-  const drawerClose =
-    document.getElementById("drawerClose");
-
-  const drawerBackdrop =
-    document.getElementById("drawerBackdrop");
-
-
-  function openDrawer() {
-
-    drawer.classList.add("open");
-
-    drawerBackdrop.classList.add("open");
-
-    document.body.style.overflow = "hidden";
-
-  }
-
-
-  function closeDrawer() {
-
-    drawer.classList.remove("open");
-
-    drawerBackdrop.classList.remove("open");
-
-    document.body.style.overflow = "";
-
-  }
-
-
-  menuButton.addEventListener(
-    "click",
-    openDrawer
-  );
-
-  drawerClose.addEventListener(
-    "click",
-    closeDrawer
-  );
-
-  drawerBackdrop.addEventListener(
-    "click",
-    closeDrawer
-  );
-
-
-  /* =========================================================
-     LOCAL STORAGE
-  ========================================================= */
-
-  const STORAGE_KEY =
-    "lazyStudent.sessions";
-
-
-  const MAX_SAVED_SESSIONS =
-    20;
-
-
-  let sessions = [];
-
-  let currentSessionId = null;
-
-
-  function loadSessionsFromStorage() {
-
-    try {
-
-      const saved =
-        localStorage.getItem(
-          STORAGE_KEY
-        );
-
-
-      if (!saved) {
-
-        sessions = [];
-
-        return;
-
-      }
-
-
-      const parsed =
-        JSON.parse(saved);
-
-
-      if (Array.isArray(parsed)) {
-
-        sessions = parsed;
-
-      } else {
-
-        sessions = [];
-
-      }
-
-    } catch (error) {
-
-      console.warn(
-        "Could not load saved study sessions.",
-        error
-      );
-
-      sessions = [];
-
-    }
-
-  }
-
-
-  function saveSessionsToStorage() {
-
-    try {
-
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(sessions)
-      );
-
-      return true;
-
-    } catch (error) {
-
-      console.warn(
-        "Could not save study sessions.",
-        error
-      );
-
-      showError(
-        "Your browser could not save this study session. You can still use it for this visit."
-      );
-
-      return false;
-
-    }
-
-  }
-
-
-  function createSessionId() {
-
-    return (
-      "session_" +
-      Date.now() +
-      "_" +
-      Math.random()
-        .toString(36)
-        .slice(2, 9)
-    );
-
-  }
-
-
-  function createSessionTitle(text) {
-
-    const cleaned =
-      text
-        .replace(/\s+/g, " ")
-        .trim();
-
-
-    if (!cleaned) {
-
-      return "Untitled study";
-
-    }
-
-
-    /*
-      Prefer the first sentence/line because
-      students often start notes with the topic.
-    */
-
-    const firstPart =
-      cleaned
-        .split(/[.!?]\s+|\n/)
-        .find(part => part.trim().length > 2);
-
-
-    let title =
-      firstPart ||
-      cleaned;
-
-
-    title =
-      title
-        .replace(/^[-•*#\d.)\s]+/, "")
-        .trim();
-
-
-    if (title.length > 55) {
-
-      title =
-        title.slice(0, 55).trim() +
-        "…";
-
-    }
-
-
-    return title ||
-      "Untitled study";
-
-  }
-
-
-  function getModeName(mode) {
-
-    const names = {
-
-      quick: "Quick",
-      standard: "Standard",
-      deep: "Deep"
-
-    };
-
-
-    return names[mode] ||
-      "Standard";
-
-  }
-
-
-  function formatSessionDate(timestamp) {
-
-    if (!timestamp) {
-
-      return "";
-
-    }
-
-
-    try {
-
-      const date =
-        new Date(timestamp);
-
-
-      return date.toLocaleDateString(
-        undefined,
-        {
-          month: "short",
-          day: "numeric",
-          year: "numeric"
-        }
-      );
-
-    } catch {
-
-      return "";
-
-    }
-
-  }
-
-
-  function saveCurrentSession() {
-
-    if (
-      !studyData ||
-      !currentSessionId
-    ) {
-
-      return;
-
-    }
-
-
-    const existingIndex =
-      sessions.findIndex(
-        session =>
-          session.id === currentSessionId
-      );
-
-
-    if (existingIndex === -1) {
-
-      return;
-
-    }
-
-
-    const existing =
-      sessions[existingIndex];
-
-
-    sessions[existingIndex] = {
-
-      ...existing,
-
-      sourceText:
-        sourceText.value,
-
-      mode:
-        selectedStudyMode,
-
-      guide:
-        studyData,
-
-      quiz: {
-
-        index:
-          quizIndex,
-
-        score:
-          quizScore,
-
-        answered:
-          quizAnswered,
-
-        finished:
-          quizFinal.classList.contains(
-            "visible"
-          )
-
-      },
-
-      updatedAt:
-        new Date().toISOString()
-
-    };
-
-
-    /*
-      Put the active session at the top.
-    */
-
-    const updatedSession =
-      sessions[existingIndex];
-
-
-    sessions.splice(
-      existingIndex,
-      1
-    );
-
-
-    sessions.unshift(
-      updatedSession
-    );
-
-
-    saveSessionsToStorage();
-
-    renderRecentSessions();
-
-  }
-
-
-  function createAndSaveSession() {
-
-    if (!studyData) {
-
-      return;
-
-    }
-
-
-    const now =
-      new Date().toISOString();
-
-
-    const session = {
-
-      id:
-        createSessionId(),
-
-      title:
-        createSessionTitle(
-          sourceText.value
-        ),
-
-      sourceText:
-        sourceText.value,
-
-      mode:
-        selectedStudyMode,
-
-      guide:
-        studyData,
-
-      quiz: {
-
-        index:
-          quizIndex,
-
-        score:
-          quizScore,
-
-        answered:
-          quizAnswered,
-
-        finished:
-          false
-
-      },
-
-      createdAt:
-        now,
-
-      updatedAt:
-        now
-
-    };
-
-
-    currentSessionId =
-      session.id;
-
-
-    /*
-      Newest sessions appear first.
-    */
-
-    sessions.unshift(
-      session
-    );
-
-
-    /*
-      Prevent localStorage from growing
-      indefinitely.
-    */
-
-    if (
-      sessions.length >
-      MAX_SAVED_SESSIONS
-    ) {
-
-      sessions =
-        sessions.slice(
-          0,
-          MAX_SAVED_SESSIONS
-        );
-
-    }
-
-
-    saveSessionsToStorage();
-
-    renderRecentSessions();
-
-  }
-
-
-  function openSavedSession(sessionId) {
-
-    const session =
-      sessions.find(
-        item =>
-          item.id === sessionId
-      );
-
-
-    if (!session) {
-
-      return;
-
-    }
-
-
-    if (
-      !session.guide
-    ) {
-
-      return;
-
-    }
-
-
-    currentSessionId =
-      session.id;
-
-
-    sourceText.value =
-      session.sourceText ||
-      "";
-
-
-    selectedStudyMode =
-      session.mode ||
-      "standard";
-
-
-    updateStudyModeUI();
-
-
-    studyData =
-      session.guide;
-
-
-    renderStudyGuide(
-      studyData
-    );
-
-
-    /*
-      Restore saved quiz position.
-    */
-
-    const savedQuiz =
-      session.quiz;
-
-
-    if (
-      savedQuiz &&
-      Number.isInteger(
-        Number(savedQuiz.index)
-      )
-    ) {
-
-      quizIndex =
-        Math.max(
-          0,
-          Math.min(
-            Number(savedQuiz.index),
-            Math.max(
-              0,
-              studyData.quiz.length - 1
-            )
-          )
-        );
-
-    }
-
-
-    if (
-      savedQuiz &&
-      Number.isInteger(
-        Number(savedQuiz.score)
-      )
-    ) {
-
-      quizScore =
-        Math.max(
-          0,
-          Number(savedQuiz.score)
-        );
-
-    }
-
-
-    const wasFinished =
-      Boolean(
-        savedQuiz &&
-        savedQuiz.finished
-      );
-
-
-    if (wasFinished) {
-
-      finishQuiz();
-
-    } else {
-
-      renderQuizQuestion();
-
-      /*
-        If the saved session was on a question
-        that had already been answered, show
-        the answer state again.
-      */
-
-      if (
-        savedQuiz &&
-        savedQuiz.answered
-      ) {
-
-        const question =
-          studyData.quiz[quizIndex];
-
-
-        const correctAnswer =
-          Number(question.answer);
-
-
-        const buttons =
-          document.querySelectorAll(
-            ".option"
+        document
+          .querySelectorAll(".mode-option")
+          .forEach(item =>
+            item.classList.remove("selected")
           );
 
+        button.classList.add("selected");
 
-        buttons.forEach(button => {
+        currentMode =
+          button.dataset.mode;
 
-          button.disabled = true;
+        studyModeCurrent.textContent =
+          currentMode.toUpperCase();
 
-
-          const index =
-            Number(
-              button.dataset.index
-            );
-
-
-          if (
-            index === correctAnswer
-          ) {
-
-            button.classList.add(
-              "correct"
-            );
-
-          }
-
-        });
-
-
-        quizAnswered =
-          true;
-
-
-        quizScoreElement.textContent =
-          `SCORE: ${quizScore}`;
-
-
-        quizExplanation.classList.add(
-          "visible"
-        );
-
-
-        if (
-          quizIndex <
-          studyData.quiz.length - 1
-        ) {
-
-          quizNext.textContent =
-            "Next question →";
-
-        } else {
-
-          quizNext.textContent =
-            "See my score →";
-
-        }
-
-
-        quizNext.classList.add(
-          "visible"
-        );
-
+        generateButton.textContent =
+          `◎ Make it make sense · ${
+            currentMode.charAt(0).toUpperCase()
+            + currentMode.slice(1)
+          }`;
       }
+    );
 
-    }
+  });
 
+
+/* =========================================================
+   SAMPLE
+========================================================= */
+
+sampleButton.addEventListener(
+  "click",
+  () => {
+
+    sourceText.value = `
+Photosynthesis is the process by which green plants,
+algae and some bacteria convert light energy into
+chemical energy.
+
+The process mainly occurs inside chloroplasts.
+Chlorophyll absorbs light energy, especially red and
+blue wavelengths.
+
+Photosynthesis can be divided into two major stages:
+the light-dependent reactions and the Calvin cycle.
+
+During the light-dependent reactions, sunlight is used
+to produce ATP and NADPH. Water is split and oxygen is
+released as a by-product.
+
+The Calvin cycle uses ATP and NADPH to convert carbon
+dioxide into organic molecules that can eventually
+form glucose.
+
+The overall process allows plants to store solar energy
+in chemical bonds while releasing oxygen into the
+atmosphere.
+`.trim();
 
     updateCharacterCount();
 
+    sourceText.focus();
+  }
+);
 
-    results.classList.add(
-      "visible"
+
+/* =========================================================
+   FILE INPUT
+========================================================= */
+
+fileInput.addEventListener(
+  "change",
+  async event => {
+
+    const file =
+      event.target.files[0];
+
+    if(!file) return;
+
+    const name =
+      file.name.toLowerCase();
+
+    if(
+      name.endsWith(".txt")
+    ){
+
+      const text =
+        await file.text();
+
+      sourceText.value =
+        text.slice(0,18000);
+
+      updateCharacterCount();
+
+      return;
+    }
+
+    /*
+      DOCX/PDF parsing intentionally stays
+      lightweight in this standalone version.
+
+      The UI accepts the formats so the frontend
+      can later be connected to a parser/API.
+    */
+
+    showError(
+      "This demo can read TXT files directly. PDF and DOCX need a document parser or backend connection."
+    );
+  }
+);
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+function showError(message){
+
+  errorBox.textContent =
+    message;
+
+  errorBox.classList.add("visible");
+}
+
+function clearError(){
+
+  errorBox.textContent = "";
+
+  errorBox.classList.remove(
+    "visible"
+  );
+}
+
+
+/* =========================================================
+   GENERATE
+========================================================= */
+
+generateButton.addEventListener(
+  "click",
+  generateGuide
+);
+
+function generateGuide(){
+
+  clearError();
+
+  const text =
+    sourceText.value.trim();
+
+  if(text.length < 40){
+
+    showError(
+      "Give me at least 40 characters to work with."
     );
 
+    sourceText.focus();
 
-    showResultTab("gist");
+    return;
+  }
+
+  loading.classList.add("visible");
+
+  generateButton.disabled = true;
+
+  setTimeout(
+    () => {
+
+      const guide =
+        createGuide(text);
+
+      renderGuide(guide);
+
+      saveRecentStudy(
+        createStudyTitle(text)
+      );
+
+      loading.classList.remove(
+        "visible"
+      );
+
+      generateButton.disabled = false;
+
+      results.classList.add(
+        "visible"
+      );
+
+      results.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+    },
+    650
+  );
+}
 
 
-    renderRecentSessions();
+/* =========================================================
+   SIMPLE LOCAL GUIDE ENGINE
+========================================================= */
 
-    closeDrawer();
+function cleanSentences(text){
+
+  return text
+    .replace(/\s+/g," ")
+    .split(/(?<=[.!?])\s+/)
+    .map(x => x.trim())
+    .filter(x => x.length > 25);
+}
+
+function createGuide(text){
+
+  const sentences =
+    cleanSentences(text);
+
+  const points =
+    sentences.slice(
+      0,
+      currentMode === "quick"
+        ? 4
+        : currentMode === "deep"
+          ? 8
+          : 6
+    );
+
+  const summary =
+    sentences
+      .slice(0,3)
+      .join(" ");
+
+  const cards =
+    points
+      .slice(0,6)
+      .map(
+        (point,index) => ({
+          question:
+            `What should you remember about point ${index + 1}?`,
+          answer:point
+        })
+      );
+
+  const examples =
+    points
+      .slice(0,4)
+      .map(
+        (point,index) => ({
+          title:
+            `Think about it like this`,
+          text:
+            point
+        })
+      );
+
+  const quiz =
+    points
+      .slice(0,6)
+      .map(
+        (point,index) => ({
+          question:
+            `Which statement best matches the material?`,
+          answer:
+            point,
+          options:[
+            point,
+            "This idea has no practical application.",
+            "The material is mainly about memorising unrelated facts.",
+            "None of the concepts are connected."
+          ]
+        })
+      );
+
+  return {
+    summary:
+      summary ||
+      "This material is about several connected ideas that become easier once the main concept is clear.",
+
+    points,
+
+    cards,
+
+    examples,
+
+    quiz
+  };
+}
 
 
-    results.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+/* =========================================================
+   RENDER GUIDE
+========================================================= */
+
+function renderGuide(guide){
+
+  document.getElementById(
+    "summary"
+  ).textContent =
+    guide.summary;
+
+  const pointsList =
+    document.getElementById(
+      "pointsList"
+    );
+
+  pointsList.innerHTML = "";
+
+  guide.points.forEach(
+    point => {
+
+      const li =
+        document.createElement("li");
+
+      li.textContent =
+        point;
+
+      pointsList.appendChild(li);
+    }
+  );
+
+
+  const flashcards =
+    document.getElementById(
+      "flashcards"
+    );
+
+  flashcards.innerHTML = "";
+
+  guide.cards.forEach(
+    (card,index) => {
+
+      const element =
+        document.createElement("div");
+
+      element.className =
+        "flashcard";
+
+      element.innerHTML = `
+        <div class="flashcard-inner">
+
+          <div class="flashcard-front">
+
+            <div class="flashcard-small">
+              CARD ${String(index + 1).padStart(2,"0")}
+            </div>
+
+            <div class="flashcard-question">
+              ${escapeHTML(card.question)}
+            </div>
+
+          </div>
+
+          <div class="flashcard-back">
+
+            <div class="flashcard-small">
+              ANSWER
+            </div>
+
+            <div class="flashcard-answer">
+              ${escapeHTML(card.answer)}
+            </div>
+
+          </div>
+
+        </div>
+      `;
+
+      element.addEventListener(
+        "click",
+        () => {
+          element.classList.toggle(
+            "flipped"
+          );
+        }
+      );
+
+      flashcards.appendChild(
+        element
+      );
+    }
+  );
+
+
+  const examples =
+    document.getElementById(
+      "examples"
+    );
+
+  examples.innerHTML = "";
+
+  guide.examples.forEach(
+    example => {
+
+      const element =
+        document.createElement("div");
+
+      element.className =
+        "example";
+
+      element.innerHTML = `
+        <div class="example-title">
+          ${escapeHTML(example.title)}
+        </div>
+
+        <div class="example-text">
+          ${escapeHTML(example.text)}
+        </div>
+      `;
+
+      examples.appendChild(
+        element
+      );
+    }
+  );
+
+
+  quizQuestions =
+    guide.quiz;
+
+  startQuiz();
+
+
+  document.getElementById(
+    "resultsMode"
+  ).textContent =
+    `${currentMode.toUpperCase()} MODE`;
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+function startQuiz(){
+
+  currentQuizQuestion = 0;
+  quizScore = 0;
+
+  document.getElementById(
+    "quizFinal"
+  ).style.display = "none";
+
+  document.getElementById(
+    "quizQuestion"
+  ).style.display = "";
+
+  document.getElementById(
+    "quizOptions"
+  ).style.display = "";
+
+  document.getElementById(
+    "quizNext"
+  ).style.display = "none";
+
+  document.getElementById(
+    "quizScore"
+  ).textContent =
+    "SCORE: 0";
+
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion(){
+
+  if(
+    currentQuizQuestion >=
+    quizQuestions.length
+  ){
+
+    finishQuiz();
+
+    return;
+  }
+
+  const q =
+    quizQuestions[
+      currentQuizQuestion
+    ];
+
+  document.getElementById(
+    "quizCounter"
+  ).textContent =
+    `QUESTION ${
+      currentQuizQuestion + 1
+    } / ${quizQuestions.length}`;
+
+  document.getElementById(
+    "quizProgressBar"
+  ).style.width =
+    `${
+      ((currentQuizQuestion + 1)
+      / quizQuestions.length)
+      * 100
+    }%`;
+
+  document.getElementById(
+    "quizQuestion"
+  ).textContent =
+    q.question;
+
+  const options =
+    document.getElementById(
+      "quizOptions"
+    );
+
+  options.innerHTML = "";
+
+  const shuffled =
+    [...q.options]
+      .sort(
+        () => Math.random() - .5
+      );
+
+  shuffled.forEach(
+    option => {
+
+      const button =
+        document.createElement("button");
+
+      button.className =
+        "quiz-option";
+
+      button.textContent =
+        option;
+
+      button.addEventListener(
+        "click",
+        () => answerQuiz(
+          button,
+          option,
+          q.answer
+        )
+      );
+
+      options.appendChild(
+        button
+      );
+    }
+  );
+
+  document.getElementById(
+    "quizExplanation"
+  ).style.display = "none";
+
+  document.getElementById(
+    "quizNext"
+  ).style.display = "none";
+}
+
+
+function answerQuiz(
+  selectedButton,
+  selected,
+  correct
+){
+
+  const buttons =
+    document.querySelectorAll(
+      ".quiz-option"
+    );
+
+  buttons.forEach(
+    button => {
+      button.disabled = true;
+    }
+  );
+
+  const isCorrect =
+    selected === correct;
+
+  if(isCorrect){
+
+    selectedButton.classList.add(
+      "correct"
+    );
+
+    quizScore++;
+
+    document.getElementById(
+      "quizScore"
+    ).textContent =
+      `SCORE: ${quizScore}`;
+
+  }else{
+
+    selectedButton.classList.add(
+      "wrong"
+    );
+
+    buttons.forEach(
+      button => {
+
+        if(
+          button.textContent ===
+          correct
+        ){
+          button.classList.add(
+            "correct"
+          );
+        }
+
+      }
+    );
+  }
+
+  const explanation =
+    document.getElementById(
+      "quizExplanation"
+    );
+
+  explanation.textContent =
+    isCorrect
+      ? "Nice. You got the important bit."
+      : `The better answer is: ${correct}`;
+
+  explanation.style.display =
+    "block";
+
+  document.getElementById(
+    "quizNext"
+  ).style.display =
+    "inline-block";
+}
+
+
+document.getElementById(
+  "quizNext"
+).addEventListener(
+  "click",
+  () => {
+
+    currentQuizQuestion++;
+
+    renderQuizQuestion();
+  }
+);
+
+
+function finishQuiz(){
+
+  document.getElementById(
+    "quizQuestion"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "quizOptions"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "quizExplanation"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "quizNext"
+  ).style.display =
+    "none";
+
+  const final =
+    document.getElementById(
+      "quizFinal"
+    );
+
+  final.style.display =
+    "block";
+
+  document.getElementById(
+    "quizFinalScore"
+  ).textContent =
+    `${quizScore} / ${quizQuestions.length}`;
+
+  const percentage =
+    quizQuestions.length
+      ? quizScore / quizQuestions.length
+      : 0;
+
+  document.getElementById(
+    "quizFinalMessage"
+  ).textContent =
+    percentage >= .8
+      ? "Okay, look at you. That actually stuck."
+      : percentage >= .5
+        ? "Not bad. One more pass and you'll have it."
+        : "No stress. Go back to the gist and give it another shot.";
+}
+
+
+document.getElementById(
+  "restartQuiz"
+).addEventListener(
+  "click",
+  startQuiz
+);
+
+
+/* =========================================================
+   RESULT TABS
+========================================================= */
+
+function switchResultTab(tab){
+
+  document
+    .querySelectorAll(".result-tab")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.resultTab === tab
+      );
     });
 
 
-    /*
-      Update last-opened time.
-    */
+  document
+    .querySelectorAll(".result-panel")
+    .forEach(panel => {
 
-    saveCurrentSession();
-
-  }
-
-
-  function deleteSavedSession(
-    sessionId
-  ) {
-
-    const session =
-      sessions.find(
-        item =>
-          item.id === sessionId
+      panel.classList.toggle(
+        "active",
+        panel.dataset.panel === tab
       );
+    });
 
 
-    if (!session) {
+  document
+    .querySelectorAll(".drawer-nav-button")
+    .forEach(button => {
 
-      return;
-
-    }
-
-
-    const confirmed =
-      window.confirm(
-        `Delete "${session.title}" from your saved studies?`
+      button.classList.toggle(
+        "active",
+        button.dataset.tab === tab
       );
+    });
+}
 
 
-    if (!confirmed) {
+document
+  .querySelectorAll(".result-tab")
+  .forEach(button => {
 
-      return;
+    button.addEventListener(
+      "click",
+      () => {
 
-    }
+        switchResultTab(
+          button.dataset.resultTab
+        );
+      }
+    );
 
-
-    sessions =
-      sessions.filter(
-        item =>
-          item.id !== sessionId
-      );
-
-
-    if (
-      currentSessionId === sessionId
-    ) {
-
-      currentSessionId =
-        null;
-
-    }
+  });
 
 
-    saveSessionsToStorage();
+document
+  .querySelectorAll(".drawer-nav-button")
+  .forEach(button => {
 
-    renderRecentSessions();
+    button.addEventListener(
+      "click",
+      () => {
 
-  }
+        switchResultTab(
+          button.dataset.tab
+        );
 
+        closeDrawer();
 
-  function renderRecentSessions() {
+        if(
+          results.classList.contains(
+            "visible"
+          )
+        ){
 
-    recentList.innerHTML = "";
-
-
-    recentStudyCount.textContent =
-      `${sessions.length} SAVED`;
-
-
-    if (!sessions.length) {
-
-      const empty =
-        document.createElement("div");
-
-
-      empty.className =
-        "recent-empty";
-
-
-      empty.textContent =
-        "Your generated guides will appear here.";
-
-
-      recentList.appendChild(
-        empty
-      );
-
-
-      return;
-
-    }
-
-
-    sessions.forEach(
-      session => {
-
-        const row =
-          document.createElement("div");
-
-
-        row.className =
-          "recent-item";
-
-
-        if (
-          session.id ===
-          currentSessionId
-        ) {
-
-          row.classList.add(
-            "current"
-          );
+          results.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+          });
 
         }
-
-
-        const openButton =
-          document.createElement("button");
-
-
-        openButton.type =
-          "button";
-
-
-        openButton.className =
-          "recent-item";
-
-
-        if (
-          session.id ===
-          currentSessionId
-        ) {
-
-          openButton.classList.add(
-            "current"
-          );
-
-        }
-
-
-        openButton.title =
-          "Open study session";
-
-
-        const icon =
-          document.createElement("span");
-
-
-        icon.className =
-          "recent-icon";
-
-
-        icon.textContent =
-          "◫";
-
-
-        const content =
-          document.createElement("span");
-
-
-        content.className =
-          "recent-content";
-
-
-        const title =
-          document.createElement("span");
-
-
-        title.className =
-          "recent-title";
-
-
-        title.textContent =
-          session.title ||
-          "Untitled study";
-
-
-        const meta =
-          document.createElement("span");
-
-
-        meta.className =
-          "recent-meta";
-
-
-        meta.textContent =
-          `${getModeName(session.mode)} · ${formatSessionDate(session.updatedAt || session.createdAt)}`;
-
-
-        content.appendChild(title);
-
-        content.appendChild(meta);
-
-
-        openButton.appendChild(icon);
-
-        openButton.appendChild(content);
-
-
-        openButton.addEventListener(
-          "click",
-          () => {
-
-            openSavedSession(
-              session.id
-            );
-
-          }
-        );
-
-
-        const deleteButton =
-          document.createElement("button");
-
-
-        deleteButton.type =
-          "button";
-
-
-        deleteButton.className =
-          "recent-delete";
-
-
-        deleteButton.textContent =
-          "×";
-
-
-        deleteButton.setAttribute(
-          "aria-label",
-          `Delete ${session.title}`
-        );
-
-
-        deleteButton.addEventListener(
-          "click",
-          event => {
-
-            event.stopPropagation();
-
-
-            deleteSavedSession(
-              session.id
-            );
-
-          }
-        );
-
-
-        row.appendChild(
-          openButton
-        );
-
-        row.appendChild(
-          deleteButton
-        );
-
-
-        recentList.appendChild(
-          row
-        );
 
       }
     );
 
+  });
+
+
+/* =========================================================
+   RECENT STUDY
+========================================================= */
+
+const STORAGE_KEY =
+  "lazyStudentRecentStudies";
+
+
+function getRecentStudies(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        STORAGE_KEY
+      )
+    ) || [];
+
+  }catch{
+
+    return [];
+  }
+}
+
+
+function saveRecentStudy(title){
+
+  const studies =
+    getRecentStudies();
+
+  const item = {
+    id:Date.now(),
+    title:title,
+    mode:currentMode,
+    date:new Date().toLocaleDateString(
+      undefined,
+      {
+        month:"short",
+        day:"numeric"
+      }
+    )
+  };
+
+  studies.unshift(item);
+
+  const trimmed =
+    studies.slice(0,8);
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(trimmed)
+  );
+
+  renderRecentStudies();
+}
+
+
+function deleteRecentStudy(id){
+
+  const studies =
+    getRecentStudies()
+      .filter(
+        item =>
+          item.id !== id
+      );
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(studies)
+  );
+
+  renderRecentStudies();
+}
+
+
+function renderRecentStudies(){
+
+  const list =
+    document.getElementById(
+      "recentList"
+    );
+
+  const count =
+    document.getElementById(
+      "recentStudyCount"
+    );
+
+  const studies =
+    getRecentStudies();
+
+  count.textContent =
+    `${studies.length} SAVED`;
+
+  list.innerHTML = "";
+
+  if(!studies.length){
+
+    list.innerHTML = `
+      <div class="recent-empty">
+        Your generated guides will appear here.
+      </div>
+    `;
+
+    return;
   }
 
 
-  /* =========================================================
-     NEW STUDY
-  ========================================================= */
+  studies.forEach(
+    study => {
 
-  newStudyButton.addEventListener(
-    "click",
-    startNewStudy
+      /*
+        IMPORTANT:
+        There is deliberately NO nested card
+        around this row.
+
+        The row itself is the card.
+      */
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "recent-item";
+
+      item.innerHTML = `
+
+        <div class="recent-item-content">
+
+          <div
+            class="recent-item-title"
+            title="${escapeHTML(study.title)}"
+          >
+            ${escapeHTML(study.title)}
+          </div>
+
+          <div class="recent-item-meta">
+
+            <span>
+              ${escapeHTML(
+                study.mode.toUpperCase()
+              )}
+            </span>
+
+            <span>·</span>
+
+            <span>
+              ${escapeHTML(study.date)}
+            </span>
+
+          </div>
+
+        </div>
+
+        <button
+          class="recent-item-delete"
+          type="button"
+          aria-label="Delete study"
+          title="Delete study"
+        >
+          ×
+        </button>
+
+      `;
+
+
+      const deleteButton =
+        item.querySelector(
+          ".recent-item-delete"
+        );
+
+
+      deleteButton.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          deleteRecentStudy(
+            study.id
+          );
+        }
+      );
+
+
+      item.addEventListener(
+        "click",
+        () => {
+
+          closeDrawer();
+
+          if(
+            results.classList.contains(
+              "visible"
+            )
+          ){
+
+            results.scrollIntoView({
+              behavior:"smooth"
+            });
+
+          }
+
+        }
+      );
+
+
+      list.appendChild(item);
+    }
   );
+}
 
 
-  function startNewStudy() {
+/* =========================================================
+   NEW STUDY
+========================================================= */
 
-    currentSessionId =
-      null;
+document.getElementById(
+  "newStudyButton"
+).addEventListener(
+  "click",
+  () => {
 
-    studyData =
-      null;
-
-
-    sourceText.value =
-      "";
-
+    sourceText.value = "";
 
     updateCharacterCount();
-
-
-    selectedStudyMode =
-      "standard";
-
-
-    updateStudyModeUI();
-
 
     results.classList.remove(
       "visible"
     );
 
-
-    errorBox.classList.remove(
-      "visible"
-    );
-
-
-    quizIndex =
-      0;
-
-    quizScore =
-      0;
-
-    quizAnswered =
-      false;
-
-
-    showResultTab(
-      "gist"
-    );
-
-
-    renderRecentSessions();
+    clearError();
 
     closeDrawer();
 
-
     window.scrollTo({
-      top: 0,
-      behavior: "smooth"
+      top:0,
+      behavior:"smooth"
     });
-
 
     setTimeout(
       () => sourceText.focus(),
-      250
+      400
     );
-
   }
+);
 
 
-  /* =========================================================
-     STUDY MODE
-  ========================================================= */
+/* =========================================================
+   TITLE GENERATOR
+========================================================= */
 
-  let selectedStudyMode =
-    "standard";
+function createStudyTitle(text){
 
-
-  const modeButtons =
-    document.querySelectorAll(
-      ".mode-option"
-    );
-
-
-  const modeNames = {
-
-    quick: "QUICK",
-    standard: "STANDARD",
-    deep: "DEEP"
-
-  };
-
-
-  const modeButtonLabels = {
-
-    quick:
-      "⚡ Make it make sense · Quick",
-
-    standard:
-      "◎ Make it make sense · Standard",
-
-    deep:
-      "◉ Make it make sense · Deep"
-
-  };
-
-
-  function updateStudyModeUI() {
-
-    modeButtons.forEach(
-      button => {
-
-        button.classList.toggle(
-          "selected",
-          button.dataset.mode ===
-            selectedStudyMode
-        );
-
-      }
-    );
-
-
-    studyModeCurrent.textContent =
-      modeNames[
-        selectedStudyMode
-      ] ||
-      "STANDARD";
-
-
-    generateButton.textContent =
-      modeButtonLabels[
-        selectedStudyMode
-      ] ||
-      modeButtonLabels.standard;
-
-  }
-
-
-  modeButtons.forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          selectedStudyMode =
-            button.dataset.mode;
-
-
-          updateStudyModeUI();
-
-        }
-      );
-
-    }
-  );
-
-
-  /* =========================================================
-     CHARACTER COUNT
-  ========================================================= */
-
-  sourceText.addEventListener(
-    "input",
-    updateCharacterCount
-  );
-
-
-  function updateCharacterCount() {
-
-    const length =
-      sourceText.value.length;
-
-
-    characterCount.textContent =
-      `${length.toLocaleString()} / 18,000`;
-
-  }
-
-
-  /* =========================================================
-     SAMPLE
-  ========================================================= */
-
-  sampleButton.addEventListener(
-    "click",
-    () => {
-
-      sourceText.value = `
-Photosynthesis is the process by which plants convert light energy into chemical energy.
-
-It mainly takes place in the chloroplasts of plant cells. Chlorophyll absorbs light energy, which is then used to drive a series of chemical reactions.
-
-During photosynthesis, plants use carbon dioxide and water to produce glucose and oxygen.
-
-The process can be divided into two major stages: the light-dependent reactions and the Calvin cycle.
-
-The light-dependent reactions capture energy from sunlight and produce ATP and NADPH.
-
-The Calvin cycle uses ATP and NADPH to help convert carbon dioxide into sugars.
-
-Photosynthesis is important because it provides the chemical energy that supports most food chains and releases oxygen into the atmosphere.
-      `.trim();
-
-
-      updateCharacterCount();
-
-      sourceText.focus();
-
-    }
-  );
-
-
-  /* =========================================================
-     FILE UPLOAD
-  ========================================================= */
-
-  fileInput.addEventListener(
-    "change",
-    handleFile
-  );
-
-
-  async function handleFile(event) {
-
-    const file =
-      event.target.files[0];
-
-
-    if (!file) {
-
-      return;
-
-    }
-
-
-    errorBox.classList.remove(
-      "visible"
-    );
-
-
-    try {
-
-      let text = "";
-
-
-      if (
-        file.type === "text/plain" ||
-        file.name.toLowerCase().endsWith(".txt")
-      ) {
-
-        text =
-          await file.text();
-
-      }
-
-
-      else if (
-        file.name
-          .toLowerCase()
-          .endsWith(".docx")
-      ) {
-
-        if (
-          typeof mammoth ===
-          "undefined"
-        ) {
-
-          throw new Error(
-            "The DOCX reader has not loaded yet. Please try again."
-          );
-
-        }
-
-
-        const arrayBuffer =
-          await file.arrayBuffer();
-
-
-        const result =
-          await mammoth.extractRawText({
-            arrayBuffer
-          });
-
-
-        text =
-          result.value;
-
-      }
-
-
-      else if (
-        file.name
-          .toLowerCase()
-          .endsWith(".pdf")
-      ) {
-
-        const arrayBuffer =
-          await file.arrayBuffer();
-
-
-        const pdf =
-          await pdfjsLib.getDocument({
-            data: arrayBuffer
-          }).promise;
-
-
-        const pages = [];
-
-
-        for (
-          let pageNumber = 1;
-          pageNumber <=
-          pdf.numPages;
-          pageNumber++
-        ) {
-
-          const page =
-            await pdf.getPage(
-              pageNumber
-            );
-
-
-          const content =
-            await page.getTextContent();
-
-
-          const pageText =
-            content.items
-              .map(
-                item => item.str
-              )
-              .join(" ");
-
-
-          pages.push(
-            pageText
-          );
-
-        }
-
-
-        text =
-          pages.join(
-            "\n\n"
-          );
-
-      }
-
-
-      else {
-
-        throw new Error(
-          "Please upload a TXT, DOCX, or PDF file."
-        );
-
-      }
-
-
-      text =
-        text
-          .replace(/\r/g, "")
-          .replace(/\n{3,}/g, "\n\n")
-          .trim();
-
-
-      if (!text) {
-
-        throw new Error(
-          "I couldn't extract readable text from that file."
-        );
-
-      }
-
-
-      if (
-        text.length >
-        18000
-      ) {
-
-        text =
-          text.slice(
-            0,
-            18000
-          );
-
-      }
-
-
-      sourceText.value =
-        text;
-
-
-      updateCharacterCount();
-
-    } catch (error) {
-
-      showError(
-        error.message ||
-        "Could not read that file."
-      );
-
-    }
-
-
-    fileInput.value = "";
-
-  }
-
-
-  /* =========================================================
-     RESULT TABS
-  ========================================================= */
-
-  const resultTabs =
-    document.querySelectorAll(
-      ".result-tab"
-    );
-
-
-  const resultPanels =
-    document.querySelectorAll(
-      ".result-panel"
-    );
-
-
-  function showResultTab(
-    tabName
-  ) {
-
-    resultTabs.forEach(
-      tab => {
-
-        tab.classList.toggle(
-          "active",
-          tab.dataset.resultTab ===
-            tabName
-        );
-
-      }
-    );
-
-
-    resultPanels.forEach(
-      panel => {
-
-        panel.classList.toggle(
-          "active",
-          panel.dataset.panel ===
-            tabName
-        );
-
-      }
-    );
-
-
-    document
-      .querySelectorAll(
-        ".drawer-nav-button"
-      )
-      .forEach(
-        button => {
-
-          button.classList.toggle(
-            "active",
-            button.dataset.tab ===
-              tabName
-          );
-
-        }
-      );
-
-  }
-
-
-  resultTabs.forEach(
-    tab => {
-
-      tab.addEventListener(
-        "click",
-        () => {
-
-          showResultTab(
-            tab.dataset.resultTab
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-  document
-    .querySelectorAll(
-      ".drawer-nav-button"
-    )
-    .forEach(
-      button => {
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            const tab =
-              button.dataset.tab;
-
-
-            if (
-              !results.classList.contains(
-                "visible"
-              )
-            ) {
-
-              closeDrawer();
-
-              return;
-
-            }
-
-
-            showResultTab(
-              tab
-            );
-
-
-            closeDrawer();
-
-
-            results.scrollIntoView({
-              behavior: "smooth",
-              block: "start"
-            });
-
-          }
-        );
-
-      }
-    );
-
-
-  /* =========================================================
-     VALIDATION
-  ========================================================= */
-
-  function validateStudyData(
-    data
-  ) {
-
-    if (
-      !data ||
-      typeof data !== "object"
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      typeof data.summary !==
-      "string" ||
-      !data.summary.trim()
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      !Array.isArray(
-        data.keyPoints
-      )
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      !Array.isArray(
-        data.flashcards
-      )
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      !Array.isArray(
-        data.examples
-      )
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      !Array.isArray(
-        data.quiz
-      )
-    ) {
-
-      return false;
-
-    }
-
-
-    for (
-      const question of
-      data.quiz
-    ) {
-
-      if (
-        !question ||
-        typeof question.question !==
-          "string" ||
-        !Array.isArray(
-          question.options
-        ) ||
-        question.options.length !==
-          4
-      ) {
-
-        return false;
-
-      }
-
-
-      const answer =
-        Number(
-          question.answer
-        );
-
-
-      if (
-        !Number.isInteger(
-          answer
-        ) ||
-        answer < 0 ||
-        answer > 3
-      ) {
-
-        return false;
-
-      }
-
-    }
-
-
-    return true;
-
-  }
-
-
-  /* =========================================================
-     GENERATE
-  ========================================================= */
-
-  let studyData =
-    null;
-
-
-  generateButton.addEventListener(
-    "click",
-    generateStudyGuide
-  );
-
-
-  async function generateStudyGuide() {
-
-    const text =
-      sourceText.value.trim();
-
-
-    errorBox.classList.remove(
-      "visible"
-    );
-
-
-    if (
-      text.length < 40
-    ) {
-
-      showError(
-        "Give me at least 40 characters of material first."
-      );
-
-
-      sourceText.focus();
-
-
-      return;
-
-    }
-
-
-    if (
-      text.length > 18000
-    ) {
-
-      showError(
-        "That material is too long. Please keep it under 18,000 characters."
-      );
-
-
-      return;
-
-    }
-
-
-    setLoading(true);
-
-
-    try {
-
-      const response =
-        await fetch(
-          "/api/generate",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
-
-            body:
-              JSON.stringify({
-                text,
-                mode:
-                  selectedStudyMode
-              })
-          }
-        );
-
-
-      let data;
-
-
-      try {
-
-        data =
-          await response.json();
-
-      } catch {
-
-        throw new Error(
-          "The server returned an invalid response."
-        );
-
-      }
-
-
-      if (
-        !response.ok
-      ) {
-
-        throw new Error(
-          data.error ||
-          "Something went wrong while generating your guide."
-        );
-
-      }
-
-
-      if (
-        !validateStudyData(
-          data
-        )
-      ) {
-
-        throw new Error(
-          "The AI returned an incomplete study guide. Please try again."
-        );
-
-      }
-
-
-      studyData =
-        data;
-
-
-      /*
-        This is a brand-new generated study,
-        so create a persistent session.
-      */
-
-      quizIndex =
-        0;
-
-      quizScore =
-        0;
-
-      quizAnswered =
-        false;
-
-
-      createAndSaveSession();
-
-
-      renderStudyGuide(
-        studyData
-      );
-
-
-      results.classList.add(
-        "visible"
-      );
-
-
-      showResultTab(
-        "gist"
-      );
-
-
-      results.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-
-    } catch (error) {
-
-      showError(
-        error.message ||
-        "Something went wrong. Please try again."
-      );
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  }
-
-
-  /* =========================================================
-     LOADING
-  ========================================================= */
-
-  function setLoading(
-    isLoading
-  ) {
-
-    generateButton.disabled =
-      isLoading;
-
-
-    loading.classList.toggle(
-      "visible",
-      isLoading
-    );
-
-
-    if (
-      isLoading
-    ) {
-
-      generateButton.textContent =
-        "Making it make sense...";
-
-    } else {
-
-      generateButton.textContent =
-        modeButtonLabels[
-          selectedStudyMode
-        ];
-
-    }
-
-  }
-
-
-  /* =========================================================
-     ERROR
-  ========================================================= */
-
-  function showError(
-    message
-  ) {
-
-    errorBox.textContent =
-      message;
-
-
-    errorBox.classList.add(
-      "visible"
-    );
-
-  }
-
-
-  /* =========================================================
-     RENDER STUDY GUIDE
-  ========================================================= */
-
-  function renderStudyGuide(
-    data
-  ) {
-
-    summary.textContent =
-      data.summary;
-
-
-    /* -------------------------------------------------------
-       MODE
-    ------------------------------------------------------- */
-
-    const modeDisplayNames = {
-
-      quick:
-        "QUICK MODE",
-
-      standard:
-        "STANDARD MODE",
-
-      deep:
-        "DEEP MODE"
-
-    };
-
-
-    resultsMode.textContent =
-      modeDisplayNames[
-        selectedStudyMode
-      ] ||
-      "STANDARD MODE";
-
-
-    /* -------------------------------------------------------
-       TITLE
-    ------------------------------------------------------- */
-
-    if (
-      currentSessionId
-    ) {
-
-      const session =
-        sessions.find(
-          item =>
-            item.id ===
-            currentSessionId
-        );
-
-
-      if (session) {
-
-        resultsTitle.textContent =
-          session.title;
-
-      } else {
-
-        resultsTitle.textContent =
-          "Okay. Now it makes sense.";
-
-      }
-
-    } else {
-
-      resultsTitle.textContent =
-        "Okay. Now it makes sense.";
-
-    }
-
-
-    /* -------------------------------------------------------
-       KEY POINTS
-    ------------------------------------------------------- */
-
-    pointsList.innerHTML =
-      "";
-
-
-    data.keyPoints.forEach(
-      (point, index) => {
-
-        const li =
-          document.createElement(
-            "li"
-          );
-
-
-        li.className =
-          "point-item";
-
-
-        const number =
-          document.createElement(
-            "span"
-          );
-
-
-        number.className =
-          "point-number";
-
-
-        number.textContent =
-          String(
-            index + 1
-          ).padStart(
-            2,
-            "0"
-          );
-
-
-        const text =
-          document.createElement(
-            "div"
-          );
-
-
-        text.className =
-          "point-text";
-
-
-        text.textContent =
-          point;
-
-
-        li.appendChild(
-          number
-        );
-
-
-        li.appendChild(
-          text
-        );
-
-
-        pointsList.appendChild(
-          li
-        );
-
-      }
-    );
-
-
-    /* -------------------------------------------------------
-       FLASHCARDS
-    ------------------------------------------------------- */
-
-    flashcards.innerHTML =
-      "";
-
-
-    data.flashcards.forEach(
-      card => {
-
-        const element =
-          document.createElement(
-            "div"
-          );
-
-
-        element.className =
-          "flashcard";
-
-
-        element.innerHTML = `
-
-          <div class="flashcard-inner">
-
-            <div class="flashcard-question"></div>
-
-            <div class="flashcard-answer"></div>
-
-            <div class="flashcard-hint">
-              TAP TO REVEAL ANSWER
-            </div>
-
-          </div>
-
-        `;
-
-
-        element
-          .querySelector(
-            ".flashcard-question"
-          )
-          .textContent =
-          card.question;
-
-
-        element
-          .querySelector(
-            ".flashcard-answer"
-          )
-          .textContent =
-          card.answer;
-
-
-        element.addEventListener(
-          "click",
-          () => {
-
-            element.classList.toggle(
-              "revealed"
-            );
-
-          }
-        );
-
-
-        flashcards.appendChild(
-          element
-        );
-
-      }
-    );
-
-
-    /* -------------------------------------------------------
-       EXAMPLES
-    ------------------------------------------------------- */
-
-    examples.innerHTML =
-      "";
-
-
-    data.examples.forEach(
-      item => {
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-
-        card.className =
-          "example-card";
-
-
-        const concept =
-          document.createElement(
-            "div"
-          );
-
-
-        concept.className =
-          "example-concept";
-
-
-        concept.textContent =
-          item.concept;
-
-
-        const example =
-          document.createElement(
-            "div"
-          );
-
-
-        example.className =
-          "example-text";
-
-
-        example.textContent =
-          item.example;
-
-
-        const why =
-          document.createElement(
-            "div"
-          );
-
-
-        why.className =
-          "why-it-matters";
-
-
-        const strong =
-          document.createElement(
-            "strong"
-          );
-
-
-        strong.textContent =
-          "Why it matters: ";
-
-
-        why.appendChild(
-          strong
-        );
-
-
-        why.appendChild(
-          document.createTextNode(
-            item.whyItMatters
-          )
-        );
-
-
-        card.appendChild(
-          concept
-        );
-
-
-        card.appendChild(
-          example
-        );
-
-
-        card.appendChild(
-          why
-        );
-
-
-        examples.appendChild(
-          card
-        );
-
-      }
-    );
-
-
-    /* -------------------------------------------------------
-       QUIZ
-    ------------------------------------------------------- */
-
-    quizIndex =
-      0;
-
-    quizScore =
-      0;
-
-    quizAnswered =
-      false;
-
-
-    quizFinal.classList.remove(
-      "visible"
-    );
-
-
-    quizQuestion.style.display =
-      "";
-
-    quizOptions.style.display =
-      "";
-
-
-    quizExplanation.classList.remove(
-      "visible"
-    );
-
-
-    quizNext.classList.remove(
-      "visible"
-    );
-
-
-    renderQuizQuestion();
-
-  }
-
-
-  /* =========================================================
-     QUIZ STATE
-  ========================================================= */
-
-  let quizIndex =
-    0;
-
-
-  let quizScore =
-    0;
-
-
-  let quizAnswered =
-    false;
-
-
-  /* =========================================================
-     RENDER QUIZ QUESTION
-  ========================================================= */
-
-  function renderQuizQuestion() {
-
-    if (
-      !studyData ||
-      !Array.isArray(
-        studyData.quiz
-      ) ||
-      !studyData.quiz.length
-    ) {
-
-      return;
-
-    }
-
-
-    const question =
-      studyData.quiz[
-        quizIndex
-      ];
-
-
-    quizAnswered =
-      false;
-
-
-    quizCounter.textContent =
-      `QUESTION ${quizIndex + 1} / ${studyData.quiz.length}`;
-
-
-    quizScoreElement.textContent =
-      `SCORE: ${quizScore}`;
-
-
-    const progress =
-      (quizIndex /
-        studyData.quiz.length) *
-      100;
-
-
-    quizProgressBar.style.width =
-      `${progress}%`;
-
-
-    quizQuestion.textContent =
-      question.question;
-
-
-    quizOptions.innerHTML =
-      "";
-
-
-    quizExplanation.textContent =
-      question.explanation ||
-      "That's the key idea to remember.";
-
-
-    quizExplanation.classList.remove(
-      "visible"
-    );
-
-
-    quizNext.classList.remove(
-      "visible"
-    );
-
-
-    question.options.forEach(
-      (
-        optionText,
-        index
-      ) => {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-
-        button.type =
-          "button";
-
-
-        button.className =
-          "option";
-
-
-        button.dataset.index =
-          String(index);
-
-
-        const letter =
-          document.createElement(
-            "span"
-          );
-
-
-        letter.className =
-          "option-letter";
-
-
-        letter.textContent =
-          String.fromCharCode(
-            65 + index
-          );
-
-
-        const text =
-          document.createElement(
-            "span"
-          );
-
-
-        text.textContent =
-          optionText;
-
-
-        button.appendChild(
-          letter
-        );
-
-
-        button.appendChild(
-          text
-        );
-
-
-        button.addEventListener(
-          "click",
-          () =>
-            answerQuiz(index)
-        );
-
-
-        quizOptions.appendChild(
-          button
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     ANSWER QUIZ
-  ========================================================= */
-
-  function answerQuiz(
-    selected
-  ) {
-
-    if (
-      quizAnswered
-    ) {
-
-      return;
-
-    }
-
-
-    quizAnswered =
-      true;
-
-
-    const question =
-      studyData.quiz[
-        quizIndex
-      ];
-
-
-    /*
-      Gemini returns answer as a zero-based
-      integer:
-
-      0 = first option
-      1 = second option
-      2 = third option
-      3 = fourth option
-    */
-
-    const correctAnswer =
-      Number(
-        question.answer
-      );
-
-
-    const buttons =
-      document.querySelectorAll(
-        ".option"
-      );
-
-
-    buttons.forEach(
-      button => {
-
-        button.disabled =
-          true;
-
-
-        const index =
-          Number(
-            button.dataset.index
-          );
-
-
-        if (
-          index ===
-          correctAnswer
-        ) {
-
-          button.classList.add(
-            "correct"
-          );
-
-        }
-
-
-        if (
-          index === selected &&
-          selected !== correctAnswer
-        ) {
-
-          button.classList.add(
-            "wrong"
-          );
-
-        }
-
-      }
-    );
-
-
-    if (
-      selected ===
-      correctAnswer
-    ) {
-
-      quizScore++;
-
-    }
-
-
-    quizScoreElement.textContent =
-      `SCORE: ${quizScore}`;
-
-
-    quizExplanation.classList.add(
-      "visible"
-    );
-
-
-    if (
-      quizIndex <
-      studyData.quiz.length - 1
-    ) {
-
-      quizNext.textContent =
-        "Next question →";
-
-
-      quizNext.classList.add(
-        "visible"
-      );
-
-    } else {
-
-      quizNext.textContent =
-        "See my score →";
-
-
-      quizNext.classList.add(
-        "visible"
-      );
-
-    }
-
-
-    /*
-      Persist the student's progress
-      immediately after answering.
-    */
-
-    saveCurrentSession();
-
-  }
-
-
-  /* =========================================================
-     NEXT QUESTION
-  ========================================================= */
-
-  quizNext.addEventListener(
-    "click",
-    () => {
-
-      if (
-        quizIndex <
-        studyData.quiz.length - 1
-      ) {
-
-        quizIndex++;
-
-
-        quizAnswered =
-          false;
-
-
-        renderQuizQuestion();
-
-
-        saveCurrentSession();
-
-      } else {
-
-        finishQuiz();
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     FINISH QUIZ
-  ========================================================= */
-
-  function finishQuiz() {
-
-    quizQuestion.style.display =
-      "none";
-
-
-    quizOptions.style.display =
-      "none";
-
-
-    quizExplanation.classList.remove(
-      "visible"
-    );
-
-
-    quizNext.classList.remove(
-      "visible"
-    );
-
-
-    quizCounter.textContent =
-      "QUIZ COMPLETE";
-
-
-    quizProgressBar.style.width =
-      "100%";
-
-
-    quizFinalScore.textContent =
-      `${quizScore} / ${studyData.quiz.length}`;
-
-
-    const percentage =
-      Math.round(
-        (quizScore /
-          studyData.quiz.length) *
-        100
-      );
-
-
-    let message;
-
-
-    if (
-      percentage === 100
-    ) {
-
-      message =
-        "Perfect. You actually know this.";
-
-    }
-
-    else if (
-      percentage >= 80
-    ) {
-
-      message =
-        "Very solid. Your brain got the memo.";
-
-    }
-
-    else if (
-      percentage >= 60
-    ) {
-
-      message =
-        "Not bad. A quick review should tighten it up.";
-
-    }
-
-    else {
-
-      message =
-        "That's okay. Now you know exactly what to revisit.";
-
-    }
-
-
-    quizFinalMessage.textContent =
-      message;
-
-
-    quizFinal.classList.add(
-      "visible"
-    );
-
-
-    /*
-      Persist the completed quiz.
-    */
-
-    saveCurrentSession();
-
-  }
-
-
-  /* =========================================================
-     RESTART QUIZ
-  ========================================================= */
-
-  restartQuiz.addEventListener(
-    "click",
-    () => {
-
-      quizIndex =
-        0;
-
-
-      quizScore =
-        0;
-
-
-      quizAnswered =
-        false;
-
-
-      quizQuestion.style.display =
-        "";
-
-
-      quizOptions.style.display =
-        "";
-
-
-      quizFinal.classList.remove(
-        "visible"
-      );
-
-
-      renderQuizQuestion();
-
-
-      saveCurrentSession();
-
-    }
-  );
-
-
-  /* =========================================================
-     KEYBOARD / ESCAPE
-  ========================================================= */
-
-  document.addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key ===
-        "Escape"
-      ) {
-
-        closeDrawer();
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     INITIAL STATE
-  ========================================================= */
-
-  loadSessionsFromStorage();
-
-  renderRecentSessions();
-
-  updateCharacterCount();
-
-  updateStudyModeUI();
-
+  const cleaned =
+    text
+      .replace(/\s+/g," ")
+      .trim();
 
   /*
-    Automatically restore the most recently
-    updated study guide.
-
-    We do NOT call Gemini here.
+    Generates a compact title rather than
+    allowing the entire pasted paragraph to
+    become the recent-study title.
   */
 
-  if (
-    sessions.length > 0
-  ) {
+  const words =
+    cleaned
+      .split(" ")
+      .slice(0,8);
 
-    const latestSession =
-      sessions[0];
+  let title =
+    words.join(" ");
 
-
-    if (
-      latestSession &&
-      latestSession.guide
-    ) {
-
-      /*
-        We restore the guide silently so
-        the student can continue immediately.
-      */
-
-      currentSessionId =
-        latestSession.id;
-
-
-      sourceText.value =
-        latestSession.sourceText ||
-        "";
-
-
-      selectedStudyMode =
-        latestSession.mode ||
-        "standard";
-
-
-      updateStudyModeUI();
-
-
-      studyData =
-        latestSession.guide;
-
-
-      renderStudyGuide(
-        studyData
-      );
-
-
-      results.classList.add(
-        "visible"
-      );
-
-
-      /*
-        Restore quiz state.
-      */
-
-      const savedQuiz =
-        latestSession.quiz;
-
-
-      if (
-        savedQuiz
-      ) {
-
-        if (
-          Number.isInteger(
-            Number(
-              savedQuiz.index
-            )
-          )
-        ) {
-
-          quizIndex =
-            Math.max(
-              0,
-              Math.min(
-                Number(
-                  savedQuiz.index
-                ),
-                Math.max(
-                  0,
-                  studyData.quiz.length - 1
-                )
-              )
-            );
-
-        }
-
-
-        if (
-          Number.isInteger(
-            Number(
-              savedQuiz.score
-            )
-          )
-        ) {
-
-          quizScore =
-            Math.max(
-              0,
-              Number(
-                savedQuiz.score
-              )
-            );
-
-        }
-
-      }
-
-
-      if (
-        savedQuiz &&
-        savedQuiz.finished
-      ) {
-
-        finishQuiz();
-
-      } else {
-
-        renderQuizQuestion();
-
-      }
-
-
-      updateCharacterCount();
-
-    }
-
+  if(cleaned.split(" ").length > 8){
+    title += "…";
   }
+
+  return title;
+}
+
+
+/* =========================================================
+   HTML ESCAPING
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   INITIALISE
+========================================================= */
+
+renderRecentStudies();
+
+updateCharacterCount();
 
 </script>
 
